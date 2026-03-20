@@ -1,0 +1,98 @@
+# Offernow
+
+## fetch-data
+
+職缺爬蟲工具，支援 104 人力銀行與 LinkedIn。
+
+### 環境需求
+
+- [uv](https://docs.astral.sh/uv/) — Python 套件與執行環境管理工具
+
+### 安裝 uv
+
+```bash
+curl -LsSf https://astral.sh/uv/install.sh | sh
+```
+
+---
+
+### fetch.py — 104 人力銀行爬蟲
+
+爬取 104 前端公開 JSON API，支援關鍵字搜尋、地區過濾、薪資統計，輸出 CSV / JSON。
+
+**依賴：** `requests`
+
+**執行：**
+
+```bash
+uv run --with requests fetch-data/fetch.py
+```
+
+**輸出檔案：**
+
+- `104_jobs_search.csv`
+- `104_jobs_search.json`
+
+---
+
+### fetch_linkedin.py — LinkedIn 爬蟲
+
+爬取 LinkedIn 公開職缺頁面，支援多關鍵字搜尋、時間過濾、去重複，輸出 CSV / JSON。
+
+**依賴：** `requests`, `beautifulsoup4`
+
+**執行：**
+
+```bash
+uv run --with requests --with beautifulsoup4 fetch-data/fetch_linkedin.py
+```
+
+**輸出檔案：**
+
+- `linkedin_jobs.csv`
+- `linkedin_jobs.json`
+
+---
+
+### filter.py — 職缺過濾與評分
+
+讀取最新 104 / LinkedIn JSON，兩層處理：關鍵字初篩 → LLM 批次評分，產生帶分數排名的 Markdown 報告。
+
+**依賴：** 純 stdlib + 任一 LLM CLI（`claude` / `gemini` / `codex`）
+
+**執行：**
+
+```bash
+uv run filter.py                          # 全部職缺，使用 claude（預設）
+uv run filter.py --max-llm 50             # 只評分初篩前 50 名
+uv run filter.py --provider gemini        # 使用 Gemini CLI
+uv run filter.py --provider codex         # 使用 Codex CLI
+uv run filter.py --batch-size 5           # 每批 5 筆（預設 8）
+```
+
+**支援的 LLM CLI：**
+
+| Provider | 安裝 | 指令 |
+|----------|------|------|
+| `claude`（預設）| [Claude Code](https://claude.ai/download) | `claude -p` |
+| `gemini` | `npm i -g @google/gemini-cli` | `gemini -p` |
+| `codex`  | `npm i -g @openai/codex` | `codex exec` |
+
+**輸出檔案：**
+
+- `reports/filter_report.md`（最新，固定路徑）
+- `reports/archive/filter_report_YYYYMMDD_HHMMSS.md`（歷史存檔）
+
+---
+
+### 一次安裝依賴（建立本地環境）
+
+若需要在 `fetch-data/` 目錄下建立可重複使用的虛擬環境：
+
+```bash
+cd fetch-data
+uv init --no-workspace
+uv add requests beautifulsoup4
+uv run fetch.py
+uv run fetch_linkedin.py
+```
