@@ -26,10 +26,10 @@ fetch.py          fetch_linkedin.py
          │                 │
          └────────┬────────┘
                   │
-        ┌─────────┴──────────┐
-        ▼                    ▼
-    filter.py           analyze.py
-        │                    │
+        ┌─────────┴──────────┬──────────────────┐
+        ▼                    ▼                  ▼
+    filter.py           analyze.py         mcp_server.py
+        │                    │              (Claude 直接呼叫)
         ▼                    ▼
 reports/filter_report.md   reports/skills_report.md
 ```
@@ -40,8 +40,47 @@ reports/filter_report.md   reports/skills_report.md
 | 爬蟲 | `fetch_linkedin.py` | HTML 解析 LinkedIn 公開職缺 |
 | 過濾評分 | `filter.py` | 關鍵字初篩 → LLM 批次評分，輸出排名報告 |
 | 技能分析 | `analyze.py` | 統計技能頻率並加權，輸出學習優先順序報告 |
+| MCP Server | `mcp_server.py` | 讓 Claude Code 直接呼叫本地職缺資料 |
 
-### 一鍵執行完整 Pipeline
+### 使用方式
+
+有兩種方式操作職缺資料：
+
+#### 方式一：MCP Server（推薦）
+
+讓 Claude Code 直接呼叫，不需要記指令：
+
+```bash
+# 1. 先爬職缺（一次性，之後可定期跑）
+uv run fetch-data/fetch.py
+uv run fetch-data/fetch_linkedin.py
+
+# 2. 在 Claude Code 對話中直接說：
+# 「幫我看一下現在有哪些職缺資料」
+# 「幫我過濾並評分最新職缺」
+# 「找 AI 相關的職缺」
+```
+
+**安裝 MCP Server：**
+
+```bash
+claude mcp add -s user offernow -- bash -c "uv run mcp_server.py"
+```
+
+然後編輯 `~/.claude.json`，把指令改成帶路徑的版本：
+
+```json
+{
+  "mcpServers": {
+    "offernow": {
+      "command": "bash",
+      "args": ["-c", "cd /path/to/offernow/fetch-data && uv run mcp_server.py"]
+    }
+  }
+}
+```
+
+#### 方式二：手動執行 Pipeline
 
 ```bash
 ./fetch-data/run.sh
