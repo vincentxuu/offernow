@@ -41,6 +41,23 @@ reports/filter_report.md   reports/skills_report.md
 | 過濾評分 | `filter.py` | 關鍵字初篩 → LLM 批次評分，輸出排名報告 |
 | 技能分析 | `analyze.py` | 統計技能頻率並加權，輸出學習優先順序報告 |
 
+### 一鍵執行完整 Pipeline
+
+```bash
+./fetch-data/run.sh
+```
+
+選項：
+
+```bash
+MAX_LLM=100 ./fetch-data/run.sh          # LLM 評分上限（預設 50）
+SKIP_FETCH=1 ./fetch-data/run.sh         # 跳過爬蟲，直接過濾+分析
+```
+
+執行完成後，報告輸出至：
+- `fetch-data/reports/filter_report.md` — 職缺評分排名
+- `fetch-data/reports/skills_report.md` — 技能頻率分析
+
 ---
 
 ### fetch.py — 104 人力銀行爬蟲
@@ -141,3 +158,13 @@ uv add requests beautifulsoup4
 uv run fetch.py
 uv run fetch_linkedin.py
 ```
+
+---
+
+## 免責聲明
+
+本工具為非官方的個人學習專案，僅供教育研究與個人使用，非商業用途。
+
+- 本工具未獲 104 人力銀行或 LinkedIn 官方授權，使用可能違反各平台服務條款（Terms of Service），請自行評估法律與合規風險。
+- 所有分析結果僅供參考，不保證資料的即時性、完整性或準確性。
+- 使用者同意自行承擔使用本工具的一切後果，作者及貢獻者不對任何損失或法律問題負責。
