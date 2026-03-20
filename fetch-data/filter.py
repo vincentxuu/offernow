@@ -192,7 +192,7 @@ CLI_PROVIDERS = {
 DEFAULT_PROVIDER = "claude"
 
 
-def call_llm_cli(prompt: str, provider: str) -> str:
+def call_llm_cli(prompt: str, provider: str, model: str | None = None) -> str:
     """
     呼叫指定 CLI provider，回傳 stdout 文字。
     失敗或找不到 CLI 時回傳空字串。
@@ -201,6 +201,9 @@ def call_llm_cli(prompt: str, provider: str) -> str:
         raise ValueError(f"不支援的 provider: {provider}，可用：{list(CLI_PROVIDERS)}")
 
     cmd = [c.replace("{prompt}", prompt) for c in CLI_PROVIDERS[provider]]
+    if model:
+        # 在 prompt 參數前插入 --model <model>
+        cmd = cmd[:-1] + ["--model", model, cmd[-1]]
     try:
         result = subprocess.run(
             cmd, capture_output=True, text=True, timeout=120,
@@ -247,7 +250,7 @@ def _build_job_block(idx: int, job: dict, source: str) -> str:
     )
 
 
-def score_batch_with_llm(batch: list, fallbacks: list, provider: str = DEFAULT_PROVIDER) -> list:
+def score_batch_with_llm(batch: list, fallbacks: list, provider: str = DEFAULT_PROVIDER, model: str | None = None) -> list:
     """
     一次呼叫 LLM CLI 評分多筆職缺。
     batch: [(job, source), ...]
@@ -277,7 +280,7 @@ def score_batch_with_llm(batch: list, fallbacks: list, provider: str = DEFAULT_P
   {{"id": {n}, "score": <1-10整數>, "reason": "<一句話中文說明>"}}
 ]"""
 
-    output = call_llm_cli(prompt, provider)
+    output = call_llm_cli(prompt, provider, model=model)
 
     # 解析 JSON array
     parsed = {}
@@ -392,7 +395,7 @@ def build_report(
         "",
         f"- 104 原始：{stats['104_total']} 筆 → 初篩通過：{stats['104_passed']} 筆",
         f"- LinkedIn 原始：{stats['linkedin_total']} 筆 → 初篩通過：{stats['linkedin_passed']} 筆",
-        f"- LLM 評分完成：{stats['llm_count']} 筆（provider: {stats['provider']}，耗時 {stats['elapsed']:.0f}s）",
+        f"- LLM 評分完成：{stats['llm_count']} 筆（{stats['provider']}{stats['model_tag']}，耗時 {stats['elapsed']:.0f}s）",
         f"- 未 LLM 評分（初篩保留）：{len(unscored)} 筆",
         "",
     ]
@@ -446,6 +449,8 @@ def main() -> None:
                         help="每次批次評分的職缺數（預設：8）")
     parser.add_argument("--provider", choices=list(CLI_PROVIDERS), default=DEFAULT_PROVIDER,
                         help=f"LLM CLI provider（預設：{DEFAULT_PROVIDER}）")
+    parser.add_argument("--model", default=None,
+                        help="指定模型（預設：各 provider 自身預設，e.g. claude-opus-4-6, gemini-2.5-pro, gpt-4o-mini）")
     args = parser.parse_args()
 
     base_dir = Path(__file__).parent
@@ -496,7 +501,7 @@ def main() -> None:
 
         batch_jobs = [(job, source) for job, source, _ in batch_items]
         fallbacks = [fallback_score(ps) for _, _, ps in batch_items]
-        results = score_batch_with_llm(batch_jobs, fallbacks, provider=args.provider)
+        results = score_batch_with_llm(batch_jobs, fallbacks, provider=args.provider, model=args.model)
 
         for (job, source, _), (score, reason) in zip(batch_items, results):
             scored.append((job, source, score, reason))
@@ -513,6 +518,7 @@ def main() -> None:
         "llm_count": len(scored),
         "elapsed": elapsed,
         "provider": args.provider,
+        "model_tag": f"/{args.model}" if args.model else "",
     }
 
     report = build_report(scored, unscored, stats)

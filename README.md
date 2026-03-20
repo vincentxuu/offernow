@@ -16,6 +16,33 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 
 ---
 
+### Pipeline 概覽
+
+```
+fetch.py          fetch_linkedin.py
+    │                     │
+    ▼                     ▼
+104_jobs_search.json   linkedin_jobs.json
+         │                 │
+         └────────┬────────┘
+                  │
+        ┌─────────┴──────────┐
+        ▼                    ▼
+    filter.py           analyze.py
+        │                    │
+        ▼                    ▼
+reports/filter_report.md   reports/skills_report.md
+```
+
+| 階段 | 腳本 | 說明 |
+|------|------|------|
+| 爬蟲 | `fetch.py` | 呼叫 104 前端公開 JSON API |
+| 爬蟲 | `fetch_linkedin.py` | HTML 解析 LinkedIn 公開職缺 |
+| 過濾評分 | `filter.py` | 關鍵字初篩 → LLM 批次評分，輸出排名報告 |
+| 技能分析 | `analyze.py` | 統計技能頻率並加權，輸出學習優先順序報告 |
+
+---
+
 ### fetch.py — 104 人力銀行爬蟲
 
 爬取 104 前端公開 JSON API，支援關鍵字搜尋、地區過濾、薪資統計，輸出 CSV / JSON。
@@ -82,6 +109,24 @@ uv run filter.py --batch-size 5           # 每批 5 筆（預設 8）
 
 - `reports/filter_report.md`（最新，固定路徑）
 - `reports/archive/filter_report_YYYYMMDD_HHMMSS.md`（歷史存檔）
+
+---
+
+### analyze.py — 職缺技能分析
+
+讀取最新 104 / LinkedIn JSON，統計技能出現頻率並依分類加權，產生技能排行與學習優先順序 Markdown 報告。
+
+**依賴：** 純 stdlib
+
+**執行：**
+
+```bash
+uv run fetch-data/analyze.py
+```
+
+**輸出檔案：**
+
+- `reports/skills_report.md`
 
 ---
 

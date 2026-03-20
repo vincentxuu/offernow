@@ -10,6 +10,7 @@ from datetime import datetime
 from pathlib import Path
 import json
 import re
+import subprocess
 
 # 技能分類字典
 # key: 分類名稱, value: (權重, {關鍵字: 顯示名稱})
@@ -321,7 +322,7 @@ def analyze(jobs_104: list[dict], jobs_linkedin: list[dict]) -> dict:
     }
 
 
-def build_report(result: dict) -> str:
+def build_report(result: dict, insights: str = "") -> str:
     """組合 Markdown 報告字串"""
     now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     total = result["total"]
@@ -342,6 +343,9 @@ def build_report(result: dict) -> str:
         f"**分析職缺數：** {total} 筆",
         "",
     ]
+
+    if insights:
+        lines += ["", insights, "", "---", ""]
 
     lines += [
         "## 摘要",
@@ -404,7 +408,102 @@ def build_report(result: dict) -> str:
     return "\n".join(lines)
 
 
+CLI_PROVIDERS = {
+    "claude": ["claude", "-p", "{prompt}"],
+    "gemini": ["gemini", "-p", "{prompt}"],
+    "codex":  ["codex", "exec", "{prompt}"],
+}
+DEFAULT_PROVIDER = "claude"
+
+
+def call_llm_cli(prompt: str, provider: str, model: str | None = None) -> str:
+    cmd = [c.replace("{prompt}", prompt) for c in CLI_PROVIDERS[provider]]
+    if model:
+        cmd = cmd[:-1] + ["--model", model, cmd[-1]]
+    try:
+        result = subprocess.run(cmd, capture_output=True, text=True, timeout=120)
+        return result.stdout if result.returncode == 0 else ""
+    except (subprocess.TimeoutExpired, FileNotFoundError):
+        return ""
+
+
+def generate_insights(result: dict, provider: str, model: str | None = None) -> str:
+    """
+    把量化分析結果餵給 LLM，產生敘述性洞察與學習建議。
+    """
+    freq = result["freq"]
+    priority = result["priority"]
+    categorized = result["categorized"]
+    category_map = result["category_map"]
+    total = result["total"]
+    sources = result["sources"]
+
+    top20 = "\n".join(
+        f"  {i+1}. {skill}（{count} 次, {count/total*100:.1f}%）— 分類：{category_map.get(skill, '-')}"
+        for i, (skill, count) in enumerate(freq.most_common(20))
+    )
+    top10_priority = "\n".join(
+        f"  {i+1}. {skill}（優先分數 {score:.1f}）"
+        for i, (skill, score) in enumerate(
+            sorted(priority.items(), key=lambda x: x[1], reverse=True)[:10]
+        )
+    )
+
+    ai_skills = "\n".join(
+        f"  - {skill}（{count} 次）"
+        for skill, count in categorized.get("AI/ML", [])[:10]
+    )
+
+    prompt = f"""你是一位資深職涯顧問，專精台灣科技業後端/AI工程師職缺市場。
+
+以下是從 {total} 筆職缺（104: {sources['104']} 筆，LinkedIn: {sources['linkedin']} 筆）統計出的技能需求數據。
+
+求職者背景：
+- 目標職位：後端工程師、全端工程師、AI/ML 相關
+- 偏好技術：Python, Node.js, TypeScript, Go
+- 不想做：PHP-only 或 C#-only
+- 加分項：AI/LLM/RAG 整合、遠端工作
+
+技能出現頻率 Top 20：
+{top20}
+
+加權優先順序 Top 10：
+{top10_priority}
+
+AI/ML 技能細項：
+{ai_skills}
+
+請用繁體中文撰寫一份 **職涯洞察報告**，包含以下段落（用 Markdown 格式）：
+
+## 市場觀察
+2–3 段敘述：目前台灣後端/AI 市場的技能需求趨勢，哪些技術正在上升？
+
+## 對你的意義
+根據求職者偏好分析：哪些技能是強項、哪些是缺口、哪些值得投資？
+
+## 行動建議
+3–5 條具體可執行的學習或求職行動，要有優先順序和理由。
+
+## 需要注意
+1–2 條警示：哪些技能看起來很多但跟目標方向不符，不要浪費時間？"""
+
+    output = call_llm_cli(prompt, provider, model)
+    if not output.strip():
+        return "_⚠️ LLM 洞察產生失敗，請確認 CLI 可用_\n"
+    return output.strip()
+
+
 def main():
+    import argparse
+    parser = argparse.ArgumentParser(description="職缺技能分析器")
+    parser.add_argument("--provider", choices=list(CLI_PROVIDERS), default=DEFAULT_PROVIDER,
+                        help=f"LLM CLI provider（預設：{DEFAULT_PROVIDER}）")
+    parser.add_argument("--model", default=None,
+                        help="指定模型（預設：各 provider 自身預設）")
+    parser.add_argument("--skip-llm", action="store_true",
+                        help="跳過 LLM 洞察，只產生量化報告")
+    args = parser.parse_args()
+
     base_dir = Path(__file__).parent
     data_dir = base_dir / "data"
     reports_dir = base_dir / "reports"
@@ -425,7 +524,12 @@ def main():
     print(f"\n📊 共 {len(jobs_104) + len(jobs_linkedin)} 筆職缺，分析中...")
     result = analyze(jobs_104, jobs_linkedin)
 
-    report = build_report(result)
+    insights = ""
+    if not args.skip_llm:
+        print(f"\n🤖 產生 LLM 洞察（provider: {args.provider}{f'/{args.model}' if args.model else ''}）...")
+        insights = generate_insights(result, args.provider, args.model)
+
+    report = build_report(result, insights)
 
     ts = datetime.now().strftime("%Y%m%d_%H%M%S")
     archive_path = reports_archive_dir / f"skills_report_{ts}.md"
