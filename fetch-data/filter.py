@@ -17,6 +17,8 @@ import time
 from datetime import datetime
 from pathlib import Path
 
+from profile import load_profile, load_prompt_template, profile_to_prompt_vars
+
 
 # ── 關鍵字清單 ─────────────────────────────────────────────────
 
@@ -263,7 +265,15 @@ def score_batch_with_llm(batch: list, fallbacks: list, provider: str = DEFAULT_P
         for i, (job, source) in enumerate(batch)
     )
 
-    prompt = f"""你是一個求職顧問，幫我評估以下 {n} 筆職缺是否適合我。
+    # 嘗試從 profile.toml + prompts/filter_batch.txt 組 prompt
+    profile = load_profile()
+    template = load_prompt_template("filter_batch")
+    if template and profile:
+        vars_ = profile_to_prompt_vars(profile)
+        prompt = template.format(n=n, job_blocks=blocks, **vars_)
+    else:
+        # 內建預設 prompt（profile.toml 不存在時 fallback）
+        prompt = f"""你是一個求職顧問，幫我評估以下 {n} 筆職缺是否適合我。
 
 我的背景與偏好：
 - 目標：後端/全端/AI 相關工程師職位

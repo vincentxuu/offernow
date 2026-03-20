@@ -1,0 +1,45 @@
+# ============================================================
+# 求職偏好設定檔
+# 修改此檔案即可微調篩選條件與 LLM prompt，不需要動 .py 程式碼
+# ============================================================
+
+[user]
+# 自我介紹，會出現在所有 LLM prompt 的開頭
+background = """
+台灣後端工程師，有 Python 與 Node.js 開發經驗，
+目前尋找後端/全端/AI 相關職位，偏好有 LLM/RAG 整合的工作。
+"""
+
+# 目標職位類型
+target_roles = ["後端工程師", "全端工程師", "AI/ML 工程師", "資料工程師"]
+
+# 偏好技術（加分）
+preferred_tech = ["Python", "Node.js", "TypeScript", "Go"]
+
+# 排除條件（職稱/技能只有這些時排除）
+exclude_tech = ["PHP", "C#", ".NET"]
+
+# 加分項目（出現時優先）
+bonus_factors = ["AI", "LLM", "RAG", "遠端", "remote"]
+
+# 薪資期望（僅供 LLM prompt 參考，不做硬性過濾）
+salary_note = "無硬性限制，但期望月薪 70k+（台幣）"
+
+
+[filter]
+# 額外職稱關鍵字（補充 filter.py 預設清單）
+extra_title_keywords = []
+
+# 額外技術關鍵字（補充 filter.py 預設清單）
+extra_tech_keywords = []
+
+# 額外排除關鍵字（補充 filter.py 預設清單）
+extra_exclude_keywords = []
+
+# LLM 評分時每筆描述截取長度（字元數，越長越準但越慢）
+description_length = 800
+
+
+[analyze]
+# 分析報告的目標讀者視角（用於 LLM 洞察 prompt）
+focus_note = "聚焦後端/AI 工程師相關技能，忽略設計、行銷、硬體類技能"

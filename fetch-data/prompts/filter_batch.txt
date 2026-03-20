@@ -1,0 +1,19 @@
+你是一個求職顧問，幫我評估以下 {n} 筆職缺是否適合我。
+
+我的背景：
+{background}
+
+目標職位：{target_roles}
+偏好技術：{preferred_tech}
+不想做：{exclude_tech}
+加分項目：{bonus_factors}
+薪資期望：{salary_note}
+
+{job_blocks}
+
+請只回傳 JSON array，不要其他文字，順序對應 [1]~[{n}]：
+[
+  {{"id": 1, "score": <1-10整數>, "reason": "<一句話中文說明>"}},
+  ...
+  {{"id": {n}, "score": <1-10整數>, "reason": "<一句話中文說明>"}}
+]

@@ -12,6 +12,8 @@ import json
 import re
 import subprocess
 
+from profile import load_profile, load_prompt_template, profile_to_prompt_vars
+
 # 技能分類字典
 # key: 分類名稱, value: (權重, {關鍵字: 顯示名稱})
 SKILL_CATEGORIES: dict[str, tuple[float, dict[str, str]]] = {
@@ -488,7 +490,22 @@ def generate_insights(result: dict, provider: str, model: str | None = None) -> 
         for skill, count in categorized.get("AI/ML", [])[:10]
     )
 
-    prompt = f"""你是一位資深職涯顧問，專精台灣科技業後端/AI工程師職缺市場。
+    # 嘗試從 profile.toml + prompts/analyze_insights.txt 組 prompt
+    profile = load_profile()
+    template = load_prompt_template("analyze_insights")
+    if template and profile:
+        vars_ = profile_to_prompt_vars(profile)
+        prompt = template.format(
+            total=total,
+            total_104=sources["104"],
+            total_linkedin=sources["linkedin"],
+            top20=top20,
+            top10_priority=top10_priority,
+            ai_skills=ai_skills,
+            **vars_,
+        )
+    else:
+        prompt = f"""你是一位資深職涯顧問，專精台灣科技業後端/AI工程師職缺市場。
 
 以下是從 {total} 筆職缺（104: {sources['104']} 筆，LinkedIn: {sources['linkedin']} 筆）統計出的技能需求數據。
 
@@ -507,19 +524,7 @@ def generate_insights(result: dict, provider: str, model: str | None = None) -> 
 AI/ML 技能細項：
 {ai_skills}
 
-請用繁體中文撰寫一份 **職涯洞察報告**，包含以下段落（用 Markdown 格式）：
-
-## 市場觀察
-2–3 段敘述：目前台灣後端/AI 市場的技能需求趨勢，哪些技術正在上升？
-
-## 對你的意義
-根據求職者偏好分析：哪些技能是強項、哪些是缺口、哪些值得投資？
-
-## 行動建議
-3–5 條具體可執行的學習或求職行動，要有優先順序和理由。
-
-## 需要注意
-1–2 條警示：哪些技能看起來很多但跟目標方向不符，不要浪費時間？"""
+請用繁體中文撰寫一份職涯洞察報告（Markdown 格式），包含：市場觀察、對你的意義、行動建議、需要注意。"""
 
     output = call_llm_cli(prompt, provider, model)
     if not output.strip():
