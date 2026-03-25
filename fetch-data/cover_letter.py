@@ -4,7 +4,7 @@
 根據職缺資訊與個人背景，用 LLM 產生客製化的 Cover Letter。
 
 執行：
-    uv run cover_letter.py --job-id <104_JOB_ID>
+    uv run cover_letter.py --url https://www.104.com.tw/job/8d5g5g4
     uv run cover_letter.py --keyword "後端工程師" --pick 1
     uv run cover_letter.py --job-name "Backend Engineer" --company "Foo Inc" --description "..."
 """
@@ -27,6 +27,75 @@ LANGUAGE_MAP = {
     "zh-TW": "繁體中文（台灣慣用語法）",
     "en": "English",
 }
+
+
+# ── URL 解析 ──────────────────────────────────────────────────
+
+def parse_job_url(url: str) -> dict | None:
+    """
+    從 104 或 LinkedIn 職缺 URL 解析出來源與 ID。
+
+    支援格式：
+      https://www.104.com.tw/job/8d5g5g4
+      https://www.104.com.tw/job/8d5g5g4?jobsource=...
+      https://www.linkedin.com/jobs/view/1234567890
+      https://www.linkedin.com/jobs/view/some-title-1234567890
+
+    回傳 {"source": "104"|"linkedin", "job_id": "..."}，無法解析回傳 None。
+    """
+    # 104
+    m = re.search(r'104\.com\.tw/job/([A-Za-z0-9]+)', url)
+    if m:
+        return {"source": "104", "job_id": m.group(1)}
+
+    # LinkedIn
+    m = re.search(r'linkedin\.com/jobs/view/(?:.*?[-/])?(\d+)', url)
+    if m:
+        return {"source": "linkedin", "job_id": m.group(1)}
+
+    return None
+
+
+def resolve_job_from_url(url: str) -> dict | None:
+    """
+    從 URL 解析職缺，先查本地資料，找不到就即時從 104 API 取得。
+    LinkedIn 職缺因無公開 API，僅能從本地資料比對。
+    """
+    parsed = parse_job_url(url)
+    if not parsed:
+        return None
+
+    source = parsed["source"]
+    job_id = parsed["job_id"]
+
+    # 先查本地
+    jobs_104, jobs_linkedin = load_jobs(DATA_DIR)
+
+    if source == "104":
+        for job in jobs_104:
+            if job.get("job_id") == job_id or job.get("link", "").endswith(job_id):
+                return {**job, "_source": "104"}
+        # 本地沒有，即時取得
+        print(f"  本地找不到，從 104 即時取得 {job_id}...")
+        detail = fetch_104_detail(job_id)
+        if detail:
+            return {
+                "job_name": detail.get("header", {}).get("jobName", ""),
+                "company": detail.get("header", {}).get("custName", ""),
+                "description": detail.get("condition", {}).get("other", ""),
+                "job_id": job_id,
+                "_source": "104",
+            }
+
+    elif source == "linkedin":
+        for job in jobs_linkedin:
+            # LinkedIn job_id 可能在 link 欄位中
+            link = job.get("link", "")
+            if job_id in link:
+                return {**job, "_source": "linkedin"}
+        print(f"  LinkedIn 職缺 {job_id} 不在本地資料中（LinkedIn 無公開 API 可即時取得）")
+
+    return None
 
 
 # ── 職缺查找 ─────────────────────────────────────────────────
@@ -199,6 +268,7 @@ def main():
     parser = argparse.ArgumentParser(description="產生客製化求職信")
 
     group = parser.add_mutually_exclusive_group()
+    group.add_argument("--url", help="104 或 LinkedIn 職缺 URL（最簡單的方式）")
     group.add_argument("--job-id", help="104 職缺 ID（直接指定）")
     group.add_argument("--keyword", help="搜尋關鍵字（從本地資料找職缺）")
 
@@ -220,7 +290,18 @@ def main():
     # ── 決定目標職缺 ──────────────────────────────────────────
     job = None
 
-    if args.job_name and args.company:
+    if args.url:
+        print(f"🔗 解析 URL: {args.url}")
+        job = resolve_job_from_url(args.url)
+        if not job:
+            parsed = parse_job_url(args.url)
+            if not parsed:
+                print("❌ 無法解析此 URL，支援 104.com.tw 和 linkedin.com 職缺連結")
+            else:
+                print(f"❌ 無法取得職缺資訊（{parsed['source']} ID: {parsed['job_id']}）")
+            sys.exit(1)
+
+    elif args.job_name and args.company:
         # 手動輸入模式
         job = {
             "job_name": args.job_name,
@@ -265,7 +346,7 @@ def main():
                 sys.exit(1)
 
     if not job:
-        print("❌ 請指定職缺（--job-id / --keyword / --job-name + --company）")
+        print("❌ 請指定職缺（--url / --keyword / --job-name + --company）")
         parser.print_help()
         sys.exit(1)
 

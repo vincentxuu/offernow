@@ -22,7 +22,7 @@ from filter import (
     clean_html,
     DEFAULT_PROVIDER,
 )
-from cover_letter import generate_cover_letter, save_cover_letter
+from cover_letter import generate_cover_letter, save_cover_letter, parse_job_url, resolve_job_from_url
 
 mcp = FastMCP("offernow")
 
@@ -218,6 +218,7 @@ def search_local_jobs(
 
 @mcp.tool()
 def generate_cover_letter_for_job(
+    url: str | None = None,
     job_id: str | None = None,
     keyword: str | None = None,
     pick: int = 1,
@@ -232,12 +233,14 @@ def generate_cover_letter_for_job(
     """
     針對指定職缺產生客製化的求職信（Cover Letter）。
 
-    三種指定職缺的方式（擇一）：
-    1. job_id:   104 職缺 ID，從本地資料或即時 API 取得
-    2. keyword:  搜尋關鍵字，搭配 pick 選第 N 筆
-    3. job_name + company + description: 手動提供職缺資訊
+    四種指定職缺的方式（擇一）：
+    1. url:      貼上 104 或 LinkedIn 職缺連結（最簡單）
+    2. job_id:   104 職缺 ID，從本地資料或即時 API 取得
+    3. keyword:  搜尋關鍵字，搭配 pick 選第 N 筆
+    4. job_name + company + description: 手動提供職缺資訊
 
     Args:
+        url:          104 或 LinkedIn 職缺 URL（例如 "https://www.104.com.tw/job/8d5g5g4"）
         job_id:       104 職缺 ID（例如 "8d5g5g4"）
         keyword:      搜尋關鍵字
         pick:         搭配 keyword，選第幾筆（預設 1）
@@ -251,7 +254,15 @@ def generate_cover_letter_for_job(
     """
     job = None
 
-    if job_name and company:
+    if url:
+        job = resolve_job_from_url(url)
+        if not job:
+            parsed = parse_job_url(url)
+            if not parsed:
+                return "❌ 無法解析此 URL，支援 104.com.tw 和 linkedin.com 職缺連結"
+            return f"❌ 無法取得職缺資訊（{parsed['source']} ID: {parsed['job_id']}）"
+
+    elif job_name and company:
         job = {
             "job_name": job_name,
             "company": company,
