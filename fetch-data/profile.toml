@@ -43,3 +43,16 @@ description_length = 800
 [analyze]
 # 分析報告的目標讀者視角（用於 LLM 洞察 prompt）
 focus_note = "聚焦後端/AI 工程師相關技能，忽略設計、行銷、硬體類技能"
+
+
+[cover_letter]
+# 求職信預設語言（"zh-TW" 繁體中文 / "en" 英文）
+language = "zh-TW"
+
+# 求職信段落數（不含開頭稱呼與結尾署名）
+paragraphs = 3
+
+# 額外經歷或亮點（補充 background，讓求職信更具體）
+# 例如：專案經驗、開源貢獻、特殊成就等
+experience = """
+"""
