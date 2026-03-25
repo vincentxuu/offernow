@@ -16,7 +16,7 @@ import sys
 from datetime import datetime
 from pathlib import Path
 
-from profile import load_profile, load_prompt_template, profile_to_prompt_vars
+from profile import load_profile, load_prompt_template, profile_to_prompt_vars, resume_to_prompt_section
 from filter import call_llm_cli, clean_html, load_jobs, DEFAULT_PROVIDER, CLI_PROVIDERS
 
 BASE_DIR = Path(__file__).parent
@@ -152,10 +152,20 @@ def build_cover_letter_prompt(
     company = job.get("company", "")
     description = clean_html(job.get("description", ""))
 
+    # 履歷資料
+    resume_section = resume_to_prompt_section(profile)
+
     # cover_letter 設定
     cl_config = profile.get("cover_letter", {})
     experience = cl_config.get("experience", "").strip()
-    experience_section = f"求職者額外經歷與亮點：\n{experience}" if experience else ""
+
+    # 組合 experience_section：優先用 [resume]，補充 [cover_letter].experience
+    parts = []
+    if resume_section:
+        parts.append(resume_section)
+    if experience:
+        parts.append(f"額外補充：\n{experience}")
+    experience_section = "\n\n".join(parts)
 
     lang_display = LANGUAGE_MAP.get(language, language)
     length = str(paragraphs)
