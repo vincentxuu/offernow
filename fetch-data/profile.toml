@@ -4,7 +4,7 @@
 # ============================================================
 
 [user]
-# 自我介紹，會出現在所有 LLM prompt 的開頭
+# 自我介紹，會出現在所有 LLM prompt 的開頭（篩選 + 分析用）
 background = """
 台灣後端工程師，有 Python 與 Node.js 開發經驗，
 目前尋找後端/全端/AI 相關職位，偏好有 LLM/RAG 整合的工作。
@@ -26,6 +26,57 @@ bonus_factors = ["AI", "LLM", "RAG", "遠端", "remote"]
 salary_note = "無硬性限制，但期望月薪 70k+（台幣）"
 
 
+# ============================================================
+# 履歷資料（主要用於 Cover Letter 產生，填越完整效果越好）
+# ============================================================
+
+[resume]
+# 姓名（求職信署名用）
+name = ""
+
+# 一句話自我定位（例如：「3 年經驗的後端工程師，專注 Python 與 AI 應用開發」）
+headline = ""
+
+# 總年資
+years_of_experience = ""
+
+# 學歷（可填多筆）
+education = """
+"""
+
+# 工作經歷（建議列出 2-3 段最相關的，含公司、職稱、時間、主要成果）
+# 範例：
+#   - ABC 科技｜後端工程師｜2022-2024
+#     負責 API 設計與微服務架構，用 Python/FastAPI 建構日處理 100 萬筆請求的系統
+work_experience = """
+"""
+
+# 專案經歷（個人專案、開源貢獻、或公司重點專案）
+# 範例：
+#   - OfferNow：用 Python 打造的職缺爬蟲 + LLM 評分管線，整合 MCP Server
+#   - xxx-bot：基於 LangChain + RAG 的客服機器人，準確率提升 40%
+projects = """
+"""
+
+# 技術能力（比 preferred_tech 更完整的版本，分類列出）
+# 範例：
+#   語言：Python, TypeScript, Go
+#   框架：FastAPI, NestJS, LangChain
+#   資料庫：PostgreSQL, Redis, Elasticsearch
+#   雲端：AWS (EC2, Lambda, S3), GCP (Cloud Run)
+#   其他：Docker, Kubernetes, CI/CD, Git
+skills_detail = """
+"""
+
+# 證照或認證（選填）
+certifications = """
+"""
+
+# 個人特質或軟實力（選填，例如：跨部門溝通、帶領 3 人小組、英文流利）
+soft_skills = """
+"""
+
+
 [filter]
 # 額外職稱關鍵字（補充 filter.py 預設清單）
 extra_title_keywords = []
@@ -43,3 +94,16 @@ description_length = 800
 [analyze]
 # 分析報告的目標讀者視角（用於 LLM 洞察 prompt）
 focus_note = "聚焦後端/AI 工程師相關技能，忽略設計、行銷、硬體類技能"
+
+
+[cover_letter]
+# 求職信預設語言（"zh-TW" 繁體中文 / "en" 英文）
+language = "zh-TW"
+
+# 求職信段落數（不含開頭稱呼與結尾署名）
+paragraphs = 3
+
+# 額外經歷或亮點（補充 background，讓求職信更具體）
+# 例如：專案經驗、開源貢獻、特殊成就等
+experience = """
+"""

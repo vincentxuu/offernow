@@ -46,6 +46,51 @@ def profile_to_prompt_vars(profile: dict) -> dict:
     }
 
 
+def resume_to_prompt_section(profile: dict) -> str:
+    """
+    把 [resume] 區塊組成可嵌入 prompt 的文字段落。
+    只包含有填寫的欄位，空欄位自動跳過。
+    """
+    resume = profile.get("resume", {})
+    if not resume:
+        return ""
+
+    sections = []
+
+    name = resume.get("name", "").strip()
+    headline = resume.get("headline", "").strip()
+    if name or headline:
+        line = ""
+        if name:
+            line += f"姓名：{name}"
+        if headline:
+            line += f"\n定位：{headline}" if name else f"定位：{headline}"
+        sections.append(line)
+
+    yoe = resume.get("years_of_experience", "").strip()
+    if yoe:
+        sections.append(f"年資：{yoe}")
+
+    field_labels = [
+        ("education", "學歷"),
+        ("work_experience", "工作經歷"),
+        ("projects", "專案經歷"),
+        ("skills_detail", "技術能力"),
+        ("certifications", "證照"),
+        ("soft_skills", "個人特質"),
+    ]
+
+    for key, label in field_labels:
+        val = resume.get(key, "").strip()
+        if val:
+            sections.append(f"{label}：\n{val}")
+
+    if not sections:
+        return ""
+
+    return "求職者履歷：\n" + "\n\n".join(sections)
+
+
 if __name__ == "__main__":
     # 快速驗證：python profile.py
     p = load_profile()

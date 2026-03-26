@@ -26,12 +26,12 @@ fetch.py          fetch_linkedin.py
          │                 │
          └────────┬────────┘
                   │
-        ┌─────────┴──────────┬──────────────────┐
-        ▼                    ▼                  ▼
-    filter.py           analyze.py         mcp_server.py
-        │                    │              (Claude 直接呼叫)
-        ▼                    ▼
-reports/filter_report.md   reports/skills_report.md
+        ┌─────────┼──────────┬──────────────────┐
+        ▼         ▼          ▼                  ▼
+    filter.py  analyze.py  cover_letter.py   mcp_server.py
+        │         │          │              (Claude 直接呼叫)
+        ▼         ▼          ▼
+  filter_report  skills_report  cover_letters/
 ```
 
 | 階段 | 腳本 | 說明 |
@@ -40,6 +40,7 @@ reports/filter_report.md   reports/skills_report.md
 | 爬蟲 | `fetch_linkedin.py` | HTML 解析 LinkedIn 公開職缺 |
 | 過濾評分 | `filter.py` | 關鍵字初篩 → LLM 批次評分，輸出排名報告 |
 | 技能分析 | `analyze.py` | 統計技能頻率並加權，輸出學習優先順序報告 |
+| 求職信 | `cover_letter.py` | 針對指定職缺，用 LLM 產生客製化 Cover Letter |
 | MCP Server | `mcp_server.py` | 讓 Claude Code 直接呼叫本地職缺資料 |
 
 ### 使用方式
@@ -59,6 +60,7 @@ uv run fetch-data/fetch_linkedin.py
 # 「幫我看一下現在有哪些職缺資料」
 # 「幫我過濾並評分最新職缺」
 # 「找 AI 相關的職缺」
+# 「幫我針對這個職缺寫 cover letter：https://www.104.com.tw/job/8d5g5g4」
 ```
 
 **安裝 MCP Server：**
@@ -191,21 +193,78 @@ uv run analyze.py --skip-llm              # 只輸出量化數據，不呼叫 LL
 
 ---
 
+### cover_letter.py — 求職信產生器
+
+針對指定職缺，結合個人履歷，用 LLM 產生客製化的 Cover Letter。
+
+**依賴：** 純 stdlib + 任一 LLM CLI（`claude` / `gemini` / `codex`）
+
+**執行：**
+
+```bash
+# 最簡單：貼 URL
+uv run cover_letter.py --url https://www.104.com.tw/job/8d5g5g4
+uv run cover_letter.py --url https://www.linkedin.com/jobs/view/1234567890
+
+# 從本地資料搜尋
+uv run cover_letter.py --keyword "後端工程師" --pick 1
+
+# 手動輸入
+uv run cover_letter.py --job-name "Backend Engineer" --company "Foo Inc" --description "..."
+
+# 選項
+uv run cover_letter.py --url <URL> --language en        # 英文版
+uv run cover_letter.py --url <URL> --paragraphs 4       # 4 段落
+uv run cover_letter.py --url <URL> --provider gemini     # 用 Gemini
+```
+
+**輸出檔案：**
+
+- `reports/cover_letters/cover_letter_<company>_<timestamp>.md`
+
+---
+
 ### 微調偏好與 Prompt
 
-不需要修改 `.py` 原始碼，只需編輯以下兩個設定：
+不需要修改 `.py` 原始碼，只需編輯以下設定：
 
-**`fetch-data/profile.toml`** — 求職偏好與篩選條件
+**`fetch-data/profile.toml`** — 求職偏好、履歷與篩選條件
 
 ```toml
 [user]
+# 篩選 + 分析用的簡短背景
+background = "台灣後端工程師，有 Python 與 Node.js 開發經驗..."
 preferred_tech = ["Python", "Node.js", "TypeScript", "Go"]
 exclude_tech   = ["PHP", "C#"]
 bonus_factors  = ["AI", "LLM", "RAG", "遠端"]
 
+[resume]
+# Cover Letter 用的完整履歷（填越完整效果越好）
+name = "你的名字"
+headline = "3 年經驗的後端工程師，專注 Python 與 AI 應用開發"
+years_of_experience = "3 年"
+education = """
+- 台大資工系 學士｜2018-2022
+"""
+work_experience = """
+- ABC 科技｜後端工程師｜2022-2024
+  用 Python/FastAPI 建構 API，日處理 100 萬筆請求
+"""
+projects = """
+- OfferNow：職缺爬蟲 + LLM 評分管線
+"""
+skills_detail = """
+語言：Python, TypeScript, Go
+框架：FastAPI, NestJS, LangChain
+"""
+
 [filter]
 extra_title_keywords   = []   # 補充職稱關鍵字
 extra_exclude_keywords = []   # 補充排除條件
+
+[cover_letter]
+language = "zh-TW"     # 預設語言（"zh-TW" / "en"）
+paragraphs = 3         # 預設段落數
 ```
 
 **`fetch-data/prompts/`** — LLM prompt 模板
@@ -214,6 +273,7 @@ extra_exclude_keywords = []   # 補充排除條件
 |------|------|
 | `filter_batch.txt` | 職缺評分 prompt |
 | `analyze_insights.txt` | 職涯洞察 prompt |
+| `cover_letter.txt` | 求職信產生 prompt |
 
 ---
 

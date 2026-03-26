@@ -19,8 +19,10 @@ from filter import (
     score_batch_with_llm,
     build_report,
     load_jobs,
+    clean_html,
     DEFAULT_PROVIDER,
 )
+from cover_letter import generate_cover_letter, save_cover_letter, parse_job_url, resolve_job_from_url
 
 mcp = FastMCP("offernow")
 
@@ -212,6 +214,130 @@ def search_local_jobs(
         "count": len(page),
         "results": page,
     }
+
+
+@mcp.tool()
+def generate_cover_letter_for_job(
+    url: str | None = None,
+    job_id: str | None = None,
+    keyword: str | None = None,
+    pick: int = 1,
+    job_name: str | None = None,
+    company: str | None = None,
+    description: str | None = None,
+    language: str | None = None,
+    paragraphs: int | None = None,
+    model: str | None = None,
+    fetch_detail: bool = False,
+) -> str:
+    """
+    針對指定職缺產生客製化的求職信（Cover Letter）。
+
+    四種指定職缺的方式（擇一）：
+    1. url:      貼上 104 或 LinkedIn 職缺連結（最簡單）
+    2. job_id:   104 職缺 ID，從本地資料或即時 API 取得
+    3. keyword:  搜尋關鍵字，搭配 pick 選第 N 筆
+    4. job_name + company + description: 手動提供職缺資訊
+
+    Args:
+        url:          104 或 LinkedIn 職缺 URL（例如 "https://www.104.com.tw/job/8d5g5g4"）
+        job_id:       104 職缺 ID（例如 "8d5g5g4"）
+        keyword:      搜尋關鍵字
+        pick:         搭配 keyword，選第幾筆（預設 1）
+        job_name:     職缺名稱（手動輸入）
+        company:      公司名稱（手動輸入）
+        description:  職缺描述（手動輸入）
+        language:     輸出語言 "zh-TW" 或 "en"（預設讀 profile.toml）
+        paragraphs:   段落數（預設讀 profile.toml）
+        model:        指定 LLM 模型
+        fetch_detail: 是否從 104 即時取得完整描述
+    """
+    job = None
+
+    if url:
+        job = resolve_job_from_url(url)
+        if not job:
+            parsed = parse_job_url(url)
+            if not parsed:
+                return "❌ 無法解析此 URL，支援 104.com.tw 和 linkedin.com 職缺連結"
+            return f"❌ 無法取得職缺資訊（{parsed['source']} ID: {parsed['job_id']}）"
+
+    elif job_name and company:
+        job = {
+            "job_name": job_name,
+            "company": company,
+            "description": description or "",
+        }
+
+    elif job_id:
+        # 從本地找
+        jobs_104, _ = load_jobs(DATA_DIR)
+        for j in jobs_104:
+            if j.get("job_id") == job_id or j.get("link", "").endswith(job_id):
+                job = {**j, "_source": "104"}
+                break
+
+        if not job:
+            # 即時取得
+            scraper = Job104Scraper(delay=1.0)
+            detail = scraper.get_detail(job_id)
+            if detail:
+                job = {
+                    "job_name": detail.get("header", {}).get("jobName", ""),
+                    "company": detail.get("header", {}).get("custName", ""),
+                    "description": detail.get("condition", {}).get("other", ""),
+                    "_source": "104",
+                }
+
+    elif keyword:
+        jobs_104, jobs_linkedin = load_jobs(DATA_DIR)
+        matched = []
+        kw = keyword.lower()
+        for j in jobs_104:
+            text = (j.get("job_name", "") + " " + j.get("company", "")).lower()
+            if kw in text:
+                matched.append({**j, "_source": "104"})
+        for j in jobs_linkedin:
+            text = (j.get("job_name", "") + " " + j.get("company", "")).lower()
+            if kw in text:
+                matched.append({**j, "_source": "linkedin"})
+
+        if not matched:
+            return f"❌ 找不到包含「{keyword}」的職缺"
+        if pick > len(matched):
+            return f"❌ 只有 {len(matched)} 筆結果，無法選第 {pick} 筆"
+        job = matched[pick - 1]
+
+    if not job:
+        return "❌ 請指定職缺（job_id / keyword / job_name+company）"
+
+    # 取得完整描述
+    if fetch_detail and job.get("_source") == "104":
+        jid = job.get("job_id", "")
+        if not jid:
+            link = job.get("link", "")
+            jid = link.rstrip("/").split("/")[-1] if link else ""
+        if jid:
+            detail = Job104Scraper(delay=1.0).get_detail(jid)
+            if detail:
+                full_desc = detail.get("condition", {}).get("other", "")
+                if full_desc:
+                    job["description"] = full_desc
+
+    result = generate_cover_letter(
+        job,
+        provider=DEFAULT_PROVIDER,
+        model=model,
+        language=language,
+        paragraphs=paragraphs,
+    )
+
+    # 存檔
+    if not result.startswith("❌"):
+        path = save_cover_letter(result, job)
+        result += f"\n\n---\n💾 已儲存: {path}"
+
+    return result
 
 
 if __name__ == "__main__":
