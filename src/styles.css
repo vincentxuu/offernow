@@ -10,10 +10,10 @@
   /* OfferNow — Happy Hues Palette 5 */
   --bg: #f2f7f5;
   --bg-surface: #ffffff;
-  --bg-elevated: #e8f0ed;
-  --text-heading: #00473e;
-  --text-body: #475d5b;
-  --text-muted: #7a928d;
+  --bg-elevated: #e4ece8;
+  --text-heading: #00362e;
+  --text-body: #3a4f4d;
+  --text-muted: #5a716c;
   --accent: #faae2b;
   --accent-hover: #e89b1c;
   --accent-soft: rgba(250, 174, 43, 0.12);
@@ -151,11 +151,14 @@ body {
 }
 
 a {
-  color: var(--accent);
   text-decoration: none;
 }
 
-a:hover {
+a:not(.btn) {
+  color: var(--accent);
+}
+
+a:not(.btn):hover {
   color: var(--accent-hover);
 }
 
