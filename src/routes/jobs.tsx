@@ -126,6 +126,7 @@ function JobsPage() {
 }
 
 function CompanyJobGroup({ group }: { group: CompanyGroup }) {
+  const [open, setOpen] = useState(false)
   const { company, jobs } = group
   const salaryWan = company?.salary_median_k ? (company.salary_median_k / 10).toFixed(0) : null
   const changePct = company?.salary_median_change_pct
@@ -134,18 +135,24 @@ function CompanyJobGroup({ group }: { group: CompanyGroup }) {
 
   return (
     <div className="overflow-hidden rounded-xl border border-[var(--border)] bg-[var(--bg-surface)] shadow-[var(--shadow)]">
-      {/* Company header */}
-      <Link
-        to="/company/$stockId"
-        params={{ stockId: group.stockId }}
-        className="flex items-center gap-3 border-b border-[var(--border)] bg-[var(--bg-elevated)] px-4 py-2.5 no-underline transition hover:bg-[var(--border)]"
+      {/* Company header — click to toggle */}
+      <button
+        onClick={() => setOpen(!open)}
+        className="flex w-full items-center gap-3 bg-[var(--bg-elevated)] px-4 py-2.5 text-left transition hover:bg-[var(--border)]"
       >
         <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-[var(--bg-surface)] text-xs font-bold text-[var(--text-heading)]">
           {initial}
         </div>
         <div className="min-w-0 flex-1">
           <div className="flex items-center gap-2">
-            <span className="text-sm font-bold text-[var(--text-heading)]">{name}</span>
+            <Link
+              to="/company/$stockId"
+              params={{ stockId: group.stockId }}
+              className="text-sm font-bold text-[var(--text-heading)] hover:text-[var(--accent)]"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {name}
+            </Link>
             <span className="text-[11px] text-[var(--text-muted)]">{group.stockId}</span>
             {company?.industry && (
               <span className="hidden text-[11px] text-[var(--text-muted)] sm:inline">· {company.industry}</span>
@@ -168,11 +175,12 @@ function CompanyJobGroup({ group }: { group: CompanyGroup }) {
             </span>
           )}
           <span className="text-xs text-[var(--text-muted)]">{jobs.length} 缺</span>
+          <span className="text-xs text-[var(--text-muted)]">{open ? '▾' : '▸'}</span>
         </div>
-      </Link>
+      </button>
 
-      {/* Job list */}
-      {jobs.map((job, i) => {
+      {/* Job list — collapsed by default */}
+      {open && jobs.map((job, i) => {
         const clean = (s: string | null | undefined) => {
           if (!s || s === 'None' || s === 'nan' || s === 'NaN') return null
           return s.replace(/, Taiwan/gi, '').replace(/, TW/gi, '').replace(/, TPE/gi, '').replace(/, TPQ/gi, '').trim() || null
@@ -187,15 +195,17 @@ function CompanyJobGroup({ group }: { group: CompanyGroup }) {
             href={job.job_url}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-3 border-b border-[var(--border)] px-4 py-2 no-underline transition last:border-b-0 hover:bg-[var(--bg-elevated)]"
+            className={`flex items-center gap-3 px-4 py-2.5 no-underline transition hover:bg-[var(--bg-elevated)] ${
+              i % 2 === 1 ? 'bg-[var(--bg)]' : ''
+            }`}
           >
             <div className="min-w-0 flex-1">
-              <span className="text-sm text-[var(--text-heading)]">{job.title}</span>
-              {loc && <span className="ml-2 text-xs text-[var(--text-muted)]">{loc}</span>}
+              <div className="text-sm font-medium text-[var(--text-heading)]">{job.title}</div>
+              <div className="mt-0.5 text-xs text-[var(--text-muted)]">
+                {loc || '台灣'}
+                {dateShort && <span className="ml-2">{dateShort}</span>}
+              </div>
             </div>
-            {dateShort && (
-              <span className="hidden flex-shrink-0 text-[11px] tabular-nums text-[var(--text-muted)] sm:block">{dateShort}</span>
-            )}
             <SourceBadge source={job.source} />
           </a>
         )
