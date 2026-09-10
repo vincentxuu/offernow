@@ -9,10 +9,17 @@ export const Route = createFileRoute('/salary')({
   component: SalaryRankingPage,
 })
 
+function formatMarketCap(cap: number | null): string {
+  if (!cap) return '—'
+  if (cap >= 10000) return `${(cap / 10000).toFixed(1)}兆`
+  if (cap >= 1000) return `${(cap / 1000).toFixed(1)}K億`
+  return `${cap.toFixed(0)}億`
+}
+
 function SalaryRankingPage() {
   const companies = Route.useLoaderData()
   const [industry, setIndustry] = useState('全部')
-  const [sortCol, setSortCol] = useState<'median' | 'mean' | 'eps' | 'employees'>('median')
+  const [sortCol, setSortCol] = useState<'median' | 'mean' | 'eps' | 'employees' | 'marketCap' | 'vsIndustry'>('median')
   const [sortDir, setSortDir] = useState<'asc' | 'desc'>('desc')
 
   const ranked = useMemo(() => {
@@ -29,6 +36,8 @@ function SalaryRankingPage() {
         case 'mean': av = a.salary_mean_k ?? 0; bv = b.salary_mean_k ?? 0; break
         case 'eps': av = a.eps ?? 0; bv = b.eps ?? 0; break
         case 'employees': av = a.employee_count ?? 0; bv = b.employee_count ?? 0; break
+        case 'marketCap': av = a.market_cap ?? 0; bv = b.market_cap ?? 0; break
+        case 'vsIndustry': av = a.salary_vs_industry_pct ?? 0; bv = b.salary_vs_industry_pct ?? 0; break
       }
       return sortDir === 'desc' ? bv - av : av - bv
     })
@@ -91,11 +100,14 @@ function SalaryRankingPage() {
                 薪資中位數{sortIndicator('median')}
               </ThSort>
               <Th>年增</Th>
-              <ThSort active={sortCol === 'mean'} onClick={() => toggleSort('mean')}>
-                平均薪資{sortIndicator('mean')}
+              <ThSort active={sortCol === 'vsIndustry'} onClick={() => toggleSort('vsIndustry')}>
+                同業比較{sortIndicator('vsIndustry')}
               </ThSort>
               <ThSort active={sortCol === 'eps'} onClick={() => toggleSort('eps')}>
                 EPS{sortIndicator('eps')}
+              </ThSort>
+              <ThSort active={sortCol === 'marketCap'} onClick={() => toggleSort('marketCap')}>
+                市值{sortIndicator('marketCap')}
               </ThSort>
               <ThSort active={sortCol === 'employees'} onClick={() => toggleSort('employees')}>
                 員工數{sortIndicator('employees')}
@@ -115,7 +127,7 @@ function SalaryRankingPage() {
 
 function Th({ children }: { children: React.ReactNode }) {
   return (
-    <th className="border-b border-[var(--border)] bg-[var(--bg-elevated)] px-4 py-3 text-left text-[11px] font-semibold uppercase tracking-wider text-[var(--text-muted)]">
+    <th className="border-b border-[var(--border)] bg-[var(--bg-elevated)] px-3 py-3 text-left text-[11px] font-semibold uppercase tracking-wider text-[var(--text-muted)]">
       {children}
     </th>
   )
@@ -124,7 +136,7 @@ function Th({ children }: { children: React.ReactNode }) {
 function ThSort({ children, active, onClick }: { children: React.ReactNode; active: boolean; onClick: () => void }) {
   return (
     <th
-      className={`cursor-pointer select-none border-b border-[var(--border)] bg-[var(--bg-elevated)] px-4 py-3 text-left text-[11px] font-semibold uppercase tracking-wider transition hover:text-[var(--text-heading)] ${active ? 'text-[var(--text-heading)]' : 'text-[var(--text-muted)]'}`}
+      className={`cursor-pointer select-none border-b border-[var(--border)] bg-[var(--bg-elevated)] px-3 py-3 text-left text-[11px] font-semibold uppercase tracking-wider transition hover:text-[var(--text-heading)] ${active ? 'text-[var(--text-heading)]' : 'text-[var(--text-muted)]'}`}
       onClick={onClick}
     >
       {children}
@@ -134,43 +146,51 @@ function ThSort({ children, active, onClick }: { children: React.ReactNode; acti
 
 function RankRow({ company: c, rank }: { company: Company; rank: number }) {
   const initial = (c.short_name || c.name).charAt(0)
+  const vsInd = c.salary_vs_industry_pct
   return (
     <tr className="border-b border-[var(--border)] last:border-0 hover:bg-[var(--bg-elevated)]">
-      <td className="px-4 py-3">
+      <td className="px-3 py-3">
         <span className={`font-display font-bold tabular-nums ${rank <= 3 ? 'text-[var(--accent)]' : 'text-[var(--text-muted)]'}`}>
           {rank}
         </span>
       </td>
-      <td className="px-4 py-3">
-        <Link to="/company/$stockId" params={{ stockId: c.stock_id }} className="flex items-center gap-2.5 no-underline">
-          <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-md bg-[var(--bg-elevated)] font-display text-xs font-bold text-[var(--text-heading)]">
+      <td className="px-3 py-3">
+        <Link to="/company/$stockId" params={{ stockId: c.stock_id }} className="flex items-center gap-2 no-underline">
+          <div className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-md bg-[var(--bg-elevated)] font-display text-[10px] font-bold text-[var(--text-heading)]">
             {initial}
           </div>
           <div>
             <div className="text-sm font-semibold text-[var(--text-heading)]">{c.short_name || c.name}</div>
-            <div className="text-[11px] text-[var(--text-muted)]">{c.industry} · {c.stock_id}</div>
+            <div className="text-[10px] text-[var(--text-muted)]">{c.industry} · {c.stock_id}</div>
           </div>
         </Link>
       </td>
-      <td className="px-4 py-3">
+      <td className="px-3 py-3">
         <span className="font-display font-bold tabular-nums text-[var(--text-heading)]">
           {c.salary_median_k ? `${(c.salary_median_k / 10).toFixed(1)} 萬` : '—'}
         </span>
       </td>
-      <td className="px-4 py-3">
+      <td className="px-3 py-3">
         {c.salary_median_change_pct !== null ? (
           <Badge value={c.salary_median_change_pct} suffix="%" />
         ) : (
           <span className="text-[var(--text-muted)]">—</span>
         )}
       </td>
-      <td className="px-4 py-3 tabular-nums text-sm text-[var(--text-body)]">
-        {c.salary_mean_k ? `${(c.salary_mean_k / 10).toFixed(1)} 萬` : '—'}
+      <td className="px-3 py-3 text-xs tabular-nums">
+        {vsInd !== null && vsInd !== undefined ? (
+          <span className={vsInd > 0 ? 'text-[var(--green-positive)]' : vsInd < 0 ? 'text-[var(--red-negative)]' : 'text-[var(--text-muted)]'}>
+            {vsInd > 0 ? '+' : ''}{vsInd.toFixed(0)}%
+          </span>
+        ) : '—'}
       </td>
-      <td className="px-4 py-3 tabular-nums text-sm text-[var(--text-body)]">
+      <td className="px-3 py-3 tabular-nums text-sm text-[var(--text-body)]">
         {c.eps !== null ? c.eps : '—'}
       </td>
-      <td className="px-4 py-3 tabular-nums text-sm text-[var(--text-body)]">
+      <td className="px-3 py-3 tabular-nums text-sm text-[var(--text-body)]">
+        {formatMarketCap(c.market_cap)}
+      </td>
+      <td className="px-3 py-3 tabular-nums text-sm text-[var(--text-body)]">
         {c.employee_count ? c.employee_count.toLocaleString() : '—'}
       </td>
     </tr>

@@ -22,6 +22,15 @@ export type Company = {
   encoded_cust_no_104: string | null
   job_count_linkedin: number | null
   ai_insight: string | null
+  revenue_yoy_pct: number | null
+  market_cap: number | null
+  salary_vs_industry_pct: number | null
+  industry_salary_avg_k: number | null
+  salary_male_median_k: number | null
+  salary_female_median_k: number | null
+  flag_low_salary: number | null
+  flag_eps_high_salary_low: number | null
+  flag_eps_up_salary_down: number | null
 }
 
 export type Job = {

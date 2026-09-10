@@ -15,7 +15,7 @@ function HomePage() {
   const companies = Route.useLoaderData()
   const [search, setSearch] = useState('')
   const [industry, setIndustry] = useState('全部')
-  const [sortBy, setSortBy] = useState<'salary' | 'name' | 'eps'>('salary')
+  const [sortBy, setSortBy] = useState<'salary' | 'name' | 'eps' | 'marketCap'>('salary')
   const [showCount, setShowCount] = useState(60)
 
   const totalCompanies = companies.length
@@ -45,14 +45,20 @@ function HomePage() {
       list = companies.filter((c) => c.salary_median_k !== null)
     }
 
-    if (industry !== '全部') {
+    if (industry === '百大（市值）') {
+      list = list
+        .filter((c) => c.market_cap != null && c.market_cap > 0)
+        .sort((a, b) => (b.market_cap ?? 0) - (a.market_cap ?? 0))
+        .slice(0, 100)
+    } else if (industry !== '全部') {
       list = list.filter((c) => c.industry === industry)
     }
 
-    if (!search.trim()) {
+    if (!search.trim() && industry !== '百大（市值）') {
       list.sort((a, b) => {
         if (sortBy === 'salary') return (b.salary_median_k ?? 0) - (a.salary_median_k ?? 0)
         if (sortBy === 'eps') return (b.eps ?? 0) - (a.eps ?? 0)
+        if (sortBy === 'marketCap') return (b.market_cap ?? 0) - (a.market_cap ?? 0)
         return a.short_name.localeCompare(b.short_name, 'zh-TW')
       })
     }
@@ -88,11 +94,12 @@ function HomePage() {
           <div className="flex items-center gap-2 pr-3">
             <select
               value={sortBy}
-              onChange={(e) => setSortBy(e.target.value as 'salary' | 'name' | 'eps')}
+              onChange={(e) => setSortBy(e.target.value as 'salary' | 'name' | 'eps' | 'marketCap')}
               className="rounded-lg border border-[var(--border)] bg-[var(--bg-elevated)] px-2 py-1 text-xs text-[var(--text-body)]"
             >
               <option value="salary">薪資排序</option>
               <option value="eps">EPS 排序</option>
+              <option value="marketCap">市值排序</option>
               <option value="name">名稱排序</option>
             </select>
           </div>
@@ -100,7 +107,7 @@ function HomePage() {
       </div>
 
       <div className="mx-auto mb-6 flex max-w-3xl flex-wrap justify-center gap-2">
-        {INDUSTRIES.map((ind) => (
+        {[...INDUSTRIES, '百大（市值）'].map((ind) => (
           <button
             key={ind}
             onClick={() => { setIndustry(ind); setShowCount(60) }}

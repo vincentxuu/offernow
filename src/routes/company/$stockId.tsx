@@ -18,6 +18,20 @@ export const Route = createFileRoute('/company/$stockId')({
   },
 })
 
+function formatMarketCap(cap: number | null): string {
+  if (!cap) return '—'
+  if (cap >= 10000) return `${(cap / 10000).toFixed(1)} 兆`
+  if (cap >= 1000) return `${cap.toLocaleString(undefined, { maximumFractionDigits: 0 })} 億`
+  return `${cap.toFixed(0)} 億`
+}
+
+function formatRevenueYoY(pct: number | null): string {
+  if (pct === null || pct === undefined) return '—'
+  if (pct > 999) return '>999%'
+  if (pct < -999) return '<-999%'
+  return `${pct > 0 ? '+' : ''}${pct.toFixed(1)}%`
+}
+
 function CompanyDetailPage() {
   const company = Route.useLoaderData()
 
@@ -46,6 +60,9 @@ function CompanyDetailPage() {
     return `${d.slice(0, 4)}/${d.slice(4, 6)}/${d.slice(6, 8)}`
   }
 
+  const vsIndustry = c.salary_vs_industry_pct
+  const industryAvgWan = c.industry_salary_avg_k ? (c.industry_salary_avg_k / 10).toFixed(1) : null
+
   return (
     <main className="page-wrap px-4 pb-12 pt-6">
       <div className="mb-6 flex items-center gap-4">
@@ -66,9 +83,7 @@ function CompanyDetailPage() {
           <h1 className="font-display text-2xl font-extrabold text-[var(--text-heading)] sm:text-3xl">
             {c.short_name || c.name}
           </h1>
-          <p className="mt-1 text-sm text-[var(--text-muted)]">
-            {c.name}
-          </p>
+          <p className="mt-1 text-sm text-[var(--text-muted)]">{c.name}</p>
           <div className="mt-2 flex flex-wrap gap-2">
             <span className="rounded-full bg-[var(--accent-soft)] px-2.5 py-0.5 text-xs font-semibold text-[var(--text-heading)]">
               {c.stock_id}
@@ -79,9 +94,35 @@ function CompanyDetailPage() {
             <span className="rounded-full border border-[var(--border)] px-2.5 py-0.5 text-xs text-[var(--text-muted)]">
               {marketLabel}
             </span>
+            {c.market_cap && (
+              <span className="rounded-full border border-[var(--border)] px-2.5 py-0.5 text-xs text-[var(--text-muted)]">
+                市值 {formatMarketCap(c.market_cap)}
+              </span>
+            )}
           </div>
         </div>
       </div>
+
+      {/* Salary Flags */}
+      {(c.flag_low_salary === 1 || c.flag_eps_high_salary_low === 1 || c.flag_eps_up_salary_down === 1) && (
+        <div className="mb-6 flex flex-wrap gap-2">
+          {c.flag_low_salary === 1 && (
+            <span className="rounded-lg bg-[var(--red-soft)] px-3 py-1.5 text-xs font-medium text-[var(--red-negative)]">
+              ⚠ 非主管平均薪資未達 50 萬
+            </span>
+          )}
+          {c.flag_eps_high_salary_low === 1 && (
+            <span className="rounded-lg bg-[var(--red-soft)] px-3 py-1.5 text-xs font-medium text-[var(--red-negative)]">
+              ⚠ EPS 優於同業但薪資低於同業
+            </span>
+          )}
+          {c.flag_eps_up_salary_down === 1 && (
+            <span className="rounded-lg bg-[var(--red-soft)] px-3 py-1.5 text-xs font-medium text-[var(--red-negative)]">
+              ⚠ EPS 成長但薪資減少
+            </span>
+          )}
+        </div>
+      )}
 
       {/* AI Insight */}
       {c.ai_insight && (
@@ -106,8 +147,8 @@ function CompanyDetailPage() {
       )}
 
       <div className="grid gap-6 lg:grid-cols-3">
-        {/* Salary Section */}
-        <div className="lg:col-span-2">
+        {/* Salary + Financial Section */}
+        <div className="lg:col-span-2 space-y-6">
           <Section title="薪資資訊">
             <div className="grid gap-4 sm:grid-cols-2">
               <BigMetric
@@ -120,6 +161,14 @@ function CompanyDetailPage() {
                 label="非主管薪資平均數"
                 value={salaryMeanWan ? `${salaryMeanWan} 萬` : '未揭露'}
               />
+              {vsIndustry !== null && vsIndustry !== undefined && (
+                <BigMetric
+                  label="同業薪資比較"
+                  value={`${vsIndustry > 0 ? '+' : ''}${vsIndustry.toFixed(1)}%`}
+                  note={industryAvgWan ? `同業平均 ${industryAvgWan} 萬` : undefined}
+                  badge={<Badge value={vsIndustry} suffix="" />}
+                />
+              )}
               <BigMetric
                 label="EPS"
                 value={c.eps !== null ? `${c.eps} 元/股` : '未揭露'}
@@ -128,8 +177,57 @@ function CompanyDetailPage() {
                 label="員工人數"
                 value={c.employee_count ? `${c.employee_count.toLocaleString()} 人` : '未揭露'}
               />
+              {c.job_count_104 != null && c.job_count_104 > 0 && (
+                <BigMetric
+                  label="104 職缺數"
+                  value={`${c.job_count_104.toLocaleString()} 個`}
+                />
+              )}
             </div>
           </Section>
+
+          {/* Gender Salary */}
+          {(c.salary_male_median_k || c.salary_female_median_k) && (
+            <Section title="性別薪資（資本額 100 億以上）">
+              <div className="grid gap-4 sm:grid-cols-2">
+                <BigMetric
+                  label="男性薪資中位數"
+                  value={c.salary_male_median_k ? `${(c.salary_male_median_k / 10).toFixed(1)} 萬` : '未揭露'}
+                />
+                <BigMetric
+                  label="女性薪資中位數"
+                  value={c.salary_female_median_k ? `${(c.salary_female_median_k / 10).toFixed(1)} 萬` : '未揭露'}
+                />
+              </div>
+              {c.salary_male_median_k && c.salary_female_median_k && (
+                <p className="mt-3 text-xs text-[var(--text-muted)]">
+                  性別薪資差異：{((c.salary_male_median_k - c.salary_female_median_k) / c.salary_male_median_k * 100).toFixed(1)}%
+                  （男性{c.salary_male_median_k > c.salary_female_median_k ? '較高' : '較低'}）
+                </p>
+              )}
+            </Section>
+          )}
+
+          {/* Revenue & Market Cap */}
+          {(c.revenue_yoy_pct !== null || c.market_cap) && (
+            <Section title="財務概況">
+              <div className="grid gap-4 sm:grid-cols-2">
+                {c.revenue_yoy_pct !== null && c.revenue_yoy_pct !== undefined && (
+                  <BigMetric
+                    label="營收年增率"
+                    value={formatRevenueYoY(c.revenue_yoy_pct)}
+                    badge={<Badge value={c.revenue_yoy_pct > 999 ? 999 : c.revenue_yoy_pct < -999 ? -999 : c.revenue_yoy_pct} suffix="" />}
+                  />
+                )}
+                {c.market_cap && (
+                  <BigMetric
+                    label="市值"
+                    value={formatMarketCap(c.market_cap)}
+                  />
+                )}
+              </div>
+            </Section>
+          )}
         </div>
 
         {/* Company Info */}
@@ -161,25 +259,11 @@ function Section({ title, children }: { title: string; children: React.ReactNode
   )
 }
 
-function BigMetric({
-  label,
-  value,
-  badge,
-  note,
-}: {
-  label: string
-  value: string
-  badge?: React.ReactNode
-  note?: string
-}) {
+function BigMetric({ label, value, badge, note }: { label: string; value: string; badge?: React.ReactNode; note?: string }) {
   return (
     <div className="rounded-lg bg-[var(--bg-elevated)] p-4">
-      <div className="mb-1 text-xs font-medium uppercase tracking-wider text-[var(--text-muted)]">
-        {label}
-      </div>
-      <div className="font-display text-2xl font-bold tabular-nums text-[var(--text-heading)]">
-        {value}
-      </div>
+      <div className="mb-1 text-xs font-medium uppercase tracking-wider text-[var(--text-muted)]">{label}</div>
+      <div className="font-display text-2xl font-bold tabular-nums text-[var(--text-heading)]">{value}</div>
       <div className="mt-1 flex items-center gap-2">
         {badge}
         {note && <span className="text-xs text-[var(--text-muted)]">{note}</span>}
