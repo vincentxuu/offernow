@@ -1,5 +1,5 @@
 import { createServerFn } from '@tanstack/react-start'
-import type { Company } from './types'
+import type { Company, Job } from './types'
 
 type D1Database = {
   prepare: (sql: string) => {
@@ -31,10 +31,14 @@ async function loadFromJSON(): Promise<Company[]> {
 export const getCompanies = createServerFn().handler(async (): Promise<Company[]> => {
   const db = await getD1()
   if (db) {
-    const { results } = await db.prepare(
-      'SELECT * FROM company_profiles ORDER BY salary_median_k DESC NULLS LAST'
-    ).all<Company>()
-    return results
+    try {
+      const { results } = await db.prepare(
+        'SELECT * FROM company_profiles ORDER BY salary_median_k DESC NULLS LAST'
+      ).all<Company>()
+      return results
+    } catch {
+      // D1 table may not exist locally; fall through to JSON
+    }
   }
   return loadFromJSON()
 })
@@ -44,13 +48,30 @@ export const getCompanyByStockId = createServerFn()
   .handler(async ({ data: stockId }): Promise<Company | null> => {
     const db = await getD1()
     if (db) {
-      return db.prepare(
-        'SELECT * FROM company_profiles WHERE stock_id = ?'
-      ).bind(stockId).first<Company>()
+      try {
+        return db.prepare(
+          'SELECT * FROM company_profiles WHERE stock_id = ?'
+        ).bind(stockId).first<Company>()
+      } catch {
+        // Fall through to JSON
+      }
     }
     const all = await loadFromJSON()
     return all.find((c) => c.stock_id === stockId) ?? null
   })
+
+async function loadJobsFromJSON(): Promise<Job[]> {
+  try {
+    const { default: data } = await import('../../scripts/data/jobs.json')
+    return data as Job[]
+  } catch {
+    return []
+  }
+}
+
+export const getJobs = createServerFn().handler(async (): Promise<Job[]> => {
+  return loadJobsFromJSON()
+})
 
 export const INDUSTRIES = [
   '全部',

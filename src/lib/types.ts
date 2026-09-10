@@ -23,3 +23,17 @@ export type Company = {
   job_count_linkedin: number | null
   ai_insight: string | null
 }
+
+export type Job = {
+  stock_id: string
+  company_name: string
+  title: string
+  location: string
+  date_posted: string
+  job_url: string
+  source: string
+  description: string
+  salary_min: number | null
+  salary_max: number | null
+  job_type: string
+}

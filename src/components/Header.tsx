@@ -27,7 +27,12 @@ export default function Header() {
           >
             薪資排行
           </Link>
-          <span className="cursor-default text-[var(--text-muted)]/50">職缺搜尋</span>
+          <Link
+            to="/jobs"
+            className="text-[var(--text-muted)] transition no-underline hover:text-[var(--text-heading)] [&.active]:text-[var(--text-heading)]"
+          >
+            職缺搜尋
+          </Link>
         </div>
 
         <div className="ml-auto">
