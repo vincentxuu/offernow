@@ -48,6 +48,8 @@ def main():
             "salary_median_k", "salary_mean_k",
             "salary_median_change_pct",
             "employee_count", "eps", "salary_year",
+            "job_count_104", "encoded_cust_no_104",
+            "ai_insight",
         ]
         vals = [
             sql_val(c.get("stock_id")),
@@ -69,6 +71,9 @@ def main():
             sql_val(c.get("employee_count")),
             sql_val(c.get("eps")),
             sql_val(c.get("salary_year")),
+            sql_val(c.get("job_count_104")),
+            sql_val(c.get("encoded_cust_no_104")),
+            sql_val(c.get("ai_insight")),
         ]
         lines.append(
             f"INSERT OR REPLACE INTO company_profiles ({', '.join(cols)}) VALUES ({', '.join(vals)});"

@@ -83,6 +83,28 @@ function CompanyDetailPage() {
         </div>
       </div>
 
+      {/* AI Insight */}
+      {c.ai_insight && (
+        <div className="mb-6 rounded-xl bg-[var(--accent-soft)] px-5 py-4">
+          <div className="mb-1 text-xs font-semibold uppercase tracking-wider text-[var(--accent)]">AI 洞察</div>
+          <div className="text-sm text-[var(--text-heading)]">{c.ai_insight}</div>
+        </div>
+      )}
+
+      {/* 104 Link */}
+      {(c.job_count_104 ?? 0) > 0 && (
+        <div className="mb-6">
+          <a
+            href={c.encoded_cust_no_104 ? `https://www.104.com.tw/company/${c.encoded_cust_no_104}` : `https://www.104.com.tw/company/search?keyword=${encodeURIComponent(c.short_name || c.name)}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 rounded-lg bg-[var(--accent)] px-4 py-2 text-sm font-semibold text-[#00473e] no-underline transition hover:bg-[var(--accent-hover)]"
+          >
+            在 104 上查看 {c.job_count_104!.toLocaleString()} 個職缺 →
+          </a>
+        </div>
+      )}
+
       <div className="grid gap-6 lg:grid-cols-3">
         {/* Salary Section */}
         <div className="lg:col-span-2">

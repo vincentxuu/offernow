@@ -46,6 +46,19 @@ export function CompanyCard({ company: c }: { company: Company }) {
           value={c.salary_mean_k ? `${(c.salary_mean_k / 10).toFixed(1)} 萬` : '—'}
         />
       </div>
+
+      {c.ai_insight && (
+        <div className="mt-2 rounded-lg bg-[var(--accent-soft)] px-3 py-2">
+          <div className="text-[10px] font-semibold uppercase tracking-wider text-[var(--accent)]">AI 洞察</div>
+          <div className="text-xs text-[var(--text-heading)]">{c.ai_insight}</div>
+        </div>
+      )}
+
+      {(c.job_count_104 ?? 0) > 0 && (
+        <div className="mt-2 text-xs font-medium text-[var(--accent)]">
+          104 上有 {c.job_count_104!.toLocaleString()} 個職缺 →
+        </div>
+      )}
     </Link>
   )
 }

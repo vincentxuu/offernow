@@ -18,4 +18,7 @@ export type Company = {
   employee_count: number | null
   eps: number | null
   salary_year: number | null
+  job_count_104: number | null
+  encoded_cust_no_104: string | null
+  ai_insight: string | null
 }
