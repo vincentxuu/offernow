@@ -1,89 +1,91 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { useState, useMemo } from 'react'
 import Fuse from 'fuse.js'
-import { getJobs } from '#/lib/data'
-import type { Job } from '#/lib/types'
+import { getJobs, getCompanies } from '#/lib/data'
+import type { Job, Company } from '#/lib/types'
 
 export const Route = createFileRoute('/jobs')({
-  loader: () => getJobs(),
+  loader: async () => {
+    const [jobs, companies] = await Promise.all([getJobs(), getCompanies()])
+    const companyMap: Record<string, Company> = {}
+    for (const c of companies) companyMap[c.stock_id] = c
+    return { jobs, companyMap }
+  },
   component: JobsPage,
 })
 
 const SOURCES = ['全部', 'linkedin', 'indeed'] as const
 
+type CompanyGroup = {
+  stockId: string
+  company: Company | undefined
+  jobs: Job[]
+}
+
 function JobsPage() {
-  const jobs = Route.useLoaderData()
+  const { jobs, companyMap } = Route.useLoaderData()
   const [search, setSearch] = useState('')
   const [source, setSource] = useState<string>('全部')
-  const [showCount, setShowCount] = useState(50)
 
   const fuse = useMemo(
-    () =>
-      new Fuse(jobs, {
-        keys: [
-          { name: 'title', weight: 3 },
-          { name: 'company_name', weight: 2 },
-          { name: 'location', weight: 1 },
-        ],
-        threshold: 0.3,
-        includeScore: true,
-      }),
+    () => new Fuse(jobs, {
+      keys: [
+        { name: 'title', weight: 3 },
+        { name: 'company_name', weight: 2 },
+        { name: 'location', weight: 1 },
+      ],
+      threshold: 0.3,
+    }),
     [jobs],
   )
 
-  const filtered = useMemo(() => {
-    let list: Job[]
+  const groups = useMemo(() => {
+    let list: Job[] = search.trim()
+      ? fuse.search(search.trim()).map((r) => r.item)
+      : [...jobs]
 
-    if (search.trim()) {
-      list = fuse.search(search.trim()).map((r) => r.item)
-    } else {
-      list = [...jobs]
+    if (source !== '全部') list = list.filter((j) => j.source === source)
+
+    const map = new Map<string, Job[]>()
+    for (const j of list) {
+      const arr = map.get(j.stock_id) || []
+      arr.push(j)
+      map.set(j.stock_id, arr)
     }
 
-    if (source !== '全部') {
-      list = list.filter((j) => j.source === source)
+    const result: CompanyGroup[] = []
+    for (const [stockId, groupJobs] of map) {
+      result.push({ stockId, company: companyMap[stockId], jobs: groupJobs })
     }
 
-    return list
-  }, [jobs, search, source, fuse])
+    result.sort((a, b) => {
+      const sa = a.company?.salary_median_k ?? 0
+      const sb = b.company?.salary_median_k ?? 0
+      return sb - sa
+    })
 
-  const companyCount = new Set(filtered.map((j) => j.stock_id)).size
+    return result
+  }, [jobs, search, source, fuse, companyMap])
+
+  const totalJobs = groups.reduce((s, g) => s + g.jobs.length, 0)
 
   if (jobs.length === 0) {
     return (
       <main className="page-wrap px-4 py-16 text-center">
-        <h1 className="mb-4 font-display text-2xl font-bold text-[var(--text-heading)]">
-          職缺搜尋
-        </h1>
-        <p className="mb-2 text-[var(--text-body)]">
-          職缺資料正在收集中，請稍後再來。
-        </p>
-        <p className="text-sm text-[var(--text-muted)]">
-          我們正在從 LinkedIn、Indeed 等平台收集台灣上市櫃公司的職缺。
-        </p>
-        <Link
-          to="/"
-          className="mt-6 inline-block text-sm font-medium text-[var(--text-body)] hover:text-[var(--text-heading)]"
-        >
-          ← 先看看公司資料
-        </Link>
+        <h1 className="mb-4 font-display text-2xl font-bold text-[var(--text-heading)]">職缺搜尋</h1>
+        <p className="text-[var(--text-body)]">職缺資料正在收集中，請稍後再來。</p>
       </main>
     )
   }
 
   return (
     <main className="page-wrap px-4 pb-12 pt-8">
-      <section className="mb-6">
-        <h1 className="mb-1 font-display text-2xl font-bold text-[var(--text-heading)]">
-          職缺搜尋
-        </h1>
-        <p className="text-sm text-[var(--text-muted)]">
-          跨平台聚合，一次搜尋 LinkedIn + Indeed 的台灣上市櫃職缺
-        </p>
-      </section>
+      <h1 className="mb-1 font-display text-2xl font-bold text-[var(--text-heading)]">職缺搜尋</h1>
+      <p className="mb-6 text-sm text-[var(--text-muted)]">
+        跨平台聚合 LinkedIn + Indeed，按公司分組，一眼看懂薪資和擴編狀況
+      </p>
 
-      {/* Search */}
-      <div className="mb-4 max-w-2xl">
+      <div className="mb-4 max-w-xl">
         <input
           type="text"
           placeholder="搜尋職缺標題、公司名、地點..."
@@ -93,16 +95,15 @@ function JobsPage() {
         />
       </div>
 
-      {/* Source chips */}
       <div className="mb-4 flex gap-2">
         {SOURCES.map((s) => (
           <button
             key={s}
-            onClick={() => { setSource(s); setShowCount(50) }}
+            onClick={() => setSource(s)}
             className={`rounded-full px-3 py-1 text-xs font-medium transition ${
               source === s
-                ? 'border border-[var(--accent)] bg-[var(--accent-soft)] text-[var(--text-heading)]'
-                : 'border border-[var(--border)] bg-[var(--bg-surface)] text-[var(--text-muted)] hover:border-[var(--accent)]'
+                ? 'bg-[var(--accent-soft)] border border-[var(--accent)] text-[var(--text-heading)]'
+                : 'bg-[var(--bg-surface)] border border-[var(--border)] text-[var(--text-muted)] hover:border-[var(--accent)]'
             }`}
           >
             {s === '全部' ? '全部' : s === 'linkedin' ? 'LinkedIn' : 'Indeed'}
@@ -110,109 +111,104 @@ function JobsPage() {
         ))}
       </div>
 
-      {/* Count */}
       <p className="mb-4 text-xs text-[var(--text-muted)]">
-        共 {filtered.length} 筆職缺，來自 {companyCount} 家公司
-        {search.trim() ? ` · 搜尋「${search.trim()}」` : ''}
+        {totalJobs} 筆職缺，{groups.length} 家公司
       </p>
 
-      {/* Job List */}
-      <div className="overflow-hidden rounded-xl border border-[var(--border)] bg-[var(--bg-surface)]">
-        {filtered.slice(0, showCount).map((job, i) => (
-          <JobRow key={`${job.stock_id}-${job.title}-${i}`} job={job} />
+      <div className="space-y-4">
+        {groups.map((g) => (
+          <CompanyJobGroup key={g.stockId} group={g} />
         ))}
       </div>
-
-      {filtered.length > showCount && (
-        <button
-          onClick={() => setShowCount((c) => c + 50)}
-          className="mt-6 w-full rounded-lg border border-[var(--border)] bg-[var(--bg-surface)] py-2 text-sm font-medium text-[var(--text-body)] transition hover:border-[var(--accent)]"
-        >
-          載入更多（還有 {filtered.length - showCount} 筆）
-        </button>
-      )}
-
-      {filtered.length === 0 && (
-        <p className="mt-12 text-center text-sm text-[var(--text-muted)]">
-          找不到符合條件的職缺。試試其他關鍵字？
-        </p>
-      )}
     </main>
   )
 }
 
-function JobRow({ job }: { job: Job }) {
-  const salaryStr =
-    job.salary_min || job.salary_max
-      ? `${job.salary_min?.toLocaleString() ?? '?'} – ${job.salary_max?.toLocaleString() ?? '?'}`
-      : null
-
-  const clean = (s: string | null | undefined) => {
-    if (!s || s === 'None' || s === 'nan' || s === 'NaN') return null
-    return s.replace(/, Taiwan/gi, '').replace(/, TW/gi, '').replace(/, TPE/gi, '').replace(/, TPQ/gi, '').trim() || null
-  }
-
-  const loc = clean(job.location)
-  const dateShort = job.date_posted && job.date_posted !== 'None' && job.date_posted !== 'nan'
-    ? job.date_posted.slice(5)
-    : null
+function CompanyJobGroup({ group }: { group: CompanyGroup }) {
+  const { company, jobs } = group
+  const salaryWan = company?.salary_median_k ? (company.salary_median_k / 10).toFixed(0) : null
+  const changePct = company?.salary_median_change_pct
+  const initial = (company?.short_name || group.jobs[0]?.company_name || '?').charAt(0)
+  const name = company?.short_name || group.jobs[0]?.company_name || group.stockId
 
   return (
-    <a
-      href={job.job_url}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="flex items-center gap-3 border-b border-[var(--border)] px-3 py-2 no-underline transition last:border-b-0 hover:bg-[var(--bg-elevated)]"
-    >
-      <div className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-md bg-[var(--bg-elevated)] text-[10px] font-bold text-[var(--text-heading)]">
-        {job.company_name.charAt(0)}
-      </div>
-
-      <div className="min-w-0 flex-1">
-        <div className="truncate text-sm font-semibold text-[var(--text-heading)]">{job.title}</div>
-        <div className="flex items-center gap-1.5 text-xs text-[var(--text-muted)]">
-          <Link
-            to="/company/$stockId"
-            params={{ stockId: job.stock_id }}
-            className="font-medium text-[var(--text-body)] hover:text-[var(--text-heading)]"
-            onClick={(e) => e.stopPropagation()}
-          >
-            {job.company_name}
-          </Link>
-          {loc && <span>· {loc}</span>}
-          {salaryStr && <span className="font-medium text-[var(--green-positive)]">· {salaryStr}</span>}
+    <div className="overflow-hidden rounded-xl border border-[var(--border)] bg-[var(--bg-surface)] shadow-[var(--shadow)]">
+      {/* Company header */}
+      <Link
+        to="/company/$stockId"
+        params={{ stockId: group.stockId }}
+        className="flex items-center gap-3 border-b border-[var(--border)] bg-[var(--bg-elevated)] px-4 py-2.5 no-underline transition hover:bg-[var(--border)]"
+      >
+        <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-[var(--bg-surface)] text-xs font-bold text-[var(--text-heading)]">
+          {initial}
         </div>
-      </div>
+        <div className="min-w-0 flex-1">
+          <div className="flex items-center gap-2">
+            <span className="text-sm font-bold text-[var(--text-heading)]">{name}</span>
+            <span className="text-[11px] text-[var(--text-muted)]">{group.stockId}</span>
+            {company?.industry && (
+              <span className="hidden text-[11px] text-[var(--text-muted)] sm:inline">· {company.industry}</span>
+            )}
+          </div>
+        </div>
+        <div className="flex flex-shrink-0 items-center gap-2">
+          {salaryWan && (
+            <span className="text-sm font-bold tabular-nums text-[var(--accent)]">{salaryWan}萬</span>
+          )}
+          {changePct !== null && changePct !== undefined && (
+            <span className={`rounded px-1 py-px text-[10px] font-semibold ${
+              changePct > 0
+                ? 'bg-[var(--green-soft)] text-[var(--green-positive)]'
+                : changePct < 0
+                  ? 'bg-[var(--red-soft)] text-[var(--red-negative)]'
+                  : 'text-[var(--text-muted)]'
+            }`}>
+              {changePct > 0 ? '▲' : changePct < 0 ? '▼' : ''}{Math.abs(changePct).toFixed(1)}%
+            </span>
+          )}
+          <span className="text-xs text-[var(--text-muted)]">{jobs.length} 缺</span>
+        </div>
+      </Link>
 
-      {dateShort && (
-        <span className="hidden flex-shrink-0 text-[11px] tabular-nums text-[var(--text-muted)] sm:block">
-          {dateShort}
-        </span>
-      )}
+      {/* Job list */}
+      {jobs.map((job, i) => {
+        const clean = (s: string | null | undefined) => {
+          if (!s || s === 'None' || s === 'nan' || s === 'NaN') return null
+          return s.replace(/, Taiwan/gi, '').replace(/, TW/gi, '').replace(/, TPE/gi, '').replace(/, TPQ/gi, '').trim() || null
+        }
+        const loc = clean(job.location)
+        const dateShort = job.date_posted && job.date_posted !== 'None' && job.date_posted !== 'nan'
+          ? job.date_posted.slice(5) : null
 
-      <SourceBadge source={job.source} />
-    </a>
+        return (
+          <a
+            key={`${job.title}-${i}`}
+            href={job.job_url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-3 border-b border-[var(--border)] px-4 py-2 no-underline transition last:border-b-0 hover:bg-[var(--bg-elevated)]"
+          >
+            <div className="min-w-0 flex-1">
+              <span className="text-sm text-[var(--text-heading)]">{job.title}</span>
+              {loc && <span className="ml-2 text-xs text-[var(--text-muted)]">{loc}</span>}
+            </div>
+            {dateShort && (
+              <span className="hidden flex-shrink-0 text-[11px] tabular-nums text-[var(--text-muted)] sm:block">{dateShort}</span>
+            )}
+            <SourceBadge source={job.source} />
+          </a>
+        )
+      })}
+    </div>
   )
 }
 
 function SourceBadge({ source }: { source: string }) {
   if (source === 'linkedin') {
-    return (
-      <span className="rounded px-1.5 py-0.5 text-[10px] font-semibold bg-[#0a66c21a] text-[#0a66c2]">
-        LinkedIn
-      </span>
-    )
+    return <span className="rounded px-1.5 py-0.5 text-[10px] font-semibold bg-[#0a66c21a] text-[#0a66c2]">LinkedIn</span>
   }
   if (source === 'indeed') {
-    return (
-      <span className="rounded px-1.5 py-0.5 text-[10px] font-semibold bg-[#6c3baa1a] text-[#6c3baa]">
-        Indeed
-      </span>
-    )
+    return <span className="rounded px-1.5 py-0.5 text-[10px] font-semibold bg-[#6c3baa1a] text-[#6c3baa]">Indeed</span>
   }
-  return (
-    <span className="rounded px-1.5 py-0.5 text-[10px] font-semibold bg-[var(--bg-elevated)] text-[var(--text-muted)]">
-      {source}
-    </span>
-  )
+  return <span className="rounded px-1.5 py-0.5 text-[10px] font-semibold bg-[var(--bg-elevated)] text-[var(--text-muted)]">{source}</span>
 }
