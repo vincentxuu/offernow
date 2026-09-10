@@ -2,7 +2,7 @@ import { createFileRoute, Link } from '@tanstack/react-router'
 import { useState, useMemo } from 'react'
 import Fuse from 'fuse.js'
 import { getJobs } from '#/utils/jobs.functions'
-import { getCompanies } from '#/utils/companies.functions'
+import { getCompanies, INDUSTRIES } from '#/utils/companies.functions'
 import type { Job, Company } from '#/utils/types'
 
 export const Route = createFileRoute('/jobs')({
@@ -15,7 +15,7 @@ export const Route = createFileRoute('/jobs')({
   component: JobsPage,
 })
 
-const SOURCES = ['全部', 'linkedin', 'indeed'] as const
+const SOURCES = ['全部', '104', 'linkedin', 'indeed'] as const
 
 type CompanyGroup = {
   stockId: string
@@ -27,6 +27,7 @@ function JobsPage() {
   const { jobs, companyMap } = Route.useLoaderData()
   const [search, setSearch] = useState('')
   const [source, setSource] = useState<string>('全部')
+  const [industry, setIndustry] = useState<string>('全部')
 
   const fuse = useMemo(
     () => new Fuse(jobs, {
@@ -67,6 +68,7 @@ function JobsPage() {
     }
 
     if (source !== '全部') list = list.filter((j) => j.source === source)
+    if (industry !== '全部') list = list.filter((j) => companyMap[j.stock_id]?.industry === industry)
 
     const map = new Map<string, Job[]>()
     for (const j of list) {
@@ -87,7 +89,7 @@ function JobsPage() {
     })
 
     return result
-  }, [jobs, search, source, fuse, companyMap])
+  }, [jobs, search, source, industry, fuse, companyMap])
 
   const totalJobs = groups.reduce((s, g) => s + g.jobs.length, 0)
 
@@ -117,7 +119,9 @@ function JobsPage() {
         />
       </div>
 
-      <div className="mb-4 flex gap-2">
+      {/* Filters */}
+      <div className="mb-3 flex flex-wrap items-center gap-2">
+        <span className="text-xs font-medium text-[var(--text-muted)]">來源</span>
         {SOURCES.map((s) => (
           <button
             key={s}
@@ -128,7 +132,23 @@ function JobsPage() {
                 : 'bg-[var(--bg-surface)] border border-[var(--border)] text-[var(--text-muted)] hover:border-[var(--accent)]'
             }`}
           >
-            {s === '全部' ? '全部' : s === 'linkedin' ? 'LinkedIn' : 'Indeed'}
+            {s === '全部' ? '全部' : s === 'linkedin' ? 'LinkedIn' : s === 'indeed' ? 'Indeed' : '104'}
+          </button>
+        ))}
+      </div>
+      <div className="mb-4 flex flex-wrap items-center gap-2">
+        <span className="text-xs font-medium text-[var(--text-muted)]">產業</span>
+        {INDUSTRIES.map((ind) => (
+          <button
+            key={ind}
+            onClick={() => setIndustry(ind)}
+            className={`rounded-full px-3 py-1 text-xs font-medium transition ${
+              industry === ind
+                ? 'bg-[var(--accent-soft)] border border-[var(--accent)] text-[var(--text-heading)]'
+                : 'bg-[var(--bg-surface)] border border-[var(--border)] text-[var(--text-muted)] hover:border-[var(--accent)]'
+            }`}
+          >
+            {ind}
           </button>
         ))}
       </div>
