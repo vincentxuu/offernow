@@ -71,9 +71,10 @@ function JobsPage() {
     if (industry !== '全部') {
       const indKey = industry.replace('業', '')
       list = list.filter((j) => {
-        const ci = companyMap[j.stock_id]?.industry || ''
+        const ci = companyMap[j.stock_id]?.industry
+        if (!ci) return false
         const ciKey = ci.replace('業', '')
-        return ci.includes(indKey) || indKey.includes(ciKey) || ci === industry
+        return ci.includes(indKey) || indKey.includes(ciKey)
       })
     }
 
