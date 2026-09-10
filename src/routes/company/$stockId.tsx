@@ -49,10 +49,10 @@ function CompanyDetailPage() {
   return (
     <main className="page-wrap px-4 pb-12 pt-6">
       <div className="mb-6 flex items-center gap-4">
-        <Link to="/" className="inline-flex items-center gap-1 text-sm font-medium text-[var(--accent)] no-underline hover:underline">
+        <Link to="/" className="inline-flex items-center gap-1 text-sm font-medium text-[var(--text-body)] no-underline hover:text-[var(--accent)]">
           ← 返回公司列表
         </Link>
-        <Link to="/salary" className="inline-flex items-center gap-1 text-sm font-medium text-[var(--text-muted)] no-underline hover:text-[var(--accent)]">
+        <Link to="/salary" className="inline-flex items-center gap-1 text-sm font-medium text-[var(--text-body)] no-underline hover:text-[var(--accent)]">
           薪資排行 →
         </Link>
       </div>
