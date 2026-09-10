@@ -13,7 +13,7 @@
   --bg-elevated: #e4ece8;
   --text-heading: #00362e;
   --text-body: #3a4f4d;
-  --text-muted: #5a716c;
+  --text-muted: #4a635e;
   --accent: #faae2b;
   --accent-hover: #e89b1c;
   --accent-soft: rgba(250, 174, 43, 0.12);
@@ -61,7 +61,7 @@
   --bg-elevated: #1a3630;
   --text-heading: #e8f0ed;
   --text-body: #9fb3af;
-  --text-muted: #6b8580;
+  --text-muted: #849e99;
   --accent: #faae2b;
   --accent-hover: #ffc45c;
   --accent-soft: rgba(250, 174, 43, 0.15);
@@ -150,16 +150,14 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-a {
-  text-decoration: none;
-}
-
-a:not(.btn) {
-  color: var(--accent);
-}
-
-a:not(.btn):hover {
-  color: var(--accent-hover);
+@layer base {
+  a {
+    color: var(--accent);
+    text-decoration: none;
+  }
+  a:hover {
+    color: var(--accent-hover);
+  }
 }
 
 
