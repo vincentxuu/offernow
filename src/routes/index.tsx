@@ -1,10 +1,10 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useState, useMemo } from 'react'
 import Fuse from 'fuse.js'
-import { getCompanies, INDUSTRIES } from '#/lib/data'
+import { getCompanies, INDUSTRIES } from '#/utils/companies.functions'
 import { CompanyCard } from '#/components/CompanyCard'
 import { Stat } from '#/components/Stat'
-import type { Company } from '#/lib/types'
+import type { Company } from '#/utils/types'
 
 export const Route = createFileRoute('/')({
   loader: () => getCompanies(),

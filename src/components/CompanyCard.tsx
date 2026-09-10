@@ -1,7 +1,7 @@
 import { Link } from '@tanstack/react-router'
 import { Badge } from './Badge'
 import { MetricBox } from './MetricBox'
-import type { Company } from '#/lib/types'
+import type { Company } from '#/utils/types'
 
 function formatMarketCap(cap: number | null): string {
   if (!cap) return '—'

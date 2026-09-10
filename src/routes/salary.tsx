@@ -1,8 +1,8 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { useState, useMemo } from 'react'
-import { getCompanies, INDUSTRIES } from '#/lib/data'
+import { getCompanies, INDUSTRIES } from '#/utils/companies.functions'
 import { Badge } from '#/components/Badge'
-import type { Company } from '#/lib/types'
+import type { Company } from '#/utils/types'
 
 export const Route = createFileRoute('/salary')({
   loader: () => getCompanies(),

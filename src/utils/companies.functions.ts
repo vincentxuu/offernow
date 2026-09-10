@@ -1,5 +1,5 @@
 import { createServerFn } from '@tanstack/react-start'
-import type { Company, Job } from './types'
+import type { Company } from './types'
 
 type D1Database = {
   prepare: (sql: string) => {
@@ -59,19 +59,6 @@ export const getCompanyByStockId = createServerFn()
     const all = await loadFromJSON()
     return all.find((c) => c.stock_id === stockId) ?? null
   })
-
-async function loadJobsFromJSON(): Promise<Job[]> {
-  try {
-    const { default: data } = await import('../../scripts/data/jobs.json')
-    return data as Job[]
-  } catch {
-    return []
-  }
-}
-
-export const getJobs = createServerFn().handler(async (): Promise<Job[]> => {
-  return loadJobsFromJSON()
-})
 
 export const INDUSTRIES = [
   '全部',

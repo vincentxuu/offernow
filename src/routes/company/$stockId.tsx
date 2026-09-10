@@ -1,6 +1,9 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
-import { getCompanyByStockId } from '#/lib/data'
+import { getCompanyByStockId } from '#/utils/companies.functions'
 import { Badge } from '#/components/Badge'
+import { Section } from '#/components/Section'
+import { BigMetric } from '#/components/BigMetric'
+import { InfoRow } from '#/components/InfoRow'
 
 export const Route = createFileRoute('/company/$stockId')({
   loader: ({ params }) => getCompanyByStockId({ data: params.stockId }),
@@ -250,33 +253,3 @@ function CompanyDetailPage() {
   )
 }
 
-function Section({ title, children }: { title: string; children: React.ReactNode }) {
-  return (
-    <section className="rounded-xl border border-[var(--border)] bg-[var(--bg-surface)] p-5 shadow-[var(--shadow)]">
-      <h2 className="mb-4 font-display text-lg font-bold text-[var(--text-heading)]">{title}</h2>
-      {children}
-    </section>
-  )
-}
-
-function BigMetric({ label, value, badge, note }: { label: string; value: string; badge?: React.ReactNode; note?: string }) {
-  return (
-    <div className="rounded-lg bg-[var(--bg-elevated)] p-4">
-      <div className="mb-1 text-xs font-medium uppercase tracking-wider text-[var(--text-muted)]">{label}</div>
-      <div className="font-display text-2xl font-bold tabular-nums text-[var(--text-heading)]">{value}</div>
-      <div className="mt-1 flex items-center gap-2">
-        {badge}
-        {note && <span className="text-xs text-[var(--text-muted)]">{note}</span>}
-      </div>
-    </div>
-  )
-}
-
-function InfoRow({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="flex justify-between gap-4 border-b border-[var(--border)] pb-2 last:border-0 last:pb-0">
-      <span className="flex-shrink-0 text-xs text-[var(--text-muted)]">{label}</span>
-      <span className="text-right text-xs font-medium text-[var(--text-heading)]">{value}</span>
-    </div>
-  )
-}

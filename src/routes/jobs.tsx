@@ -1,8 +1,9 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { useState, useMemo } from 'react'
 import Fuse from 'fuse.js'
-import { getJobs, getCompanies } from '#/lib/data'
-import type { Job, Company } from '#/lib/types'
+import { getJobs } from '#/utils/jobs.functions'
+import { getCompanies } from '#/utils/companies.functions'
+import type { Job, Company } from '#/utils/types'
 
 export const Route = createFileRoute('/jobs')({
   loader: async () => {
