@@ -159,6 +159,7 @@ a:hover {
   color: var(--accent-hover);
 }
 
+
 .page-wrap {
   width: min(1120px, calc(100% - 2rem));
   margin-inline: auto;
