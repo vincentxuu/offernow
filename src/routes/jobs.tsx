@@ -72,7 +72,8 @@ function JobsPage() {
       const indKey = industry.replace('業', '')
       list = list.filter((j) => {
         const ci = companyMap[j.stock_id]?.industry || ''
-        return ci.includes(indKey) || ci === industry
+        const ciKey = ci.replace('業', '')
+        return ci.includes(indKey) || indKey.includes(ciKey) || ci === industry
       })
     }
 
