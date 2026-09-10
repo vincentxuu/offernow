@@ -148,7 +148,12 @@ function JobRow({ job }: { job: Job }) {
       : null
 
   return (
-    <div className="flex items-start gap-3 rounded-lg border border-[var(--border)] bg-[var(--bg-surface)] px-4 py-3 transition hover:border-[var(--accent)] hover:shadow-[var(--shadow)]">
+    <a
+      href={job.job_url}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="flex items-start gap-3 rounded-lg border border-[var(--border)] bg-[var(--bg-surface)] px-4 py-3 no-underline transition hover:border-[var(--accent)] hover:shadow-[var(--shadow)]"
+    >
       {/* Company initial */}
       <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg bg-[var(--bg-elevated)] text-xs font-bold text-[var(--text-heading)]">
         {job.company_name.charAt(0)}
@@ -158,19 +163,15 @@ function JobRow({ job }: { job: Job }) {
       <div className="min-w-0 flex-1">
         <div className="flex items-start justify-between gap-2">
           <div className="min-w-0">
-            <a
-              href={job.job_url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-sm font-semibold text-[var(--text-heading)] hover:text-[var(--accent)]"
-            >
+            <span className="text-sm font-semibold text-[var(--text-heading)]">
               {job.title}
-            </a>
+            </span>
             <div className="mt-0.5 flex flex-wrap items-center gap-x-2 gap-y-0.5 text-xs text-[var(--text-muted)]">
               <Link
                 to="/company/$stockId"
                 params={{ stockId: job.stock_id }}
                 className="font-medium text-[var(--text-body)] hover:text-[var(--text-heading)]"
+                onClick={(e) => e.stopPropagation()}
               >
                 {job.company_name}
               </Link>
@@ -191,7 +192,7 @@ function JobRow({ job }: { job: Job }) {
           </div>
         </div>
       </div>
-    </div>
+    </a>
   )
 }
 
