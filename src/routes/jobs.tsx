@@ -16,6 +16,17 @@ export const Route = createFileRoute('/jobs')({
 })
 
 const SOURCES = ['全部', '104', 'linkedin', 'indeed'] as const
+const CITIES = ['全部', '台北', '新北', '新竹', '桃園', '台中', '台南', '高雄'] as const
+
+const CITY_ALIASES: Record<string, string[]> = {
+  '台北': ['台北', 'Taipei', 'TPE'],
+  '新北': ['新北', 'New Taipei', 'TPQ', '三重', '板橋', '中和', '永和', '土城', '汐止', '林口'],
+  '新竹': ['新竹', 'Hsinchu', 'Zhubei', '竹北'],
+  '桃園': ['桃園', 'Taoyuan'],
+  '台中': ['台中', 'Taichung'],
+  '台南': ['台南', 'Tainan'],
+  '高雄': ['高雄', 'Kaohsiung'],
+}
 
 type CompanyGroup = {
   stockId: string
@@ -28,6 +39,7 @@ function JobsPage() {
   const [search, setSearch] = useState('')
   const [source, setSource] = useState<string>('全部')
   const [industry, setIndustry] = useState<string>('全部')
+  const [city, setCity] = useState<string>('全部')
 
   const fuse = useMemo(
     () => new Fuse(jobs, {
@@ -68,6 +80,13 @@ function JobsPage() {
     }
 
     if (source !== '全部') list = list.filter((j) => j.source === source)
+    if (city !== '全部') {
+      const aliases = CITY_ALIASES[city] || [city]
+      list = list.filter((j) => {
+        const loc = (j.location || '').toLowerCase()
+        return aliases.some((a) => loc.includes(a.toLowerCase()))
+      })
+    }
     if (industry !== '全部') {
       const indKey = industry.replace('業', '')
       list = list.filter((j) => {
@@ -97,7 +116,7 @@ function JobsPage() {
     })
 
     return result
-  }, [jobs, search, source, industry, fuse, companyMap])
+  }, [jobs, search, source, industry, city, fuse, companyMap])
 
   const totalJobs = groups.reduce((s, g) => s + g.jobs.length, 0)
 
@@ -141,6 +160,22 @@ function JobsPage() {
             }`}
           >
             {s === '全部' ? '全部' : s === 'linkedin' ? 'LinkedIn' : s === 'indeed' ? 'Indeed' : '104'}
+          </button>
+        ))}
+      </div>
+      <div className="mb-3 flex flex-wrap items-center gap-2">
+        <span className="text-xs font-medium text-[var(--text-muted)]">地區</span>
+        {CITIES.map((c) => (
+          <button
+            key={c}
+            onClick={() => setCity(c)}
+            className={`rounded-full px-3 py-1 text-xs font-medium transition ${
+              city === c
+                ? 'bg-[var(--accent-soft)] border border-[var(--accent)] text-[var(--text-heading)]'
+                : 'bg-[var(--bg-surface)] border border-[var(--border)] text-[var(--text-muted)] hover:border-[var(--accent)]'
+            }`}
+          >
+            {c}
           </button>
         ))}
       </div>
@@ -210,7 +245,10 @@ function CompanyJobGroup({ group }: { group: CompanyGroup }) {
         </div>
         <div className="flex flex-shrink-0 items-center gap-2">
           {salaryWan && (
-            <span className="text-sm font-bold tabular-nums text-[var(--accent)]">{salaryWan}萬</span>
+            <span className="text-sm tabular-nums text-[var(--accent)]">
+              <span className="hidden text-[10px] font-normal text-[var(--text-muted)] sm:inline">年薪中位 </span>
+              <span className="font-bold">{salaryWan}萬</span>
+            </span>
           )}
           {changePct !== null && changePct !== undefined && (
             <span className={`rounded px-1 py-px text-[10px] font-semibold ${
@@ -220,7 +258,7 @@ function CompanyJobGroup({ group }: { group: CompanyGroup }) {
                   ? 'bg-[var(--red-soft)] text-[var(--red-negative)]'
                   : 'text-[var(--text-muted)]'
             }`}>
-              {changePct > 0 ? '▲' : changePct < 0 ? '▼' : ''}{Math.abs(changePct).toFixed(1)}%
+              {changePct > 0 ? '▲' : changePct < 0 ? '▼' : ''}年增{Math.abs(changePct).toFixed(1)}%
             </span>
           )}
           <span className="text-xs text-[var(--text-muted)]">{jobs.length} 缺</span>
