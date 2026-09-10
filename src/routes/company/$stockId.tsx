@@ -98,7 +98,7 @@ function CompanyDetailPage() {
             href={c.encoded_cust_no_104 ? `https://www.104.com.tw/company/${c.encoded_cust_no_104}` : `https://www.104.com.tw/company/search?keyword=${encodeURIComponent(c.short_name || c.name)}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 rounded-lg bg-[var(--accent)] px-4 py-2.5 text-sm font-semibold text-[var(--bg)] no-underline transition hover:bg-[var(--accent-hover)]"
+            className="inline-flex items-center gap-2 rounded-lg bg-[var(--accent)] px-4 py-2.5 text-sm font-semibold text-[#1a2e1a] no-underline transition hover:bg-[var(--accent-hover)]"
           >
             在 104 上查看 {c.job_count_104.toLocaleString()} 個職缺 →
           </a>
