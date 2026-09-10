@@ -49,6 +49,7 @@ def main():
             "salary_median_change_pct",
             "employee_count", "eps", "salary_year",
             "job_count_104", "encoded_cust_no_104",
+            "job_count_linkedin",
             "ai_insight",
         ]
         vals = [
@@ -73,6 +74,7 @@ def main():
             sql_val(c.get("salary_year")),
             sql_val(c.get("job_count_104")),
             sql_val(c.get("encoded_cust_no_104")),
+            sql_val(c.get("job_count_linkedin")),
             sql_val(c.get("ai_insight")),
         ]
         lines.append(

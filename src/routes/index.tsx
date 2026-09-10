@@ -1,8 +1,10 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useState, useMemo } from 'react'
+import Fuse from 'fuse.js'
 import { getCompanies, INDUSTRIES } from '#/lib/data'
 import { CompanyCard } from '#/components/CompanyCard'
 import { Stat } from '#/components/Stat'
+import type { Company } from '#/lib/types'
 
 export const Route = createFileRoute('/')({
   loader: () => getCompanies(),
@@ -19,32 +21,44 @@ function HomePage() {
   const totalCompanies = companies.length
   const totalWithSalary = companies.filter((c) => c.salary_median_k !== null).length
 
+  const fuse = useMemo(
+    () =>
+      new Fuse(companies.filter((c) => c.salary_median_k !== null), {
+        keys: [
+          { name: 'short_name', weight: 3 },
+          { name: 'name', weight: 2 },
+          { name: 'stock_id', weight: 2 },
+          { name: 'industry', weight: 1 },
+        ],
+        threshold: 0.3,
+        includeScore: true,
+      }),
+    [companies],
+  )
+
   const filtered = useMemo(() => {
-    let list = companies.filter((c) => c.salary_median_k !== null)
+    let list: Company[]
+
+    if (search.trim()) {
+      list = fuse.search(search.trim()).map((r) => r.item)
+    } else {
+      list = companies.filter((c) => c.salary_median_k !== null)
+    }
 
     if (industry !== '全部') {
       list = list.filter((c) => c.industry === industry)
     }
 
-    if (search.trim()) {
-      const q = search.trim().toLowerCase()
-      list = list.filter(
-        (c) =>
-          c.name.toLowerCase().includes(q) ||
-          c.short_name.toLowerCase().includes(q) ||
-          c.stock_id.includes(q) ||
-          c.industry.toLowerCase().includes(q),
-      )
+    if (!search.trim()) {
+      list.sort((a, b) => {
+        if (sortBy === 'salary') return (b.salary_median_k ?? 0) - (a.salary_median_k ?? 0)
+        if (sortBy === 'eps') return (b.eps ?? 0) - (a.eps ?? 0)
+        return a.short_name.localeCompare(b.short_name, 'zh-TW')
+      })
     }
 
-    list.sort((a, b) => {
-      if (sortBy === 'salary') return (b.salary_median_k ?? 0) - (a.salary_median_k ?? 0)
-      if (sortBy === 'eps') return (b.eps ?? 0) - (a.eps ?? 0)
-      return a.short_name.localeCompare(b.short_name, 'zh-TW')
-    })
-
     return list
-  }, [companies, search, industry, sortBy])
+  }, [companies, search, industry, sortBy, fuse])
 
   return (
     <main className="page-wrap px-4 pb-12 pt-8">

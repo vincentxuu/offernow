@@ -54,9 +54,10 @@ export function CompanyCard({ company: c }: { company: Company }) {
         </div>
       )}
 
-      {(c.job_count_104 ?? 0) > 0 && (
-        <div className="mt-2 text-xs font-medium text-[var(--accent)]">
-          104 上有 {c.job_count_104!.toLocaleString()} 個職缺 →
+      {((c.job_count_104 ?? 0) > 0 || (c.job_count_linkedin ?? 0) > 0) && (
+        <div className="mt-2 flex flex-wrap gap-x-3 text-xs font-medium text-[var(--accent)]">
+          {(c.job_count_104 ?? 0) > 0 && <span>104: {c.job_count_104!.toLocaleString()} 缺</span>}
+          {(c.job_count_linkedin ?? 0) > 0 && <span>LinkedIn: {c.job_count_linkedin!.toLocaleString()}+ 缺</span>}
         </div>
       )}
     </Link>
