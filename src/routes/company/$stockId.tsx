@@ -5,6 +5,17 @@ import { Badge } from '#/components/Badge'
 export const Route = createFileRoute('/company/$stockId')({
   loader: ({ params }) => getCompanyByStockId({ data: params.stockId }),
   component: CompanyDetailPage,
+  head: ({ loaderData }) => {
+    const c = loaderData
+    if (!c) return { meta: [{ title: '找不到公司 | OfferNow' }] }
+    const salaryStr = c.salary_median_k ? `薪資中位數 ${(c.salary_median_k / 10).toFixed(1)} 萬` : ''
+    return {
+      meta: [
+        { title: `${c.short_name || c.name}（${c.stock_id}）${salaryStr ? ` · ${salaryStr}` : ''} | OfferNow` },
+        { name: 'description', content: `${c.name}（${c.stock_id}）的薪資、EPS、員工數等公司全貌資訊。${salaryStr}。` },
+      ],
+    }
+  },
 })
 
 function CompanyDetailPage() {
@@ -37,9 +48,14 @@ function CompanyDetailPage() {
 
   return (
     <main className="page-wrap px-4 pb-12 pt-6">
-      <Link to="/" className="mb-6 inline-flex items-center gap-1 text-sm font-medium text-[var(--accent)] no-underline hover:underline">
-        ← 返回公司列表
-      </Link>
+      <div className="mb-6 flex items-center gap-4">
+        <Link to="/" className="inline-flex items-center gap-1 text-sm font-medium text-[var(--accent)] no-underline hover:underline">
+          ← 返回公司列表
+        </Link>
+        <Link to="/salary" className="inline-flex items-center gap-1 text-sm font-medium text-[var(--text-muted)] no-underline hover:text-[var(--accent)]">
+          薪資排行 →
+        </Link>
+      </div>
 
       {/* Company Header */}
       <div className="mb-8 flex items-start gap-4">

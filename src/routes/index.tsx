@@ -14,6 +14,7 @@ function HomePage() {
   const [search, setSearch] = useState('')
   const [industry, setIndustry] = useState('全部')
   const [sortBy, setSortBy] = useState<'salary' | 'name' | 'eps'>('salary')
+  const [showCount, setShowCount] = useState(60)
 
   const totalCompanies = companies.length
   const totalWithSalary = companies.filter((c) => c.salary_median_k !== null).length
@@ -88,7 +89,7 @@ function HomePage() {
         {INDUSTRIES.map((ind) => (
           <button
             key={ind}
-            onClick={() => setIndustry(ind)}
+            onClick={() => { setIndustry(ind); setShowCount(60) }}
             className={`rounded-full px-3 py-1 text-xs font-medium transition ${
               industry === ind
                 ? 'border border-[var(--accent)] bg-[var(--accent-soft)] text-[var(--text-heading)]'
@@ -107,15 +108,20 @@ function HomePage() {
       </p>
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {filtered.slice(0, 60).map((c) => (
+        {filtered.slice(0, showCount).map((c) => (
           <CompanyCard key={c.stock_id} company={c} />
         ))}
       </div>
 
-      {filtered.length > 60 && (
-        <p className="mt-6 text-center text-sm text-[var(--text-muted)]">
-          顯示前 60 筆，共 {filtered.length} 家公司。使用搜尋或篩選縮小範圍。
-        </p>
+      {filtered.length > showCount && (
+        <div className="mt-6 text-center">
+          <button
+            onClick={() => setShowCount((n) => n + 60)}
+            className="rounded-xl border border-[var(--accent)] bg-[var(--accent-soft)] px-6 py-2.5 text-sm font-semibold text-[var(--text-heading)] transition hover:bg-[var(--accent)] hover:text-[#00473e]"
+          >
+            載入更多（還有 {filtered.length - showCount} 家）
+          </button>
+        </div>
       )}
 
       {filtered.length === 0 && (
