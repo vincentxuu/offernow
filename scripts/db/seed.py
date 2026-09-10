@@ -31,6 +31,27 @@ def sql_val(val) -> str:
     return escape_sql(str(val))
 
 
+COLS = [
+    "stock_id", "name", "short_name", "industry", "market",
+    "chairman", "gm", "address", "phone",
+    "established", "listed_date", "capital", "tax_id", "shares_outstanding",
+    "salary_median_k", "salary_mean_k",
+    "salary_median_prev_k", "salary_mean_prev_k",
+    "salary_median_change_pct", "salary_mean_change_pct",
+    "employee_count", "eps", "salary_year",
+    "salary_male_median_k", "salary_female_median_k",
+    "salary_male_mean_k", "salary_female_mean_k",
+    "industry_salary_avg_k", "industry_avg_eps", "salary_vs_industry_pct",
+    "flag_low_salary", "flag_eps_high_salary_low", "flag_eps_up_salary_down",
+    "salary_explanation", "improvement_measures",
+    "revenue_latest", "revenue_yoy_pct", "revenue_period",
+    "market_cap",
+    "job_count_104", "encoded_cust_no_104",
+    "job_count_linkedin",
+    "ai_insight",
+]
+
+
 def main():
     with open(DATA_FILE, encoding="utf-8") as f:
         companies = json.load(f)
@@ -41,44 +62,9 @@ def main():
     lines = [schema_sql, "", "-- Seed data", ""]
 
     for c in companies:
-        cols = [
-            "stock_id", "name", "short_name", "industry", "market",
-            "chairman", "gm", "address", "phone",
-            "established", "listed_date", "capital", "tax_id",
-            "salary_median_k", "salary_mean_k",
-            "salary_median_change_pct",
-            "employee_count", "eps", "salary_year",
-            "job_count_104", "encoded_cust_no_104",
-            "job_count_linkedin",
-            "ai_insight",
-        ]
-        vals = [
-            sql_val(c.get("stock_id")),
-            sql_val(c.get("name")),
-            sql_val(c.get("short_name")),
-            sql_val(c.get("industry")),
-            sql_val(c.get("market")),
-            sql_val(c.get("chairman")),
-            sql_val(c.get("gm")),
-            sql_val(c.get("address")),
-            sql_val(c.get("phone")),
-            sql_val(c.get("established")),
-            sql_val(c.get("listed_date")),
-            sql_val(c.get("capital")),
-            sql_val(c.get("tax_id")),
-            sql_val(c.get("salary_median_k")),
-            sql_val(c.get("salary_mean_k")),
-            sql_val(c.get("salary_median_change_pct")),
-            sql_val(c.get("employee_count")),
-            sql_val(c.get("eps")),
-            sql_val(c.get("salary_year")),
-            sql_val(c.get("job_count_104")),
-            sql_val(c.get("encoded_cust_no_104")),
-            sql_val(c.get("job_count_linkedin")),
-            sql_val(c.get("ai_insight")),
-        ]
+        vals = [sql_val(c.get(col)) for col in COLS]
         lines.append(
-            f"INSERT OR REPLACE INTO company_profiles ({', '.join(cols)}) VALUES ({', '.join(vals)});"
+            f"INSERT OR REPLACE INTO company_profiles ({', '.join(COLS)}) VALUES ({', '.join(vals)});"
         )
 
     with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
