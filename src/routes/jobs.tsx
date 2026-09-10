@@ -41,9 +41,30 @@ function JobsPage() {
   )
 
   const groups = useMemo(() => {
-    let list: Job[] = search.trim()
-      ? fuse.search(search.trim()).map((r) => r.item)
-      : [...jobs]
+    const q = search.trim().toLowerCase()
+    let list: Job[]
+
+    if (q) {
+      const wordBoundary = (text: string, term: string) => {
+        const i = text.toLowerCase().indexOf(term)
+        if (i === -1) return false
+        const before = i === 0 || /[\s\-_/(),.]/.test(text[i - 1])
+        const after = i + term.length >= text.length || /[\s\-_/(),.]/.test(text[i + term.length])
+        return before && after
+      }
+
+      if (q.length <= 3) {
+        list = jobs.filter(
+          (j) =>
+            wordBoundary(j.title, q) ||
+            wordBoundary(j.company_name, q),
+        )
+      } else {
+        list = fuse.search(q).map((r) => r.item)
+      }
+    } else {
+      list = [...jobs]
+    }
 
     if (source !== '全部') list = list.filter((j) => j.source === source)
 
