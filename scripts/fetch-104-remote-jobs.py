@@ -50,12 +50,28 @@ def main():
         Stealth().apply_stealth_sync(context)
         page = context.new_page()
 
-        print("Navigating to 104 to get Cloudflare cookies...")
+        print("1. Passing Cloudflare...")
         page.goto("https://www.104.com.tw/jobs/search/?zone=16", wait_until="domcontentloaded", timeout=60000)
         time.sleep(10)
-        # 等 Cloudflare challenge 完成
-        page.wait_for_timeout(15000)
-        print("  Ready!")
+        print(f"   Title: {page.title()}")
+
+        if "moment" in page.title().lower() or not page.title():
+            print("   Still on challenge, waiting longer...")
+            time.sleep(15)
+            print(f"   Title: {page.title()}")
+
+        if "moment" in page.title().lower() or not page.title():
+            print("   Still blocked, trying again...")
+            page.reload(wait_until="domcontentloaded", timeout=60000)
+            time.sleep(15)
+            print(f"   Title: {page.title()}")
+
+        if "104" not in page.title():
+            print("   ❌ Failed to pass Cloudflare. Exiting.")
+            browser.close()
+            return
+
+        print("   ✅ Cloudflare passed!")
 
         for keyword in KEYWORDS:
             print(f"\n--- Searching: {keyword} ---")
