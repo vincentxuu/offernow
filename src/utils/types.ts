@@ -36,6 +36,19 @@ export type Company = {
   job_count_trend: string | null
 }
 
+export type ScoreDimension = {
+  name: string
+  icon: string
+  score: number
+  detail: string
+}
+
+export type AttractivenessScore = {
+  overall: number
+  grade: 'A' | 'B' | 'C' | 'D' | 'F'
+  dimensions: ScoreDimension[]
+}
+
 export type Job = {
   id: number
   stock_id: string

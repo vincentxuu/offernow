@@ -2,6 +2,15 @@ import { Link } from '@tanstack/react-router'
 import { Badge } from './Badge'
 import { MetricBox } from './MetricBox'
 import type { Company } from '#/utils/types'
+import { calculateAttractivenessScore } from '#/utils/companies.functions'
+
+const GRADE_COLORS: Record<string, { bg: string; text: string }> = {
+  A: { bg: 'bg-[var(--green-soft)]', text: 'text-[var(--green-positive)]' },
+  B: { bg: 'bg-[var(--accent-soft)]', text: 'text-[var(--accent)]' },
+  C: { bg: 'bg-[var(--bg-elevated)]', text: 'text-[var(--text-muted)]' },
+  D: { bg: 'bg-[var(--red-soft)]', text: 'text-[var(--red-negative)]' },
+  F: { bg: 'bg-[var(--red-soft)]', text: 'text-[var(--red-negative)]' },
+}
 
 function formatMarketCap(cap: number | null): string {
   if (!cap) return '—'
@@ -23,6 +32,8 @@ export function CompanyCard({ company: c }: { company: Company }) {
   const initial = (c.short_name || c.name).charAt(0)
   const marketLabel = c.market === 'listed' ? '上市' : '上櫃'
   const vsIndustry = c.salary_vs_industry_pct
+  const score = calculateAttractivenessScore(c)
+  const gradeColor = GRADE_COLORS[score.grade] ?? GRADE_COLORS.C
 
   return (
     <Link
@@ -34,9 +45,14 @@ export function CompanyCard({ company: c }: { company: Company }) {
         <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg bg-[var(--bg-elevated)] font-display text-sm font-bold text-[var(--text-heading)]">
           {initial}
         </div>
-        <div className="min-w-0">
-          <div className="truncate font-display text-sm font-bold text-[var(--text-heading)]">
-            {c.short_name || c.name}
+        <div className="min-w-0 flex-1">
+          <div className="flex items-center gap-2">
+            <span className="truncate font-display text-sm font-bold text-[var(--text-heading)]">
+              {c.short_name || c.name}
+            </span>
+            <span className={`flex-shrink-0 rounded px-1.5 py-0.5 text-[10px] font-bold ${gradeColor.bg} ${gradeColor.text}`}>
+              {score.grade}
+            </span>
           </div>
           <div className="text-xs text-[var(--text-muted)]">
             {c.industry} · {marketLabel} · {c.stock_id}

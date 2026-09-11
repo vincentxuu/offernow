@@ -1,9 +1,56 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
-import { getCompanyByStockId } from '#/utils/companies.functions'
+import { getCompanyByStockId, calculateAttractivenessScore } from '#/utils/companies.functions'
 import { Badge } from '#/components/Badge'
 import { Section } from '#/components/Section'
 import { BigMetric } from '#/components/BigMetric'
 import { InfoRow } from '#/components/InfoRow'
+import type { AttractivenessScore } from '#/utils/types'
+
+const GRADE_CONFIG: Record<string, { label: string; color: string; bg: string }> = {
+  A: { label: '優秀', color: 'text-[var(--green-positive)]', bg: 'bg-[var(--green-soft)]' },
+  B: { label: '良好', color: 'text-[var(--accent)]', bg: 'bg-[var(--accent-soft)]' },
+  C: { label: '普通', color: 'text-[var(--text-muted)]', bg: 'bg-[var(--bg-elevated)]' },
+  D: { label: '偏低', color: 'text-[var(--red-negative)]', bg: 'bg-[var(--red-soft)]' },
+  F: { label: '不佳', color: 'text-[var(--red-negative)]', bg: 'bg-[var(--red-soft)]' },
+}
+
+function ScoreBar({ score }: { score: number }) {
+  const barColor = score >= 70 ? 'var(--green-positive)' : score >= 45 ? 'var(--accent)' : 'var(--red-negative)'
+  return (
+    <div className="h-2 w-full rounded-full bg-[var(--bg-elevated)]">
+      <div className="h-2 rounded-full transition-all" style={{ width: `${score}%`, backgroundColor: barColor }} />
+    </div>
+  )
+}
+
+function ScoreCard({ score }: { score: AttractivenessScore }) {
+  const config = GRADE_CONFIG[score.grade] ?? GRADE_CONFIG.C
+  return (
+    <Section title="公司吸引力評分">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:gap-6">
+        <div className={`flex flex-shrink-0 flex-col items-center justify-center rounded-xl ${config.bg} px-5 py-4`}>
+          <div className={`font-display text-4xl font-extrabold ${config.color}`}>{score.grade}</div>
+          <div className={`text-xs font-semibold ${config.color}`}>{config.label}</div>
+          <div className="mt-1 text-[10px] text-[var(--text-muted)]">{score.overall}/100</div>
+        </div>
+        <div className="flex-1 space-y-3">
+          {score.dimensions.map((d) => (
+            <div key={d.name}>
+              <div className="mb-1 flex items-center justify-between">
+                <span className="text-xs font-semibold text-[var(--text-heading)]">
+                  {d.icon} {d.name}
+                </span>
+                <span className="text-xs text-[var(--text-muted)]">{d.score}</span>
+              </div>
+              <ScoreBar score={d.score} />
+              <div className="mt-0.5 text-[10px] text-[var(--text-muted)]">{d.detail}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </Section>
+  )
+}
 
 export const Route = createFileRoute('/company/$stockId')({
   loader: ({ params }) => getCompanyByStockId({ data: params.stockId }),
@@ -124,6 +171,11 @@ function CompanyDetailPage() {
             )}
           </div>
         </div>
+      </div>
+
+      {/* Attractiveness Score */}
+      <div className="mb-6">
+        <ScoreCard score={calculateAttractivenessScore(c)} />
       </div>
 
       {/* Growth + Hiring Signal */}
