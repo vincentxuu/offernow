@@ -15,7 +15,17 @@ export const Route = createFileRoute('/jobs')({
   component: JobsPage,
 })
 
-const SOURCES = ['全部', '104', 'linkedin', 'indeed'] as const
+const SOURCES = [
+  '全部',
+  '104',
+  'linkedin',
+  'indeed',
+  'yourator',
+  'hackernews',
+  'arcdev',
+  'wwr',
+  'remoteok',
+] as const
 const JOB_TYPES = [
   '全部',
   '遠端/混合',
@@ -172,6 +182,8 @@ function JobsPage() {
     let list: Job[]
 
     if (q) {
+      const isCJK = /[一-鿿㐀-䶿぀-ゟ゠-ヿ가-힯]/.test(q)
+
       const wordBoundary = (text: string, term: string) => {
         const i = text.toLowerCase().indexOf(term)
         if (i === -1) return false
@@ -182,10 +194,12 @@ function JobsPage() {
         return before && after
       }
 
+      const containsText = (text: string, term: string) =>
+        text.toLowerCase().includes(term)
+
       if (q.length <= 3) {
-        list = jobs.filter(
-          (j) => wordBoundary(j.title, q) || wordBoundary(j.company_name, q),
-        )
+        const match = isCJK ? containsText : wordBoundary
+        list = jobs.filter((j) => match(j.title, q) || match(j.company_name, q))
       } else {
         list = fuse.search(q).map((r) => r.item)
       }
@@ -350,13 +364,19 @@ function JobsPage() {
         >
           {SOURCES.map((s) => (
             <option key={s} value={s}>
-              {s === '全部'
-                ? '所有來源'
-                : s === 'linkedin'
-                  ? 'LinkedIn'
-                  : s === 'indeed'
-                    ? 'Indeed'
-                    : s}
+              {
+                {
+                  全部: '所有來源',
+                  '104': '104',
+                  linkedin: 'LinkedIn',
+                  indeed: 'Indeed',
+                  yourator: 'Yourator',
+                  hackernews: 'HN Hiring',
+                  arcdev: 'Arc.dev',
+                  wwr: 'WWR',
+                  remoteok: 'RemoteOK',
+                }[s]
+              }
             </option>
           ))}
         </select>
@@ -571,18 +591,27 @@ function CompanyJobGroup({ group }: { group: CompanyGroup }) {
   )
 }
 
+const SOURCE_STYLES: Record<
+  string,
+  { bg: string; text: string; label: string }
+> = {
+  linkedin: { bg: 'bg-[#0a66c21a]', text: 'text-[#0a66c2]', label: 'LinkedIn' },
+  indeed: { bg: 'bg-[#6c3baa1a]', text: 'text-[#6c3baa]', label: 'Indeed' },
+  yourator: { bg: 'bg-[#00b8941a]', text: 'text-[#00b894]', label: 'Yourator' },
+  hackernews: { bg: 'bg-[#ff66001a]', text: 'text-[#ff6600]', label: 'HN' },
+  arcdev: { bg: 'bg-[#6c5ce71a]', text: 'text-[#6c5ce7]', label: 'Arc' },
+  wwr: { bg: 'bg-[#2d6cdf1a]', text: 'text-[#2d6cdf]', label: 'WWR' },
+  remoteok: { bg: 'bg-[#0d9b6e1a]', text: 'text-[#0d9b6e]', label: 'RemoteOK' },
+}
+
 function SourceBadge({ source }: { source: string }) {
-  if (source === 'linkedin') {
+  const style = SOURCE_STYLES[source]
+  if (style) {
     return (
-      <span className="rounded px-1.5 py-0.5 text-[10px] font-semibold bg-[#0a66c21a] text-[#0a66c2]">
-        LinkedIn
-      </span>
-    )
-  }
-  if (source === 'indeed') {
-    return (
-      <span className="rounded px-1.5 py-0.5 text-[10px] font-semibold bg-[#6c3baa1a] text-[#6c3baa]">
-        Indeed
+      <span
+        className={`rounded px-1.5 py-0.5 text-[10px] font-semibold ${style.bg} ${style.text}`}
+      >
+        {style.label}
       </span>
     )
   }
