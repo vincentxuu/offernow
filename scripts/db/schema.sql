@@ -108,3 +108,18 @@ CREATE TABLE jobs (
 CREATE INDEX idx_jobs_stock_id ON jobs(stock_id);
 CREATE INDEX idx_jobs_source ON jobs(source);
 CREATE INDEX idx_jobs_job_type ON jobs(job_type);
+
+-- Job count snapshots for trend tracking (monthly granularity)
+DROP TABLE IF EXISTS job_count_snapshots;
+
+CREATE TABLE job_count_snapshots (
+  stock_id TEXT NOT NULL,
+  period TEXT NOT NULL,
+  job_count_104 INTEGER DEFAULT 0,
+  job_count_linkedin INTEGER DEFAULT 0,
+  job_count_total INTEGER DEFAULT 0,
+  captured_at TEXT DEFAULT (datetime('now')),
+  PRIMARY KEY (stock_id, period)
+);
+
+CREATE INDEX idx_snapshots_period ON job_count_snapshots(period);
