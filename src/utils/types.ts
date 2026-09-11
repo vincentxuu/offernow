@@ -31,6 +31,9 @@ export type Company = {
   flag_low_salary: number | null
   flag_eps_high_salary_low: number | null
   flag_eps_up_salary_down: number | null
+  job_count_total: number | null
+  job_count_prev_month: number | null
+  job_count_trend: string | null
 }
 
 export type Job = {

@@ -81,9 +81,15 @@ export function CompanyCard({ company: c }: { company: Company }) {
       )}
 
       {((c.job_count_104 ?? 0) > 0 || (c.job_count_linkedin ?? 0) > 0) && (
-        <div className="mt-2 flex flex-wrap gap-x-3 text-xs font-medium text-[var(--accent)]">
+        <div className="mt-2 flex flex-wrap items-center gap-x-3 text-xs font-medium text-[var(--accent)]">
           {(c.job_count_104 ?? 0) > 0 && <span>104: {c.job_count_104!.toLocaleString()} 缺</span>}
           {(c.job_count_linkedin ?? 0) > 0 && <span>LinkedIn: {c.job_count_linkedin!.toLocaleString()}+ 缺</span>}
+          {c.job_count_trend === 'expanding' && (
+            <span className="rounded bg-[var(--green-soft)] px-1.5 py-0.5 text-[10px] font-semibold text-[var(--green-positive)]">擴編中</span>
+          )}
+          {c.job_count_trend === 'shrinking' && (
+            <span className="rounded bg-[var(--red-soft)] px-1.5 py-0.5 text-[10px] font-semibold text-[var(--red-negative)]">縮編中</span>
+          )}
         </div>
       )}
 

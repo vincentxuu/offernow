@@ -55,6 +55,35 @@ export const getCompanyByStockId = createServerFn()
     return null
   })
 
+export type IndustryTrend = {
+  industry: string
+  total_jobs: number
+  delta: number
+  company_count: number
+}
+
+export const getIndustryTrends = createServerFn().handler(async (): Promise<IndustryTrend[]> => {
+  const db = await getD1()
+  if (db) {
+    try {
+      const { results } = await db.prepare(
+        `SELECT industry,
+                SUM(job_count_total) AS total_jobs,
+                SUM(job_count_total) - SUM(job_count_prev_month) AS delta,
+                COUNT(*) AS company_count
+         FROM company_profiles
+         WHERE industry IS NOT NULL
+         GROUP BY industry
+         ORDER BY delta DESC`
+      ).all<IndustryTrend>()
+      return results
+    } catch {
+      // Fall through
+    }
+  }
+  return []
+})
+
 export const INDUSTRIES = [
   '全部',
   '半導體業',

@@ -1,18 +1,22 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useState, useMemo } from 'react'
 import Fuse from 'fuse.js'
-import { getCompanies, INDUSTRIES } from '#/utils/companies.functions'
+import { getCompanies, getIndustryTrends, INDUSTRIES } from '#/utils/companies.functions'
+import type { IndustryTrend } from '#/utils/companies.functions'
 import { CompanyCard } from '#/components/CompanyCard'
 import { Stat } from '#/components/Stat'
 import type { Company } from '#/utils/types'
 
 export const Route = createFileRoute('/')({
-  loader: () => getCompanies(),
+  loader: async () => {
+    const [companies, trends] = await Promise.all([getCompanies(), getIndustryTrends()])
+    return { companies, trends }
+  },
   component: HomePage,
 })
 
 function HomePage() {
-  const companies = Route.useLoaderData()
+  const { companies, trends } = Route.useLoaderData()
   const [search, setSearch] = useState('')
   const [industry, setIndustry] = useState('全部')
   const [sortBy, setSortBy] = useState<'salary' | 'name' | 'eps' | 'marketCap'>('salary')
@@ -81,6 +85,8 @@ function HomePage() {
           <Stat value="114" label="年度資料" />
         </div>
       </section>
+
+      {trends.length > 0 && <IndustryTrendsBar trends={trends} />}
 
       <div className="mx-auto mb-4 max-w-xl">
         <div className="flex overflow-hidden rounded-xl border border-[var(--border)] bg-[var(--bg-surface)] shadow-[var(--shadow)]">
@@ -151,5 +157,50 @@ function HomePage() {
         </p>
       )}
     </main>
+  )
+}
+
+function IndustryTrendsBar({ trends }: { trends: IndustryTrend[] }) {
+  const meaningful = trends.filter((t) => t.total_jobs > 0)
+  if (meaningful.length === 0) return null
+
+  return (
+    <section className="mx-auto mb-6 max-w-4xl">
+      <h2 className="mb-3 text-center font-display text-sm font-bold tracking-wide text-[var(--text-heading)]">
+        產業職缺動態
+      </h2>
+      <div className="flex gap-3 overflow-x-auto pb-2">
+        {meaningful.map((t) => (
+          <div
+            key={t.industry}
+            className="flex min-w-[160px] shrink-0 flex-col rounded-xl border border-[var(--border)] bg-[var(--bg-surface)] p-3 shadow-[var(--shadow)]"
+          >
+            <span className="mb-1 text-xs font-semibold text-[var(--text-heading)] truncate">
+              {t.industry}
+            </span>
+            <span className="font-display text-lg font-bold tabular-nums text-[var(--text-heading)]">
+              {t.total_jobs.toLocaleString()}
+              <span className="ml-1 text-xs font-normal text-[var(--text-muted)]">缺</span>
+            </span>
+            <div className="mt-1 flex items-center justify-between">
+              <span className="text-[10px] text-[var(--text-muted)]">
+                {t.company_count} 家公司
+              </span>
+              {t.delta !== 0 && (
+                <span
+                  className={`inline-flex items-center gap-0.5 rounded px-1.5 py-0.5 text-[10px] font-semibold ${
+                    t.delta > 0
+                      ? 'bg-[var(--green-soft)] text-[var(--green-positive)]'
+                      : 'bg-[var(--red-soft)] text-[var(--red-negative)]'
+                  }`}
+                >
+                  {t.delta > 0 ? '▲' : '▼'} {Math.abs(t.delta).toLocaleString()}
+                </span>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
   )
 }

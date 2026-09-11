@@ -106,6 +106,33 @@ function CompanyDetailPage() {
         </div>
       </div>
 
+      {/* Growth + Hiring Signal */}
+      {(c.job_count_104 ?? 0) > 0 && c.revenue_yoy_pct !== null && c.revenue_yoy_pct !== undefined && c.revenue_yoy_pct > 0 && (
+        <div className="mb-6 flex items-center gap-2 rounded-xl bg-[var(--green-soft)] px-5 py-3">
+          <span className="text-sm font-semibold text-[var(--green-positive)]">
+            營收成長 +{c.revenue_yoy_pct > 999 ? '>999' : c.revenue_yoy_pct.toFixed(1)}% 且正在招募 {c.job_count_104!.toLocaleString()} 個職缺
+          </span>
+        </div>
+      )}
+
+      {/* Hiring Trend */}
+      {c.job_count_trend && c.job_count_trend !== 'stable' && (
+        <div className={`mb-6 flex items-center gap-2 rounded-xl px-5 py-3 ${
+          c.job_count_trend === 'expanding' ? 'bg-[var(--green-soft)]' : 'bg-[var(--red-soft)]'
+        }`}>
+          <span className={`text-sm font-semibold ${
+            c.job_count_trend === 'expanding' ? 'text-[var(--green-positive)]' : 'text-[var(--red-negative)]'
+          }`}>
+            {c.job_count_trend === 'expanding' ? '擴編中' : '縮編中'}
+            {c.job_count_prev_month != null && (c.job_count_total ?? 0) > 0 && (
+              <span className="ml-2 font-normal">
+                上月 {c.job_count_prev_month.toLocaleString()} 缺 → 本月 {(c.job_count_total ?? 0).toLocaleString()} 缺
+              </span>
+            )}
+          </span>
+        </div>
+      )}
+
       {/* Salary Flags */}
       {(c.flag_low_salary === 1 || c.flag_eps_high_salary_low === 1 || c.flag_eps_up_salary_down === 1) && (
         <div className="mb-6 flex flex-wrap gap-2">

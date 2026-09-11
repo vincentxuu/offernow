@@ -19,14 +19,19 @@ function formatMarketCap(cap: number | null): string {
 function SalaryRankingPage() {
   const companies = Route.useLoaderData()
   const [industry, setIndustry] = useState('全部')
-  const [sortCol, setSortCol] = useState<'median' | 'mean' | 'eps' | 'employees' | 'marketCap' | 'vsIndustry'>('median')
+  const [sortCol, setSortCol] = useState<'median' | 'mean' | 'eps' | 'employees' | 'marketCap' | 'vsIndustry' | 'revenueYoY' | 'jobs'>('median')
   const [sortDir, setSortDir] = useState<'asc' | 'desc'>('desc')
+  const [hiringOnly, setHiringOnly] = useState(false)
 
   const ranked = useMemo(() => {
     let list = companies.filter((c) => c.salary_median_k !== null)
 
     if (industry !== '全部') {
       list = list.filter((c) => c.industry === industry)
+    }
+
+    if (hiringOnly) {
+      list = list.filter((c) => (c.job_count_104 ?? 0) + (c.job_count_linkedin ?? 0) > 0)
     }
 
     list.sort((a, b) => {
@@ -38,12 +43,14 @@ function SalaryRankingPage() {
         case 'employees': av = a.employee_count ?? 0; bv = b.employee_count ?? 0; break
         case 'marketCap': av = a.market_cap ?? 0; bv = b.market_cap ?? 0; break
         case 'vsIndustry': av = a.salary_vs_industry_pct ?? 0; bv = b.salary_vs_industry_pct ?? 0; break
+        case 'revenueYoY': av = a.revenue_yoy_pct ?? -9999; bv = b.revenue_yoy_pct ?? -9999; break
+        case 'jobs': av = (a.job_count_104 ?? 0) + (a.job_count_linkedin ?? 0); bv = (b.job_count_104 ?? 0) + (b.job_count_linkedin ?? 0); break
       }
       return sortDir === 'desc' ? bv - av : av - bv
     })
 
     return list.slice(0, 100)
-  }, [companies, industry, sortCol, sortDir])
+  }, [companies, industry, sortCol, sortDir, hiringOnly])
 
   const toggleSort = (col: typeof sortCol) => {
     if (sortCol === col) {
@@ -86,9 +93,21 @@ function SalaryRankingPage() {
         ))}
       </div>
 
-      <p className="mb-4 text-xs text-[var(--text-muted)]">
-        顯示前 100 名{industry !== '全部' ? ` · ${industry}` : ''} · 共 {ranked.length} 家公司
-      </p>
+      <div className="mb-4 flex flex-wrap items-center gap-3">
+        <button
+          onClick={() => setHiringOnly((v) => !v)}
+          className={`rounded-full px-3 py-1 text-xs font-medium transition ${
+            hiringOnly
+              ? 'border border-[var(--accent)] bg-[var(--accent-soft)] text-[var(--text-heading)]'
+              : 'border border-[var(--border)] bg-[var(--bg-surface)] text-[var(--text-muted)] hover:border-[var(--accent)] hover:text-[var(--text-body)]'
+          }`}
+        >
+          只看招募中
+        </button>
+        <span className="text-xs text-[var(--text-muted)]">
+          顯示前 100 名{industry !== '全部' ? ` · ${industry}` : ''}{hiringOnly ? ' · 招募中' : ''} · 共 {ranked.length} 家公司
+        </span>
+      </div>
 
       <div className="overflow-x-auto rounded-xl border border-[var(--border)] bg-[var(--bg-surface)] shadow-[var(--shadow)]">
         <table className="w-full border-collapse">
@@ -108,6 +127,12 @@ function SalaryRankingPage() {
               </ThSort>
               <ThSort active={sortCol === 'marketCap'} onClick={() => toggleSort('marketCap')}>
                 市值{sortIndicator('marketCap')}
+              </ThSort>
+              <ThSort active={sortCol === 'revenueYoY'} onClick={() => toggleSort('revenueYoY')}>
+                營收年增{sortIndicator('revenueYoY')}
+              </ThSort>
+              <ThSort active={sortCol === 'jobs'} onClick={() => toggleSort('jobs')}>
+                職缺{sortIndicator('jobs')}
               </ThSort>
               <ThSort active={sortCol === 'employees'} onClick={() => toggleSort('employees')}>
                 員工數{sortIndicator('employees')}
@@ -147,6 +172,9 @@ function ThSort({ children, active, onClick }: { children: React.ReactNode; acti
 function RankRow({ company: c, rank }: { company: Company; rank: number }) {
   const initial = (c.short_name || c.name).charAt(0)
   const vsInd = c.salary_vs_industry_pct
+  const jobTotal = (c.job_count_104 ?? 0) + (c.job_count_linkedin ?? 0)
+  const revenueYoY = c.revenue_yoy_pct
+  const isGrowingAndHiring = jobTotal > 0 && revenueYoY !== null && revenueYoY !== undefined && revenueYoY > 0
   return (
     <tr className="border-b border-[var(--border)] last:border-0 hover:bg-[var(--bg-elevated)]">
       <td className="px-3 py-3">
@@ -160,7 +188,12 @@ function RankRow({ company: c, rank }: { company: Company; rank: number }) {
             {initial}
           </div>
           <div>
-            <div className="text-sm font-semibold text-[var(--text-heading)]">{c.short_name || c.name}</div>
+            <div className="flex items-center gap-1.5 text-sm font-semibold text-[var(--text-heading)]">
+              {c.short_name || c.name}
+              {isGrowingAndHiring && (
+                <span className="rounded bg-[var(--accent-soft)] px-1 py-px text-[9px] font-bold text-[var(--accent)]" title="營收成長且正在招募">成長招募中</span>
+              )}
+            </div>
             <div className="text-[10px] text-[var(--text-muted)]">{c.industry} · {c.stock_id}</div>
           </div>
         </Link>
@@ -189,6 +222,20 @@ function RankRow({ company: c, rank }: { company: Company; rank: number }) {
       </td>
       <td className="px-3 py-3 tabular-nums text-sm text-[var(--text-body)]">
         {formatMarketCap(c.market_cap)}
+      </td>
+      <td className="px-3 py-3">
+        {revenueYoY !== null && revenueYoY !== undefined ? (
+          <Badge value={revenueYoY > 999 ? 999 : revenueYoY < -999 ? -999 : revenueYoY} suffix="%" />
+        ) : (
+          <span className="text-xs text-[var(--text-muted)]">—</span>
+        )}
+      </td>
+      <td className="px-3 py-3 text-sm">
+        {jobTotal > 0 ? (
+          <span className="font-semibold tabular-nums text-[var(--accent)]">{jobTotal.toLocaleString()}</span>
+        ) : (
+          <span className="text-xs text-[var(--text-muted)]">—</span>
+        )}
       </td>
       <td className="px-3 py-3 tabular-nums text-sm text-[var(--text-body)]">
         {c.employee_count ? c.employee_count.toLocaleString() : '—'}

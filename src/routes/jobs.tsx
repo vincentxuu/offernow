@@ -16,7 +16,7 @@ export const Route = createFileRoute('/jobs')({
 })
 
 const SOURCES = ['全部', '104', 'linkedin', 'indeed'] as const
-const JOB_TYPES = ['全部', '遠端/混合', '全球遠端', 'AI 相關'] as const
+const JOB_TYPES = ['全部', '遠端/混合', '全球遠端', 'AI 相關', '擴編中'] as const
 
 const REMOTE_KEYWORDS = ['remote work', 'remote position', 'remote job', 'remote role', 'fully remote', 'work remotely', 'remote-first', '遠端工作', '遠端辦公', '遠距工作', '遠距辦公', 'work from home', 'wfh', '在家工作', 'hybrid work', '混合辦公', '混合工作', '居家辦公', '居家工作', '彈性工作地點', '遠端/現場', '現場/遠端']
 const AI_KEYWORDS = ['ai', '人工智慧', 'machine learning', 'deep learning', 'nlp', 'llm', 'data scientist', '機器學習', '深度學習', 'ml engineer', 'ai engineer']
@@ -99,6 +99,8 @@ function JobsPage() {
         const text = ((j.title || '') + ' ' + (j.description || '')).toLowerCase()
         return AI_KEYWORDS.some((kw) => text.includes(kw))
       })
+    } else if (jobType === '擴編中') {
+      list = list.filter((j) => companyMap[j.stock_id]?.job_count_trend === 'expanding')
     }
     if (city !== '全部') {
       const aliases = CITY_ALIASES[city] || [city]
@@ -292,6 +294,12 @@ function CompanyJobGroup({ group }: { group: CompanyGroup }) {
             }`}>
               {changePct > 0 ? '▲' : changePct < 0 ? '▼' : ''}年增{Math.abs(changePct).toFixed(1)}%
             </span>
+          )}
+          {company?.job_count_trend === 'expanding' && (
+            <span className="rounded bg-[var(--green-soft)] px-1.5 py-0.5 text-[10px] font-semibold text-[var(--green-positive)]">擴編中</span>
+          )}
+          {company?.job_count_trend === 'shrinking' && (
+            <span className="rounded bg-[var(--red-soft)] px-1.5 py-0.5 text-[10px] font-semibold text-[var(--red-negative)]">縮編中</span>
           )}
           <span className="text-xs text-[var(--text-muted)]">{jobs.length} 缺</span>
           <span className="text-xs text-[var(--text-muted)]">{open ? '▾' : '▸'}</span>
