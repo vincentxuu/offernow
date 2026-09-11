@@ -51,8 +51,10 @@ def main():
         page = context.new_page()
 
         print("Navigating to 104 to get Cloudflare cookies...")
-        page.goto("https://www.104.com.tw/jobs/search/?zone=16", wait_until="networkidle", timeout=30000)
-        time.sleep(5)
+        page.goto("https://www.104.com.tw/jobs/search/?zone=16", wait_until="domcontentloaded", timeout=60000)
+        time.sleep(10)
+        # 等 Cloudflare challenge 完成
+        page.wait_for_timeout(15000)
         print("  Ready!")
 
         for keyword in KEYWORDS:

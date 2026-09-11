@@ -203,3 +203,23 @@ def contrast_ratio(fg_hex, bg_hex):
 ```
 
 目前的 token 值都通過 AA。
+
+### 104 Playwright 超時排查
+
+**症狀**：`Page.goto: Timeout 30000ms exceeded`
+
+**根本原因**：
+1. `wait_until: "networkidle"` — 104 有大量廣告追蹤（GA4 × 3、Google Ads × 2、Emarsys、Scarab Research），永遠不會真正 network idle
+2. Cloudflare challenge 需要 10-15 秒完成
+
+**正確設定**：
+```python
+page.goto(url, wait_until="domcontentloaded", timeout=60000)  # 不用 networkidle
+time.sleep(10)           # 等基本載入
+page.wait_for_timeout(15000)  # 等 Cloudflare challenge
+```
+
+**不要用**：
+- `wait_until="networkidle"` — 會卡死
+- `timeout=30000` — 太短，Cloudflare 可能需要 15 秒
+- `sleep(5)` — 太短，Cloudflare challenge 可能還沒完成
