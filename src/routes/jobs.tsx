@@ -156,67 +156,63 @@ function JobsPage() {
         跨平台聚合 LinkedIn + Indeed，按公司分組，一眼看懂薪資和擴編狀況
       </p>
 
-      <div className="mb-4 max-w-xl">
+      {/* Search + Filters — one compact row */}
+      <div className="mb-4 flex flex-wrap items-center gap-2">
         <input
           type="text"
-          placeholder="搜尋職缺標題、公司名、地點..."
+          placeholder="搜尋職缺、公司、地點..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="w-full rounded-xl border border-[var(--border)] bg-[var(--bg-surface)] px-4 py-3 text-sm text-[var(--text-heading)] shadow-[var(--shadow)] outline-none placeholder:text-[var(--text-muted)] focus:border-[var(--accent)]"
+          className="min-w-[200px] flex-1 rounded-lg border border-[var(--border)] bg-[var(--bg-surface)] px-3 py-2 text-sm text-[var(--text-heading)] outline-none placeholder:text-[var(--text-muted)] focus:border-[var(--accent)]"
         />
+        <select
+          value={jobType}
+          onChange={(e) => setJobType(e.target.value)}
+          className="rounded-lg border border-[var(--border)] bg-[var(--bg-surface)] px-2 py-2 text-xs text-[var(--text-body)]"
+        >
+          {JOB_TYPES.map((t) => <option key={t} value={t}>{t === '全部' ? '所有類型' : t}</option>)}
+        </select>
+        <select
+          value={city}
+          onChange={(e) => setCity(e.target.value)}
+          className="rounded-lg border border-[var(--border)] bg-[var(--bg-surface)] px-2 py-2 text-xs text-[var(--text-body)]"
+        >
+          {CITIES.map((c) => <option key={c} value={c}>{c === '全部' ? '所有地區' : c}</option>)}
+        </select>
+        <select
+          value={industry}
+          onChange={(e) => setIndustry(e.target.value)}
+          className="rounded-lg border border-[var(--border)] bg-[var(--bg-surface)] px-2 py-2 text-xs text-[var(--text-body)]"
+        >
+          {INDUSTRIES.map((ind) => <option key={ind} value={ind}>{ind === '全部' ? '所有產業' : ind}</option>)}
+        </select>
+        <select
+          value={source}
+          onChange={(e) => setSource(e.target.value)}
+          className="rounded-lg border border-[var(--border)] bg-[var(--bg-surface)] px-2 py-2 text-xs text-[var(--text-body)]"
+        >
+          {SOURCES.map((s) => <option key={s} value={s}>{s === '全部' ? '所有來源' : s === 'linkedin' ? 'LinkedIn' : s === 'indeed' ? 'Indeed' : s}</option>)}
+        </select>
       </div>
 
-      {/* Filters */}
-      <div className="mb-3 flex flex-wrap items-center gap-2">
-        <span className="text-xs font-medium text-[var(--text-muted)]">類型</span>
-        {JOB_TYPES.map((t) => (
+      {/* Active filters indicator */}
+      {(jobType !== '全部' || city !== '全部' || industry !== '全部' || source !== '全部') && (
+        <div className="mb-3 flex items-center gap-2">
+          <span className="text-xs text-[var(--text-muted)]">篩選中：</span>
+          {jobType !== '全部' && <span className="rounded-full bg-[var(--accent-soft)] px-2 py-0.5 text-xs text-[var(--text-heading)]">{jobType}</span>}
+          {city !== '全部' && <span className="rounded-full bg-[var(--accent-soft)] px-2 py-0.5 text-xs text-[var(--text-heading)]">{city}</span>}
+          {industry !== '全部' && <span className="rounded-full bg-[var(--accent-soft)] px-2 py-0.5 text-xs text-[var(--text-heading)]">{industry}</span>}
+          {source !== '全部' && <span className="rounded-full bg-[var(--accent-soft)] px-2 py-0.5 text-xs text-[var(--text-heading)]">{source}</span>}
           <button
-            key={t}
-            onClick={() => setJobType(t)}
-            className={`rounded-full px-3 py-1 text-xs font-medium transition ${
-              jobType === t
-                ? 'bg-[var(--accent-soft)] border border-[var(--accent)] text-[var(--text-heading)]'
-                : 'bg-[var(--bg-surface)] border border-[var(--border)] text-[var(--text-muted)] hover:border-[var(--accent)]'
-            }`}
+            onClick={() => { setJobType('全部'); setCity('全部'); setIndustry('全部'); setSource('全部') }}
+            className="text-xs text-[var(--text-muted)] hover:text-[var(--text-heading)]"
           >
-            {t}
+            清除全部
           </button>
-        ))}
-      </div>
-      <div className="mb-3 flex flex-wrap items-center gap-2">
-        <span className="text-xs font-medium text-[var(--text-muted)]">來源</span>
-        {SOURCES.map((s) => (
-          <button
-            key={s}
-            onClick={() => setSource(s)}
-            className={`rounded-full px-3 py-1 text-xs font-medium transition ${
-              source === s
-                ? 'bg-[var(--accent-soft)] border border-[var(--accent)] text-[var(--text-heading)]'
-                : 'bg-[var(--bg-surface)] border border-[var(--border)] text-[var(--text-muted)] hover:border-[var(--accent)]'
-            }`}
-          >
-            {s === '全部' ? '全部' : s === 'linkedin' ? 'LinkedIn' : s === 'indeed' ? 'Indeed' : '104'}
-          </button>
-        ))}
-      </div>
-      <div className="mb-3 flex flex-wrap items-center gap-2">
-        <span className="text-xs font-medium text-[var(--text-muted)]">地區</span>
-        {CITIES.map((c) => (
-          <button
-            key={c}
-            onClick={() => setCity(c)}
-            className={`rounded-full px-3 py-1 text-xs font-medium transition ${
-              city === c
-                ? 'bg-[var(--accent-soft)] border border-[var(--accent)] text-[var(--text-heading)]'
-                : 'bg-[var(--bg-surface)] border border-[var(--border)] text-[var(--text-muted)] hover:border-[var(--accent)]'
-            }`}
-          >
-            {c}
-          </button>
-        ))}
-      </div>
-      <div className="mb-4 flex flex-wrap items-center gap-2">
-        <span className="text-xs font-medium text-[var(--text-muted)]">產業</span>
+        </div>
+      )}
+
+      <div className="mb-4 flex flex-wrap items-center gap-2" hidden>
         {INDUSTRIES.map((ind) => (
           <button
             key={ind}
