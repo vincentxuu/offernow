@@ -1,9 +1,9 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
-import { useState, useMemo } from 'react'
 import Fuse from 'fuse.js'
-import { getJobs } from '#/utils/jobs.functions'
+import { useMemo, useState } from 'react'
 import { getCompanies, INDUSTRIES } from '#/utils/companies.functions'
-import type { Job, Company } from '#/utils/types'
+import { getJobs } from '#/utils/jobs.functions'
+import type { Company, Job } from '#/utils/types'
 
 export const Route = createFileRoute('/jobs')({
   loader: async () => {
@@ -16,21 +16,86 @@ export const Route = createFileRoute('/jobs')({
 })
 
 const SOURCES = ['全部', '104', 'linkedin', 'indeed'] as const
-const JOB_TYPES = ['全部', '遠端/混合', '全球遠端', 'AI 相關', '擴編中'] as const
+const JOB_TYPES = [
+  '全部',
+  '遠端/混合',
+  '全球遠端',
+  'AI 相關',
+  '擴編中',
+] as const
 
-const REMOTE_KEYWORDS = ['remote work', 'remote position', 'remote job', 'remote role', 'fully remote', 'work remotely', 'remote-first', '遠端工作', '遠端辦公', '遠距工作', '遠距辦公', 'work from home', 'wfh', '在家工作', 'hybrid work', '混合辦公', '混合工作', '居家辦公', '居家工作', '彈性工作地點', '遠端/現場', '現場/遠端']
-const AI_KEYWORDS = ['ai', '人工智慧', 'machine learning', 'deep learning', 'nlp', 'llm', 'data scientist', '機器學習', '深度學習', 'ml engineer', 'ai engineer']
-const CITIES = ['全部', '台北', '新北', '新竹', '桃園', '苗栗', '台中', '台南', '高雄'] as const
+const REMOTE_KEYWORDS = [
+  'remote work',
+  'remote position',
+  'remote job',
+  'remote role',
+  'fully remote',
+  'work remotely',
+  'remote-first',
+  '遠端工作',
+  '遠端辦公',
+  '遠距工作',
+  '遠距辦公',
+  'work from home',
+  'wfh',
+  '在家工作',
+  'hybrid work',
+  '混合辦公',
+  '混合工作',
+  '居家辦公',
+  '居家工作',
+  '彈性工作地點',
+  '遠端/現場',
+  '現場/遠端',
+]
+const AI_KEYWORDS = [
+  'ai',
+  '人工智慧',
+  'machine learning',
+  'deep learning',
+  'nlp',
+  'llm',
+  'data scientist',
+  '機器學習',
+  '深度學習',
+  'ml engineer',
+  'ai engineer',
+]
+const CITIES = [
+  '全部',
+  '台北',
+  '新北',
+  '新竹',
+  '桃園',
+  '苗栗',
+  '台中',
+  '台南',
+  '高雄',
+] as const
 
 const CITY_ALIASES: Record<string, string[]> = {
-  '台北': ['台北', 'Taipei', 'TPE'],
-  '新北': ['新北', 'New Taipei', 'TPQ', '三重', '板橋', '中和', '永和', '土城', '汐止', '林口', '淡水', '蘆洲', '樹林'],
-  '新竹': ['新竹', 'Hsinchu', 'Zhubei', '竹北', '竹東'],
-  '桃園': ['桃園', 'Taoyuan', '中壢', '龜山', '楊梅'],
-  '苗栗': ['苗栗', 'Miaoli', '竹南', '頭份'],
-  '台中': ['台中', 'Taichung'],
-  '台南': ['台南', 'Tainan', '善化', '新營'],
-  '高雄': ['高雄', 'Kaohsiung', '楠梓', '前鎮'],
+  台北: ['台北', 'Taipei', 'TPE'],
+  新北: [
+    '新北',
+    'New Taipei',
+    'TPQ',
+    '三重',
+    '板橋',
+    '中和',
+    '永和',
+    '土城',
+    '汐止',
+    '林口',
+    '淡水',
+    '蘆洲',
+    '樹林',
+  ],
+  新竹: ['新竹', 'Hsinchu', 'Zhubei', '竹北', '竹東'],
+  桃園: ['桃園', 'Taoyuan', '中壢', '龜山', '楊梅'],
+  苗栗: ['苗栗', 'Miaoli', '竹南', '頭份'],
+  台中: ['台中', 'Taichung'],
+  台南: ['台南', 'Tainan', '善化', '新營'],
+  高雄: ['高雄', 'Kaohsiung', '楠梓', '前鎮'],
 }
 
 type CompanyGroup = {
@@ -44,13 +109,17 @@ function buildJobPostingJsonLd(job: Job, company: Company | undefined) {
     '@context': 'https://schema.org',
     '@type': 'JobPosting',
     title: job.title,
-    ...(job.date_posted && job.date_posted !== 'None' && job.date_posted !== 'nan' && { datePosted: job.date_posted }),
+    ...(job.date_posted &&
+      job.date_posted !== 'None' &&
+      job.date_posted !== 'nan' && { datePosted: job.date_posted }),
     ...(job.description && { description: job.description }),
     ...(job.job_url && { url: job.job_url }),
     hiringOrganization: {
       '@type': 'Organization',
       name: company?.name || job.company_name,
-      ...(company?.address && { address: { '@type': 'PostalAddress', streetAddress: company.address } }),
+      ...(company?.address && {
+        address: { '@type': 'PostalAddress', streetAddress: company.address },
+      }),
     },
     jobLocation: {
       '@type': 'Place',
@@ -86,14 +155,15 @@ function JobsPage() {
   const [jobType, setJobType] = useState<string>('全部')
 
   const fuse = useMemo(
-    () => new Fuse(jobs, {
-      keys: [
-        { name: 'title', weight: 3 },
-        { name: 'company_name', weight: 2 },
-        { name: 'location', weight: 1 },
-      ],
-      threshold: 0.3,
-    }),
+    () =>
+      new Fuse(jobs, {
+        keys: [
+          { name: 'title', weight: 3 },
+          { name: 'company_name', weight: 2 },
+          { name: 'location', weight: 1 },
+        ],
+        threshold: 0.3,
+      }),
     [jobs],
   )
 
@@ -106,15 +176,15 @@ function JobsPage() {
         const i = text.toLowerCase().indexOf(term)
         if (i === -1) return false
         const before = i === 0 || /[\s\-_/(),.]/.test(text[i - 1])
-        const after = i + term.length >= text.length || /[\s\-_/(),.]/.test(text[i + term.length])
+        const after =
+          i + term.length >= text.length ||
+          /[\s\-_/(),.]/.test(text[i + term.length])
         return before && after
       }
 
       if (q.length <= 3) {
         list = jobs.filter(
-          (j) =>
-            wordBoundary(j.title, q) ||
-            wordBoundary(j.company_name, q),
+          (j) => wordBoundary(j.title, q) || wordBoundary(j.company_name, q),
         )
       } else {
         list = fuse.search(q).map((r) => r.item)
@@ -126,19 +196,32 @@ function JobsPage() {
     if (source !== '全部') list = list.filter((j) => j.source === source)
     if (jobType === '遠端/混合') {
       list = list.filter((j) => {
-        if (j.job_type === 'remote' || j.job_type === 'global_remote') return true
-        const text = ((j.title || '') + ' ' + (j.location || '') + ' ' + (j.description || '')).toLowerCase()
+        if (j.job_type === 'remote' || j.job_type === 'global_remote')
+          return true
+        const text = (
+          (j.title || '') +
+          ' ' +
+          (j.location || '') +
+          ' ' +
+          (j.description || '')
+        ).toLowerCase()
         return REMOTE_KEYWORDS.some((kw) => text.includes(kw))
       })
     } else if (jobType === '全球遠端') {
       list = list.filter((j) => j.job_type === 'global_remote')
     } else if (jobType === 'AI 相關') {
       list = list.filter((j) => {
-        const text = ((j.title || '') + ' ' + (j.description || '')).toLowerCase()
+        const text = (
+          (j.title || '') +
+          ' ' +
+          (j.description || '')
+        ).toLowerCase()
         return AI_KEYWORDS.some((kw) => text.includes(kw))
       })
     } else if (jobType === '擴編中') {
-      list = list.filter((j) => companyMap[j.stock_id]?.job_count_trend === 'expanding')
+      list = list.filter(
+        (j) => companyMap[j.stock_id]?.job_count_trend === 'expanding',
+      )
     }
     if (city !== '全部') {
       const aliases = CITY_ALIASES[city] || [city]
@@ -183,15 +266,22 @@ function JobsPage() {
   if (jobs.length === 0) {
     return (
       <main className="page-wrap px-4 py-16 text-center">
-        <h1 className="mb-4 font-display text-2xl font-bold text-[var(--text-heading)]">職缺搜尋</h1>
-        <p className="text-[var(--text-body)]">職缺資料正在收集中，請稍後再來。</p>
+        <h1 className="mb-4 font-display text-2xl font-bold text-[var(--text-heading)]">
+          職缺搜尋
+        </h1>
+        <p className="text-[var(--text-body)]">
+          職缺資料正在收集中，請稍後再來。
+        </p>
       </main>
     )
   }
 
+  // biome-ignore lint/correctness/useHookAtTopLevel: JSON-LD memo depends on filtered data
   const jobPostingsJsonLd = useMemo(() => {
     const allJobs = groups.flatMap((g) => g.jobs.slice(0, 5)).slice(0, 50)
-    return allJobs.map((job) => buildJobPostingJsonLd(job, companyMap[job.stock_id]))
+    return allJobs.map((job) =>
+      buildJobPostingJsonLd(job, companyMap[job.stock_id]),
+    )
   }, [groups, companyMap])
 
   return (
@@ -199,10 +289,14 @@ function JobsPage() {
       {jobPostingsJsonLd.length > 0 && (
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jobPostingsJsonLd) }}
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(jobPostingsJsonLd),
+          }}
         />
       )}
-      <h1 className="mb-1 font-display text-2xl font-bold text-[var(--text-heading)]">職缺搜尋</h1>
+      <h1 className="mb-1 font-display text-2xl font-bold text-[var(--text-heading)]">
+        職缺搜尋
+      </h1>
       <p className="mb-6 text-sm text-[var(--text-muted)]">
         跨平台聚合 LinkedIn + Indeed，按公司分組，一眼看懂薪資和擴編狀況
       </p>
@@ -221,41 +315,88 @@ function JobsPage() {
           onChange={(e) => setJobType(e.target.value)}
           className="rounded-lg border border-[var(--border)] bg-[var(--bg-surface)] px-2 py-2 text-xs text-[var(--text-body)]"
         >
-          {JOB_TYPES.map((t) => <option key={t} value={t}>{t === '全部' ? '所有類型' : t}</option>)}
+          {JOB_TYPES.map((t) => (
+            <option key={t} value={t}>
+              {t === '全部' ? '所有類型' : t}
+            </option>
+          ))}
         </select>
         <select
           value={city}
           onChange={(e) => setCity(e.target.value)}
           className="rounded-lg border border-[var(--border)] bg-[var(--bg-surface)] px-2 py-2 text-xs text-[var(--text-body)]"
         >
-          {CITIES.map((c) => <option key={c} value={c}>{c === '全部' ? '所有地區' : c}</option>)}
+          {CITIES.map((c) => (
+            <option key={c} value={c}>
+              {c === '全部' ? '所有地區' : c}
+            </option>
+          ))}
         </select>
         <select
           value={industry}
           onChange={(e) => setIndustry(e.target.value)}
           className="rounded-lg border border-[var(--border)] bg-[var(--bg-surface)] px-2 py-2 text-xs text-[var(--text-body)]"
         >
-          {INDUSTRIES.map((ind) => <option key={ind} value={ind}>{ind === '全部' ? '所有產業' : ind}</option>)}
+          {INDUSTRIES.map((ind) => (
+            <option key={ind} value={ind}>
+              {ind === '全部' ? '所有產業' : ind}
+            </option>
+          ))}
         </select>
         <select
           value={source}
           onChange={(e) => setSource(e.target.value)}
           className="rounded-lg border border-[var(--border)] bg-[var(--bg-surface)] px-2 py-2 text-xs text-[var(--text-body)]"
         >
-          {SOURCES.map((s) => <option key={s} value={s}>{s === '全部' ? '所有來源' : s === 'linkedin' ? 'LinkedIn' : s === 'indeed' ? 'Indeed' : s}</option>)}
+          {SOURCES.map((s) => (
+            <option key={s} value={s}>
+              {s === '全部'
+                ? '所有來源'
+                : s === 'linkedin'
+                  ? 'LinkedIn'
+                  : s === 'indeed'
+                    ? 'Indeed'
+                    : s}
+            </option>
+          ))}
         </select>
       </div>
 
       {/* Active filters indicator */}
-      {(jobType !== '全部' || city !== '全部' || industry !== '全部' || source !== '全部') && (
+      {(jobType !== '全部' ||
+        city !== '全部' ||
+        industry !== '全部' ||
+        source !== '全部') && (
         <div className="mb-3 flex items-center gap-2">
           <span className="text-xs text-[var(--text-muted)]">篩選中：</span>
-          {jobType !== '全部' && <span className="rounded-full bg-[var(--accent-soft)] px-2 py-0.5 text-xs text-[var(--text-heading)]">{jobType}</span>}
-          {city !== '全部' && <span className="rounded-full bg-[var(--accent-soft)] px-2 py-0.5 text-xs text-[var(--text-heading)]">{city}</span>}
-          {industry !== '全部' && <span className="rounded-full bg-[var(--accent-soft)] px-2 py-0.5 text-xs text-[var(--text-heading)]">{industry}</span>}
-          {source !== '全部' && <span className="rounded-full bg-[var(--accent-soft)] px-2 py-0.5 text-xs text-[var(--text-heading)]">{source}</span>}
+          {jobType !== '全部' && (
+            <span className="rounded-full bg-[var(--accent-soft)] px-2 py-0.5 text-xs text-[var(--text-heading)]">
+              {jobType}
+            </span>
+          )}
+          {city !== '全部' && (
+            <span className="rounded-full bg-[var(--accent-soft)] px-2 py-0.5 text-xs text-[var(--text-heading)]">
+              {city}
+            </span>
+          )}
+          {industry !== '全部' && (
+            <span className="rounded-full bg-[var(--accent-soft)] px-2 py-0.5 text-xs text-[var(--text-heading)]">
+              {industry}
+            </span>
+          )}
+          {source !== '全部' && (
+            <span className="rounded-full bg-[var(--accent-soft)] px-2 py-0.5 text-xs text-[var(--text-heading)]">
+              {source}
+            </span>
+          )}
           <button
-            onClick={() => { setJobType('全部'); setCity('全部'); setIndustry('全部'); setSource('全部') }}
+            type="button"
+            onClick={() => {
+              setJobType('全部')
+              setCity('全部')
+              setIndustry('全部')
+              setSource('全部')
+            }}
             className="text-xs text-[var(--text-muted)] hover:text-[var(--text-heading)]"
           >
             清除全部
@@ -266,6 +407,7 @@ function JobsPage() {
       <div className="mb-4 flex flex-wrap items-center gap-2" hidden>
         {INDUSTRIES.map((ind) => (
           <button
+            type="button"
             key={ind}
             onClick={() => setIndustry(ind)}
             className={`rounded-full px-3 py-1 text-xs font-medium transition ${
@@ -295,15 +437,23 @@ function JobsPage() {
 function CompanyJobGroup({ group }: { group: CompanyGroup }) {
   const [open, setOpen] = useState(false)
   const { company, jobs } = group
-  const salaryWan = company?.salary_median_k ? (company.salary_median_k / 10).toFixed(0) : null
+  const salaryWan = company?.salary_median_k
+    ? (company.salary_median_k / 10).toFixed(0)
+    : null
   const changePct = company?.salary_median_change_pct
-  const initial = (company?.short_name || group.jobs[0]?.company_name || '?').charAt(0)
-  const name = company?.short_name || group.jobs[0]?.company_name || group.stockId
+  const initial = (
+    company?.short_name ||
+    group.jobs[0]?.company_name ||
+    '?'
+  ).charAt(0)
+  const name =
+    company?.short_name || group.jobs[0]?.company_name || group.stockId
 
   return (
     <div className="overflow-hidden rounded-xl border border-[var(--border)] bg-[var(--bg-surface)] shadow-[var(--shadow)]">
       {/* Company header — click to toggle */}
       <button
+        type="button"
         onClick={() => setOpen(!open)}
         className="flex w-full items-center gap-3 bg-[var(--bg-elevated)] px-4 py-2.5 text-left transition hover:bg-[var(--border)]"
       >
@@ -320,82 +470,125 @@ function CompanyJobGroup({ group }: { group: CompanyGroup }) {
             >
               {name}
             </Link>
-            <span className="text-[11px] text-[var(--text-muted)]">{group.stockId}</span>
+            <span className="text-[11px] text-[var(--text-muted)]">
+              {group.stockId}
+            </span>
             {company?.industry && (
-              <span className="hidden text-[11px] text-[var(--text-muted)] sm:inline">· {company.industry}</span>
+              <span className="hidden text-[11px] text-[var(--text-muted)] sm:inline">
+                · {company.industry}
+              </span>
             )}
           </div>
         </div>
         <div className="flex flex-shrink-0 items-center gap-2">
           {salaryWan && (
             <span className="text-sm tabular-nums text-[var(--accent)]">
-              <span className="hidden text-[10px] font-normal text-[var(--text-muted)] sm:inline">年薪中位 </span>
+              <span className="hidden text-[10px] font-normal text-[var(--text-muted)] sm:inline">
+                年薪中位{' '}
+              </span>
               <span className="font-bold">{salaryWan}萬</span>
             </span>
           )}
           {changePct !== null && changePct !== undefined && (
-            <span className={`rounded px-1 py-px text-[10px] font-semibold ${
-              changePct > 0
-                ? 'bg-[var(--green-soft)] text-[var(--green-positive)]'
-                : changePct < 0
-                  ? 'bg-[var(--red-soft)] text-[var(--red-negative)]'
-                  : 'text-[var(--text-muted)]'
-            }`}>
-              {changePct > 0 ? '▲' : changePct < 0 ? '▼' : ''}年增{Math.abs(changePct).toFixed(1)}%
+            <span
+              className={`rounded px-1 py-px text-[10px] font-semibold ${
+                changePct > 0
+                  ? 'bg-[var(--green-soft)] text-[var(--green-positive)]'
+                  : changePct < 0
+                    ? 'bg-[var(--red-soft)] text-[var(--red-negative)]'
+                    : 'text-[var(--text-muted)]'
+              }`}
+            >
+              {changePct > 0 ? '▲' : changePct < 0 ? '▼' : ''}年增
+              {Math.abs(changePct).toFixed(1)}%
             </span>
           )}
           {company?.job_count_trend === 'expanding' && (
-            <span className="rounded bg-[var(--green-soft)] px-1.5 py-0.5 text-[10px] font-semibold text-[var(--green-positive)]">擴編中</span>
+            <span className="rounded bg-[var(--green-soft)] px-1.5 py-0.5 text-[10px] font-semibold text-[var(--green-positive)]">
+              擴編中
+            </span>
           )}
           {company?.job_count_trend === 'shrinking' && (
-            <span className="rounded bg-[var(--red-soft)] px-1.5 py-0.5 text-[10px] font-semibold text-[var(--red-negative)]">縮編中</span>
+            <span className="rounded bg-[var(--red-soft)] px-1.5 py-0.5 text-[10px] font-semibold text-[var(--red-negative)]">
+              縮編中
+            </span>
           )}
-          <span className="text-xs text-[var(--text-muted)]">{jobs.length} 缺</span>
-          <span className="text-xs text-[var(--text-muted)]">{open ? '▾' : '▸'}</span>
+          <span className="text-xs text-[var(--text-muted)]">
+            {jobs.length} 缺
+          </span>
+          <span className="text-xs text-[var(--text-muted)]">
+            {open ? '▾' : '▸'}
+          </span>
         </div>
       </button>
 
       {/* Job list — collapsed by default */}
-      {open && jobs.map((job, i) => {
-        const clean = (s: string | null | undefined) => {
-          if (!s || s === 'None' || s === 'nan' || s === 'NaN') return null
-          return s.replace(/, Taiwan/gi, '').replace(/, TW/gi, '').replace(/, TPE/gi, '').replace(/, TPQ/gi, '').trim() || null
-        }
-        const loc = clean(job.location)
-        const dateShort = job.date_posted && job.date_posted !== 'None' && job.date_posted !== 'nan'
-          ? job.date_posted.slice(5) : null
+      {open &&
+        jobs.map((job, i) => {
+          const clean = (s: string | null | undefined) => {
+            if (!s || s === 'None' || s === 'nan' || s === 'NaN') return null
+            return (
+              s
+                .replace(/, Taiwan/gi, '')
+                .replace(/, TW/gi, '')
+                .replace(/, TPE/gi, '')
+                .replace(/, TPQ/gi, '')
+                .trim() || null
+            )
+          }
+          const loc = clean(job.location)
+          const dateShort =
+            job.date_posted &&
+            job.date_posted !== 'None' &&
+            job.date_posted !== 'nan'
+              ? job.date_posted.slice(5)
+              : null
 
-        return (
-          <a
-            key={`${job.title}-${i}`}
-            href={`/go/${job.id}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={`flex items-center gap-3 px-4 py-2.5 no-underline transition hover:bg-[var(--bg-elevated)] ${
-              i % 2 === 1 ? 'bg-[var(--bg)]' : ''
-            }`}
-          >
-            <div className="min-w-0 flex-1">
-              <div className="text-sm font-medium text-[var(--text-heading)]">{job.title}</div>
-              <div className="mt-0.5 text-xs text-[var(--text-muted)]">
-                {loc || '台灣'}
-                {dateShort && <span className="ml-2">{dateShort}</span>}
+          return (
+            <a
+              key={job.id || `${job.title}-${i}`}
+              href={`/go/${job.id}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`flex items-center gap-3 px-4 py-2.5 no-underline transition hover:bg-[var(--bg-elevated)] ${
+                i % 2 === 1 ? 'bg-[var(--bg)]' : ''
+              }`}
+            >
+              <div className="min-w-0 flex-1">
+                <div className="text-sm font-medium text-[var(--text-heading)]">
+                  {job.title}
+                </div>
+                <div className="mt-0.5 text-xs text-[var(--text-muted)]">
+                  {loc || '台灣'}
+                  {dateShort && <span className="ml-2">{dateShort}</span>}
+                </div>
               </div>
-            </div>
-            <SourceBadge source={job.source} />
-          </a>
-        )
-      })}
+              <SourceBadge source={job.source} />
+            </a>
+          )
+        })}
     </div>
   )
 }
 
 function SourceBadge({ source }: { source: string }) {
   if (source === 'linkedin') {
-    return <span className="rounded px-1.5 py-0.5 text-[10px] font-semibold bg-[#0a66c21a] text-[#0a66c2]">LinkedIn</span>
+    return (
+      <span className="rounded px-1.5 py-0.5 text-[10px] font-semibold bg-[#0a66c21a] text-[#0a66c2]">
+        LinkedIn
+      </span>
+    )
   }
   if (source === 'indeed') {
-    return <span className="rounded px-1.5 py-0.5 text-[10px] font-semibold bg-[#6c3baa1a] text-[#6c3baa]">Indeed</span>
+    return (
+      <span className="rounded px-1.5 py-0.5 text-[10px] font-semibold bg-[#6c3baa1a] text-[#6c3baa]">
+        Indeed
+      </span>
+    )
   }
-  return <span className="rounded px-1.5 py-0.5 text-[10px] font-semibold bg-[var(--bg-elevated)] text-[var(--text-muted)]">{source}</span>
+  return (
+    <span className="rounded px-1.5 py-0.5 text-[10px] font-semibold bg-[var(--bg-elevated)] text-[var(--text-muted)]">
+      {source}
+    </span>
+  )
 }

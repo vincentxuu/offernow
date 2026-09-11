@@ -29,13 +29,21 @@ let _client: OpenAI | null = null
 let _provider: AIProvider | null = null
 let _model: string | null = null
 
-export function getAIClient(): { client: OpenAI; provider: AIProvider; model: string } {
-  if (_client && _provider && _model) return { client: _client, provider: _provider, model: _model }
+export function getAIClient(): {
+  client: OpenAI
+  provider: AIProvider
+  model: string
+} {
+  if (_client && _provider && _model)
+    return { client: _client, provider: _provider, model: _model }
 
   // 環境變數覆蓋：AI_MODEL=xxx 可指定模型
   const envModel = process.env.AI_MODEL
 
-  for (const [name, config] of Object.entries(PROVIDER_CONFIG) as [AIProvider, ProviderConfig][]) {
+  for (const [name, config] of Object.entries(PROVIDER_CONFIG) as [
+    AIProvider,
+    ProviderConfig,
+  ][]) {
     const apiKey = process.env[config.envKey]
     if (apiKey) {
       _client = new OpenAI({ apiKey, baseURL: config.baseURL })
@@ -45,7 +53,9 @@ export function getAIClient(): { client: OpenAI; provider: AIProvider; model: st
     }
   }
 
-  throw new Error('No AI provider configured. Set OPENROUTER_API_KEY or OPENCODE_API_KEY.')
+  throw new Error(
+    'No AI provider configured. Set OPENROUTER_API_KEY or OPENCODE_API_KEY.',
+  )
 }
 
 // --- Retry with Exponential Backoff ---
@@ -67,13 +77,19 @@ async function withRetry<T>(fn: () => Promise<T>, label: string): Promise<T> {
       }
 
       // Exponential backoff: 2s, 4s
-      const delay = BASE_DELAY_MS * Math.pow(2, attempt)
+      const delay = BASE_DELAY_MS * 2 ** attempt
       // 429 的 retry-after header
-      const retryAfter = (error as { headers?: { get?: (k: string) => string | null } })?.headers?.get?.('retry-after')
-      const waitMs = retryAfter ? Math.min(parseInt(retryAfter, 10) * 1000, 30000) : delay
+      const retryAfter = (
+        error as { headers?: { get?: (k: string) => string | null } }
+      )?.headers?.get?.('retry-after')
+      const waitMs = retryAfter
+        ? Math.min(parseInt(retryAfter, 10) * 1000, 30000)
+        : delay
 
-      console.warn(`[AI] ${label} attempt ${attempt + 1} failed (${status}), retrying in ${waitMs}ms...`)
-      await new Promise(r => setTimeout(r, waitMs))
+      console.warn(
+        `[AI] ${label} attempt ${attempt + 1} failed (${status}), retrying in ${waitMs}ms...`,
+      )
+      await new Promise((r) => setTimeout(r, waitMs))
     }
   }
   throw new Error('unreachable')
@@ -89,7 +105,10 @@ function extractText(response: OpenAI.Chat.Completions.ChatCompletion): string {
   let text = content.trim()
 
   // 有些模型會用引號包住
-  if ((text.startsWith('"') && text.endsWith('"')) || (text.startsWith('「') && text.endsWith('」'))) {
+  if (
+    (text.startsWith('"') && text.endsWith('"')) ||
+    (text.startsWith('「') && text.endsWith('」'))
+  ) {
     text = text.slice(1, -1).trim()
   }
 
@@ -122,10 +141,13 @@ export async function generateInsight(companyData: {
 }): Promise<string> {
   const { client, model } = getAIClient()
 
-  const salaryWan = companyData.salary_median_k ? (companyData.salary_median_k / 10).toFixed(1) : '未揭露'
-  const changePct = companyData.salary_median_change_pct !== null
-    ? `${companyData.salary_median_change_pct > 0 ? '+' : ''}${companyData.salary_median_change_pct.toFixed(1)}%`
-    : '未知'
+  const salaryWan = companyData.salary_median_k
+    ? (companyData.salary_median_k / 10).toFixed(1)
+    : '未揭露'
+  const changePct =
+    companyData.salary_median_change_pct !== null
+      ? `${companyData.salary_median_change_pct > 0 ? '+' : ''}${companyData.salary_median_change_pct.toFixed(1)}%`
+      : '未知'
 
   const prompt = `公司：${companyData.name}（${companyData.stock_id}）
 產業：${companyData.industry}
@@ -137,12 +159,13 @@ EPS：${companyData.eps ?? '未揭露'}
 用一句話（30 字內繁體中文）總結這家公司對求職者的吸引力。只說客觀事實，不做主觀評價。不要用「值得」「推薦」等詞。直接輸出那句話，不要加引號或前綴。`
 
   const response = await withRetry(
-    () => client.chat.completions.create({
-      model,
-      messages: [{ role: 'user', content: prompt }],
-      max_tokens: 100,
-      temperature: 0.3,
-    }),
+    () =>
+      client.chat.completions.create({
+        model,
+        messages: [{ role: 'user', content: prompt }],
+        max_tokens: 100,
+        temperature: 0.3,
+      }),
     `insight:${companyData.stock_id}`,
   )
 
@@ -151,7 +174,10 @@ EPS：${companyData.eps ?? '未揭露'}
 
 export async function generateInsightsBatch(
   companies: Parameters<typeof generateInsight>[0][],
-  options?: { batchSize?: number; onProgress?: (done: number, total: number) => void }
+  options?: {
+    batchSize?: number
+    onProgress?: (done: number, total: number) => void
+  },
 ): Promise<Map<string, string>> {
   const batchSize = options?.batchSize ?? 5
   const results = new Map<string, string>()
@@ -159,7 +185,12 @@ export async function generateInsightsBatch(
   for (let i = 0; i < companies.length; i += batchSize) {
     const batch = companies.slice(i, i + batchSize)
     const settled = await Promise.allSettled(
-      batch.map(c => generateInsight(c).then(insight => ({ stock_id: c.stock_id, insight })))
+      batch.map((c) =>
+        generateInsight(c).then((insight) => ({
+          stock_id: c.stock_id,
+          insight,
+        })),
+      ),
     )
 
     for (const result of settled) {
@@ -173,7 +204,7 @@ export async function generateInsightsBatch(
 
     // 批次間間隔，避免 rate limit
     if (i + batchSize < companies.length) {
-      await new Promise(r => setTimeout(r, 1500))
+      await new Promise((r) => setTimeout(r, 1500))
     }
   }
 

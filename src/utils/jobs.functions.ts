@@ -28,9 +28,15 @@ export const getJobRedirectUrl = createServerFn()
     if (!db) return null
     try {
       const id = parseInt(jobId, 10)
-      if (isNaN(id)) return null
-      await db.prepare('UPDATE jobs SET click_count = click_count + 1 WHERE id = ?').bind(id).all()
-      const { results } = await db.prepare('SELECT job_url FROM jobs WHERE id = ?').bind(id).all<{ job_url: string }>()
+      if (Number.isNaN(id)) return null
+      await db
+        .prepare('UPDATE jobs SET click_count = click_count + 1 WHERE id = ?')
+        .bind(id)
+        .all()
+      const { results } = await db
+        .prepare('SELECT job_url FROM jobs WHERE id = ?')
+        .bind(id)
+        .all<{ job_url: string }>()
       return results[0]?.job_url ?? null
     } catch {
       return null
@@ -41,9 +47,11 @@ export const getJobs = createServerFn().handler(async (): Promise<Job[]> => {
   const db = await getD1()
   if (db) {
     try {
-      const { results } = await db.prepare(
-        'SELECT id, stock_id, company_name, title, location, date_posted, job_url, source, description, salary_min, salary_max, job_type, click_count FROM jobs ORDER BY date_posted DESC'
-      ).all<Job>()
+      const { results } = await db
+        .prepare(
+          'SELECT id, stock_id, company_name, title, location, date_posted, job_url, source, description, salary_min, salary_max, job_type, click_count FROM jobs ORDER BY date_posted DESC',
+        )
+        .all<Job>()
       return results
     } catch {
       // D1 table may not exist; fall through

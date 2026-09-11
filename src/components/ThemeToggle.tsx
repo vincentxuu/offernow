@@ -5,7 +5,8 @@ type ThemeMode = 'light' | 'dark' | 'auto'
 function getInitialMode(): ThemeMode {
   if (typeof window === 'undefined') return 'auto'
   const stored = window.localStorage.getItem('theme')
-  if (stored === 'light' || stored === 'dark' || stored === 'auto') return stored
+  if (stored === 'light' || stored === 'dark' || stored === 'auto')
+    return stored
   return 'auto'
 }
 
@@ -40,7 +41,8 @@ export default function ThemeToggle() {
   }, [mode])
 
   function toggleMode() {
-    const next: ThemeMode = mode === 'light' ? 'dark' : mode === 'dark' ? 'auto' : 'light'
+    const next: ThemeMode =
+      mode === 'light' ? 'dark' : mode === 'dark' ? 'auto' : 'light'
     setMode(next)
     applyThemeMode(next)
     window.localStorage.setItem('theme', next)

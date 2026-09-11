@@ -1,4 +1,10 @@
-export function Badge({ value, suffix = '' }: { value: number; suffix?: string }) {
+export function Badge({
+  value,
+  suffix = '',
+}: {
+  value: number
+  suffix?: string
+}) {
   const isPositive = value > 0
   const isNegative = value < 0
   return (

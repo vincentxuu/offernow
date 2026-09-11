@@ -1,15 +1,22 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { useState, useMemo } from 'react'
 import Fuse from 'fuse.js'
-import { getCompanies, getIndustryTrends, INDUSTRIES } from '#/utils/companies.functions'
-import type { IndustryTrend } from '#/utils/companies.functions'
+import { useMemo, useState } from 'react'
 import { CompanyCard } from '#/components/CompanyCard'
 import { Stat } from '#/components/Stat'
+import type { IndustryTrend } from '#/utils/companies.functions'
+import {
+  getCompanies,
+  getIndustryTrends,
+  INDUSTRIES,
+} from '#/utils/companies.functions'
 import type { Company } from '#/utils/types'
 
 export const Route = createFileRoute('/')({
   loader: async () => {
-    const [companies, trends] = await Promise.all([getCompanies(), getIndustryTrends()])
+    const [companies, trends] = await Promise.all([
+      getCompanies(),
+      getIndustryTrends(),
+    ])
     return { companies, trends }
   },
   component: HomePage,
@@ -19,24 +26,31 @@ function HomePage() {
   const { companies, trends } = Route.useLoaderData()
   const [search, setSearch] = useState('')
   const [industry, setIndustry] = useState('全部')
-  const [sortBy, setSortBy] = useState<'salary' | 'name' | 'eps' | 'marketCap'>('salary')
+  const [sortBy, setSortBy] = useState<'salary' | 'name' | 'eps' | 'marketCap'>(
+    'salary',
+  )
   const [showCount, setShowCount] = useState(60)
 
   const totalCompanies = companies.length
-  const totalWithSalary = companies.filter((c) => c.salary_median_k !== null).length
+  const totalWithSalary = companies.filter(
+    (c) => c.salary_median_k !== null,
+  ).length
 
   const fuse = useMemo(
     () =>
-      new Fuse(companies.filter((c) => c.salary_median_k !== null), {
-        keys: [
-          { name: 'short_name', weight: 3 },
-          { name: 'name', weight: 2 },
-          { name: 'stock_id', weight: 2 },
-          { name: 'industry', weight: 1 },
-        ],
-        threshold: 0.3,
-        includeScore: true,
-      }),
+      new Fuse(
+        companies.filter((c) => c.salary_median_k !== null),
+        {
+          keys: [
+            { name: 'short_name', weight: 3 },
+            { name: 'name', weight: 2 },
+            { name: 'stock_id', weight: 2 },
+            { name: 'industry', weight: 1 },
+          ],
+          threshold: 0.3,
+          includeScore: true,
+        },
+      ),
     [companies],
   )
 
@@ -60,9 +74,11 @@ function HomePage() {
 
     if (!search.trim() && industry !== '百大（市值）') {
       list.sort((a, b) => {
-        if (sortBy === 'salary') return (b.salary_median_k ?? 0) - (a.salary_median_k ?? 0)
+        if (sortBy === 'salary')
+          return (b.salary_median_k ?? 0) - (a.salary_median_k ?? 0)
         if (sortBy === 'eps') return (b.eps ?? 0) - (a.eps ?? 0)
-        if (sortBy === 'marketCap') return (b.market_cap ?? 0) - (a.market_cap ?? 0)
+        if (sortBy === 'marketCap')
+          return (b.market_cap ?? 0) - (a.market_cap ?? 0)
         return a.short_name.localeCompare(b.short_name, 'zh-TW')
       })
     }
@@ -77,7 +93,8 @@ function HomePage() {
           看得到公司全貌的職缺平台
         </h1>
         <p className="mx-auto max-w-lg text-sm text-[var(--text-muted)]">
-          薪資中位數、營收成長、EPS — 台灣 {totalCompanies.toLocaleString()} 家上市櫃公司的真實面貌，一眼看懂。
+          薪資中位數、營收成長、EPS — 台灣 {totalCompanies.toLocaleString()}{' '}
+          家上市櫃公司的真實面貌，一眼看懂。
         </p>
         <div className="mx-auto mt-5 flex max-w-md justify-center gap-8">
           <Stat value={totalCompanies.toLocaleString()} label="上市櫃公司" />
@@ -100,7 +117,11 @@ function HomePage() {
           <div className="flex items-center gap-2 pr-3">
             <select
               value={sortBy}
-              onChange={(e) => setSortBy(e.target.value as 'salary' | 'name' | 'eps' | 'marketCap')}
+              onChange={(e) =>
+                setSortBy(
+                  e.target.value as 'salary' | 'name' | 'eps' | 'marketCap',
+                )
+              }
               className="rounded-lg border border-[var(--border)] bg-[var(--bg-elevated)] px-2 py-1 text-xs text-[var(--text-body)]"
             >
               <option value="salary">薪資排序</option>
@@ -115,8 +136,12 @@ function HomePage() {
       <div className="mx-auto mb-6 flex max-w-3xl flex-wrap justify-center gap-2">
         {[...INDUSTRIES, '百大（市值）'].map((ind) => (
           <button
+            type="button"
             key={ind}
-            onClick={() => { setIndustry(ind); setShowCount(60) }}
+            onClick={() => {
+              setIndustry(ind)
+              setShowCount(60)
+            }}
             className={`rounded-full px-3 py-1 text-xs font-medium transition ${
               industry === ind
                 ? 'border border-[var(--accent)] bg-[var(--accent-soft)] text-[var(--text-heading)]'
@@ -143,6 +168,7 @@ function HomePage() {
       {filtered.length > showCount && (
         <div className="mt-6 text-center">
           <button
+            type="button"
             onClick={() => setShowCount((n) => n + 60)}
             className="rounded-xl border border-[var(--accent)] bg-[var(--accent-soft)] px-6 py-2.5 text-sm font-semibold text-[var(--text-heading)] transition hover:bg-[var(--accent)] hover:text-[#00473e]"
           >
@@ -180,7 +206,9 @@ function IndustryTrendsBar({ trends }: { trends: IndustryTrend[] }) {
             </span>
             <span className="font-display text-lg font-bold tabular-nums text-[var(--text-heading)]">
               {t.total_jobs.toLocaleString()}
-              <span className="ml-1 text-xs font-normal text-[var(--text-muted)]">缺</span>
+              <span className="ml-1 text-xs font-normal text-[var(--text-muted)]">
+                缺
+              </span>
             </span>
             <div className="mt-1 flex items-center justify-between">
               <span className="text-[10px] text-[var(--text-muted)]">

@@ -12,7 +12,8 @@ function About() {
           關於 OfferNow
         </h1>
         <p className="max-w-2xl text-base leading-relaxed text-[var(--text-body)]">
-          OfferNow 是一個以台灣上市櫃公司為軸心的職缺聚合平台。我們把三個原本分散在不同政府網站的公開資料串在一起，讓你在同一個頁面就能看到一家公司的薪資水準、財務體質和招募動態。
+          OfferNow
+          是一個以台灣上市櫃公司為軸心的職缺聚合平台。我們把三個原本分散在不同政府網站的公開資料串在一起，讓你在同一個頁面就能看到一家公司的薪資水準、財務體質和招募動態。
         </p>
       </section>
 
@@ -44,7 +45,8 @@ function About() {
           />
         </div>
         <p className="mt-4 max-w-2xl text-sm leading-relaxed text-[var(--text-body)]">
-          OfferNow 自動把這些資料交叉比對，讓「薪資中位數 × EPS × 市值 × 現正招募」一眼看完。
+          OfferNow 自動把這些資料交叉比對，讓「薪資中位數 × EPS × 市值 ×
+          現正招募」一眼看完。
         </p>
       </section>
 
@@ -92,12 +94,36 @@ function About() {
               </tr>
             </thead>
             <tbody>
-              <DataRow data="公司基本資料、產業分類" source="TWSE OpenAPI / TPEx" freq="即時" />
-              <DataRow data="每月營業收入" source="TWSE / TPEx 月營收" freq="每月" />
-              <DataRow data="股價與市值" source="TWSE / TPEx 收盤價" freq="每日" />
-              <DataRow data="非主管薪資中位數 / 平均數" source="MOPS 公開資訊觀測站" freq="每年（6 月底）" />
-              <DataRow data="性別薪資差距" source="MOPS（資本額 100 億以上）" freq="每年" />
-              <DataRow data="職缺" source="104 人力銀行 / LinkedIn" freq="定期爬取" />
+              <DataRow
+                data="公司基本資料、產業分類"
+                source="TWSE OpenAPI / TPEx"
+                freq="即時"
+              />
+              <DataRow
+                data="每月營業收入"
+                source="TWSE / TPEx 月營收"
+                freq="每月"
+              />
+              <DataRow
+                data="股價與市值"
+                source="TWSE / TPEx 收盤價"
+                freq="每日"
+              />
+              <DataRow
+                data="非主管薪資中位數 / 平均數"
+                source="MOPS 公開資訊觀測站"
+                freq="每年（6 月底）"
+              />
+              <DataRow
+                data="性別薪資差距"
+                source="MOPS（資本額 100 億以上）"
+                freq="每年"
+              />
+              <DataRow
+                data="職缺"
+                source="104 人力銀行 / LinkedIn"
+                freq="定期爬取"
+              />
             </tbody>
           </table>
         </div>
@@ -111,10 +137,14 @@ function About() {
           免責聲明
         </h2>
         <ul className="list-inside list-disc space-y-2 text-sm leading-relaxed text-[var(--text-body)]">
-          <li>本站為非官方的個人學習專案，僅供教育研究與個人使用，非商業用途。</li>
+          <li>
+            本站為非官方的個人學習專案，僅供教育研究與個人使用，非商業用途。
+          </li>
           <li>未獲 104 人力銀行、LinkedIn 或任何政府機關官方授權。</li>
           <li>所有分析結果僅供參考，不保證資料的即時性、完整性或準確性。</li>
-          <li>使用者同意自行承擔使用本站的一切後果，作者不對任何損失或法律問題負責。</li>
+          <li>
+            使用者同意自行承擔使用本站的一切後果，作者不對任何損失或法律問題負責。
+          </li>
         </ul>
       </section>
 
@@ -130,13 +160,29 @@ function About() {
   )
 }
 
-function InfoCard({ emoji, title, desc, source }: { emoji: string; title: string; desc: string; source: string }) {
+function InfoCard({
+  emoji,
+  title,
+  desc,
+  source,
+}: {
+  emoji: string
+  title: string
+  desc: string
+  source: string
+}) {
   return (
     <div className="rounded-xl border border-[var(--border)] bg-[var(--bg-surface)] p-5 shadow-[var(--shadow)]">
       <div className="mb-2 text-2xl">{emoji}</div>
-      <h3 className="mb-1 text-sm font-bold text-[var(--text-heading)]">{title}</h3>
-      <p className="mb-2 text-xs leading-relaxed text-[var(--text-body)]">{desc}</p>
-      <span className="text-[10px] font-medium text-[var(--text-muted)]">{source}</span>
+      <h3 className="mb-1 text-sm font-bold text-[var(--text-heading)]">
+        {title}
+      </h3>
+      <p className="mb-2 text-xs leading-relaxed text-[var(--text-body)]">
+        {desc}
+      </p>
+      <span className="text-[10px] font-medium text-[var(--text-muted)]">
+        {source}
+      </span>
     </div>
   )
 }
@@ -144,13 +190,23 @@ function InfoCard({ emoji, title, desc, source }: { emoji: string; title: string
 function FeatureCard({ title, desc }: { title: string; desc: string }) {
   return (
     <div className="rounded-xl border border-[var(--border)] bg-[var(--bg-surface)] p-5 shadow-[var(--shadow)]">
-      <h3 className="mb-1 text-sm font-bold text-[var(--text-heading)]">{title}</h3>
+      <h3 className="mb-1 text-sm font-bold text-[var(--text-heading)]">
+        {title}
+      </h3>
       <p className="text-xs leading-relaxed text-[var(--text-body)]">{desc}</p>
     </div>
   )
 }
 
-function DataRow({ data, source, freq }: { data: string; source: string; freq: string }) {
+function DataRow({
+  data,
+  source,
+  freq,
+}: {
+  data: string
+  source: string
+  freq: string
+}) {
   return (
     <tr className="border-b border-[var(--border)] last:border-0 hover:bg-[var(--bg-elevated)]">
       <td className="px-4 py-3 text-[var(--text-heading)]">{data}</td>

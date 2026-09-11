@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
-import { useState, useMemo } from 'react'
-import { getCompanies, INDUSTRIES } from '#/utils/companies.functions'
+import { useMemo, useState } from 'react'
 import { Badge } from '#/components/Badge'
+import { getCompanies, INDUSTRIES } from '#/utils/companies.functions'
 import type { Company } from '#/utils/types'
 
 export const Route = createFileRoute('/salary')({
@@ -19,7 +19,16 @@ function formatMarketCap(cap: number | null): string {
 function SalaryRankingPage() {
   const companies = Route.useLoaderData()
   const [industry, setIndustry] = useState('全部')
-  const [sortCol, setSortCol] = useState<'median' | 'mean' | 'eps' | 'employees' | 'marketCap' | 'vsIndustry' | 'revenueYoY' | 'jobs'>('median')
+  const [sortCol, setSortCol] = useState<
+    | 'median'
+    | 'mean'
+    | 'eps'
+    | 'employees'
+    | 'marketCap'
+    | 'vsIndustry'
+    | 'revenueYoY'
+    | 'jobs'
+  >('median')
   const [sortDir, setSortDir] = useState<'asc' | 'desc'>('desc')
   const [hiringOnly, setHiringOnly] = useState(false)
 
@@ -31,20 +40,46 @@ function SalaryRankingPage() {
     }
 
     if (hiringOnly) {
-      list = list.filter((c) => (c.job_count_104 ?? 0) + (c.job_count_linkedin ?? 0) > 0)
+      list = list.filter(
+        (c) => (c.job_count_104 ?? 0) + (c.job_count_linkedin ?? 0) > 0,
+      )
     }
 
     list.sort((a, b) => {
       let av: number, bv: number
       switch (sortCol) {
-        case 'median': av = a.salary_median_k ?? 0; bv = b.salary_median_k ?? 0; break
-        case 'mean': av = a.salary_mean_k ?? 0; bv = b.salary_mean_k ?? 0; break
-        case 'eps': av = a.eps ?? 0; bv = b.eps ?? 0; break
-        case 'employees': av = a.employee_count ?? 0; bv = b.employee_count ?? 0; break
-        case 'marketCap': av = a.market_cap ?? 0; bv = b.market_cap ?? 0; break
-        case 'vsIndustry': av = a.salary_vs_industry_pct ?? 0; bv = b.salary_vs_industry_pct ?? 0; break
-        case 'revenueYoY': av = a.revenue_yoy_pct ?? -9999; bv = b.revenue_yoy_pct ?? -9999; break
-        case 'jobs': av = (a.job_count_104 ?? 0) + (a.job_count_linkedin ?? 0); bv = (b.job_count_104 ?? 0) + (b.job_count_linkedin ?? 0); break
+        case 'median':
+          av = a.salary_median_k ?? 0
+          bv = b.salary_median_k ?? 0
+          break
+        case 'mean':
+          av = a.salary_mean_k ?? 0
+          bv = b.salary_mean_k ?? 0
+          break
+        case 'eps':
+          av = a.eps ?? 0
+          bv = b.eps ?? 0
+          break
+        case 'employees':
+          av = a.employee_count ?? 0
+          bv = b.employee_count ?? 0
+          break
+        case 'marketCap':
+          av = a.market_cap ?? 0
+          bv = b.market_cap ?? 0
+          break
+        case 'vsIndustry':
+          av = a.salary_vs_industry_pct ?? 0
+          bv = b.salary_vs_industry_pct ?? 0
+          break
+        case 'revenueYoY':
+          av = a.revenue_yoy_pct ?? -9999
+          bv = b.revenue_yoy_pct ?? -9999
+          break
+        case 'jobs':
+          av = (a.job_count_104 ?? 0) + (a.job_count_linkedin ?? 0)
+          bv = (b.job_count_104 ?? 0) + (b.job_count_linkedin ?? 0)
+          break
       }
       return sortDir === 'desc' ? bv - av : av - bv
     })
@@ -80,6 +115,7 @@ function SalaryRankingPage() {
       <div className="mb-6 flex flex-wrap gap-2">
         {INDUSTRIES.map((ind) => (
           <button
+            type="button"
             key={ind}
             onClick={() => setIndustry(ind)}
             className={`rounded-full px-3 py-1 text-xs font-medium transition ${
@@ -95,6 +131,7 @@ function SalaryRankingPage() {
 
       <div className="mb-4 flex flex-wrap items-center gap-3">
         <button
+          type="button"
           onClick={() => setHiringOnly((v) => !v)}
           className={`rounded-full px-3 py-1 text-xs font-medium transition ${
             hiringOnly
@@ -105,7 +142,8 @@ function SalaryRankingPage() {
           只看招募中
         </button>
         <span className="text-xs text-[var(--text-muted)]">
-          顯示前 100 名{industry !== '全部' ? ` · ${industry}` : ''}{hiringOnly ? ' · 招募中' : ''} · 共 {ranked.length} 家公司
+          顯示前 100 名{industry !== '全部' ? ` · ${industry}` : ''}
+          {hiringOnly ? ' · 招募中' : ''} · 共 {ranked.length} 家公司
         </span>
       </div>
 
@@ -115,26 +153,47 @@ function SalaryRankingPage() {
             <tr>
               <Th>#</Th>
               <Th>公司</Th>
-              <ThSort active={sortCol === 'median'} onClick={() => toggleSort('median')}>
+              <ThSort
+                active={sortCol === 'median'}
+                onClick={() => toggleSort('median')}
+              >
                 薪資中位數{sortIndicator('median')}
               </ThSort>
               <Th>年增</Th>
-              <ThSort active={sortCol === 'vsIndustry'} onClick={() => toggleSort('vsIndustry')}>
+              <ThSort
+                active={sortCol === 'vsIndustry'}
+                onClick={() => toggleSort('vsIndustry')}
+              >
                 同業比較{sortIndicator('vsIndustry')}
               </ThSort>
-              <ThSort active={sortCol === 'eps'} onClick={() => toggleSort('eps')}>
+              <ThSort
+                active={sortCol === 'eps'}
+                onClick={() => toggleSort('eps')}
+              >
                 EPS{sortIndicator('eps')}
               </ThSort>
-              <ThSort active={sortCol === 'marketCap'} onClick={() => toggleSort('marketCap')}>
+              <ThSort
+                active={sortCol === 'marketCap'}
+                onClick={() => toggleSort('marketCap')}
+              >
                 市值{sortIndicator('marketCap')}
               </ThSort>
-              <ThSort active={sortCol === 'revenueYoY'} onClick={() => toggleSort('revenueYoY')}>
+              <ThSort
+                active={sortCol === 'revenueYoY'}
+                onClick={() => toggleSort('revenueYoY')}
+              >
                 營收年增{sortIndicator('revenueYoY')}
               </ThSort>
-              <ThSort active={sortCol === 'jobs'} onClick={() => toggleSort('jobs')}>
+              <ThSort
+                active={sortCol === 'jobs'}
+                onClick={() => toggleSort('jobs')}
+              >
                 職缺{sortIndicator('jobs')}
               </ThSort>
-              <ThSort active={sortCol === 'employees'} onClick={() => toggleSort('employees')}>
+              <ThSort
+                active={sortCol === 'employees'}
+                onClick={() => toggleSort('employees')}
+              >
                 員工數{sortIndicator('employees')}
               </ThSort>
             </tr>
@@ -158,7 +217,15 @@ function Th({ children }: { children: React.ReactNode }) {
   )
 }
 
-function ThSort({ children, active, onClick }: { children: React.ReactNode; active: boolean; onClick: () => void }) {
+function ThSort({
+  children,
+  active,
+  onClick,
+}: {
+  children: React.ReactNode
+  active: boolean
+  onClick: () => void
+}) {
   return (
     <th
       className={`cursor-pointer select-none border-b border-[var(--border)] bg-[var(--bg-elevated)] px-3 py-3 text-left text-[11px] font-semibold uppercase tracking-wider transition hover:text-[var(--text-heading)] ${active ? 'text-[var(--text-heading)]' : 'text-[var(--text-muted)]'}`}
@@ -174,16 +241,26 @@ function RankRow({ company: c, rank }: { company: Company; rank: number }) {
   const vsInd = c.salary_vs_industry_pct
   const jobTotal = (c.job_count_104 ?? 0) + (c.job_count_linkedin ?? 0)
   const revenueYoY = c.revenue_yoy_pct
-  const isGrowingAndHiring = jobTotal > 0 && revenueYoY !== null && revenueYoY !== undefined && revenueYoY > 0
+  const isGrowingAndHiring =
+    jobTotal > 0 &&
+    revenueYoY !== null &&
+    revenueYoY !== undefined &&
+    revenueYoY > 0
   return (
     <tr className="border-b border-[var(--border)] last:border-0 hover:bg-[var(--bg-elevated)]">
       <td className="px-3 py-3">
-        <span className={`font-display font-bold tabular-nums ${rank <= 3 ? 'text-[var(--accent)]' : 'text-[var(--text-muted)]'}`}>
+        <span
+          className={`font-display font-bold tabular-nums ${rank <= 3 ? 'text-[var(--accent)]' : 'text-[var(--text-muted)]'}`}
+        >
           {rank}
         </span>
       </td>
       <td className="px-3 py-3">
-        <Link to="/company/$stockId" params={{ stockId: c.stock_id }} className="flex items-center gap-2 no-underline">
+        <Link
+          to="/company/$stockId"
+          params={{ stockId: c.stock_id }}
+          className="flex items-center gap-2 no-underline"
+        >
           <div className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-md bg-[var(--bg-elevated)] font-display text-[10px] font-bold text-[var(--text-heading)]">
             {initial}
           </div>
@@ -191,16 +268,25 @@ function RankRow({ company: c, rank }: { company: Company; rank: number }) {
             <div className="flex items-center gap-1.5 text-sm font-semibold text-[var(--text-heading)]">
               {c.short_name || c.name}
               {isGrowingAndHiring && (
-                <span className="rounded bg-[var(--accent-soft)] px-1 py-px text-[9px] font-bold text-[var(--accent)]" title="營收成長且正在招募">成長招募中</span>
+                <span
+                  className="rounded bg-[var(--accent-soft)] px-1 py-px text-[9px] font-bold text-[var(--accent)]"
+                  title="營收成長且正在招募"
+                >
+                  成長招募中
+                </span>
               )}
             </div>
-            <div className="text-[10px] text-[var(--text-muted)]">{c.industry} · {c.stock_id}</div>
+            <div className="text-[10px] text-[var(--text-muted)]">
+              {c.industry} · {c.stock_id}
+            </div>
           </div>
         </Link>
       </td>
       <td className="px-3 py-3">
         <span className="font-display font-bold tabular-nums text-[var(--text-heading)]">
-          {c.salary_median_k ? `${(c.salary_median_k / 10).toFixed(1)} 萬` : '—'}
+          {c.salary_median_k
+            ? `${(c.salary_median_k / 10).toFixed(1)} 萬`
+            : '—'}
         </span>
       </td>
       <td className="px-3 py-3">
@@ -212,10 +298,21 @@ function RankRow({ company: c, rank }: { company: Company; rank: number }) {
       </td>
       <td className="px-3 py-3 text-xs tabular-nums">
         {vsInd !== null && vsInd !== undefined ? (
-          <span className={vsInd > 0 ? 'text-[var(--green-positive)]' : vsInd < 0 ? 'text-[var(--red-negative)]' : 'text-[var(--text-muted)]'}>
-            {vsInd > 0 ? '+' : ''}{vsInd.toFixed(0)}%
+          <span
+            className={
+              vsInd > 0
+                ? 'text-[var(--green-positive)]'
+                : vsInd < 0
+                  ? 'text-[var(--red-negative)]'
+                  : 'text-[var(--text-muted)]'
+            }
+          >
+            {vsInd > 0 ? '+' : ''}
+            {vsInd.toFixed(0)}%
           </span>
-        ) : '—'}
+        ) : (
+          '—'
+        )}
       </td>
       <td className="px-3 py-3 tabular-nums text-sm text-[var(--text-body)]">
         {c.eps !== null ? c.eps : '—'}
@@ -225,14 +322,21 @@ function RankRow({ company: c, rank }: { company: Company; rank: number }) {
       </td>
       <td className="px-3 py-3">
         {revenueYoY !== null && revenueYoY !== undefined ? (
-          <Badge value={revenueYoY > 999 ? 999 : revenueYoY < -999 ? -999 : revenueYoY} suffix="%" />
+          <Badge
+            value={
+              revenueYoY > 999 ? 999 : revenueYoY < -999 ? -999 : revenueYoY
+            }
+            suffix="%"
+          />
         ) : (
           <span className="text-xs text-[var(--text-muted)]">—</span>
         )}
       </td>
       <td className="px-3 py-3 text-sm">
         {jobTotal > 0 ? (
-          <span className="font-semibold tabular-nums text-[var(--accent)]">{jobTotal.toLocaleString()}</span>
+          <span className="font-semibold tabular-nums text-[var(--accent)]">
+            {jobTotal.toLocaleString()}
+          </span>
         ) : (
           <span className="text-xs text-[var(--text-muted)]">—</span>
         )}
