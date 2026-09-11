@@ -21,12 +21,28 @@ async function getD1(): Promise<D1Database | null> {
   return null
 }
 
+export const getJobRedirectUrl = createServerFn()
+  .validator((data: string) => data)
+  .handler(async ({ data: jobId }): Promise<string | null> => {
+    const db = await getD1()
+    if (!db) return null
+    try {
+      const id = parseInt(jobId, 10)
+      if (isNaN(id)) return null
+      await db.prepare('UPDATE jobs SET click_count = click_count + 1 WHERE id = ?').bind(id).all()
+      const { results } = await db.prepare('SELECT job_url FROM jobs WHERE id = ?').bind(id).all<{ job_url: string }>()
+      return results[0]?.job_url ?? null
+    } catch {
+      return null
+    }
+  })
+
 export const getJobs = createServerFn().handler(async (): Promise<Job[]> => {
   const db = await getD1()
   if (db) {
     try {
       const { results } = await db.prepare(
-        'SELECT stock_id, company_name, title, location, date_posted, job_url, source, description, salary_min, salary_max, job_type FROM jobs ORDER BY date_posted DESC'
+        'SELECT id, stock_id, company_name, title, location, date_posted, job_url, source, description, salary_min, salary_max, job_type, click_count FROM jobs ORDER BY date_posted DESC'
       ).all<Job>()
       return results
     } catch {

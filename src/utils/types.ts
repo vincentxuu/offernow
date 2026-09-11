@@ -37,6 +37,7 @@ export type Company = {
 }
 
 export type Job = {
+  id: number
   stock_id: string
   company_name: string
   title: string
@@ -48,4 +49,5 @@ export type Job = {
   salary_min: number | null
   salary_max: number | null
   job_type: string
+  click_count: number
 }

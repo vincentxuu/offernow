@@ -39,6 +39,44 @@ type CompanyGroup = {
   jobs: Job[]
 }
 
+function buildJobPostingJsonLd(job: Job, company: Company | undefined) {
+  const jsonLd: Record<string, unknown> = {
+    '@context': 'https://schema.org',
+    '@type': 'JobPosting',
+    title: job.title,
+    ...(job.date_posted && job.date_posted !== 'None' && job.date_posted !== 'nan' && { datePosted: job.date_posted }),
+    ...(job.description && { description: job.description }),
+    ...(job.job_url && { url: job.job_url }),
+    hiringOrganization: {
+      '@type': 'Organization',
+      name: company?.name || job.company_name,
+      ...(company?.address && { address: { '@type': 'PostalAddress', streetAddress: company.address } }),
+    },
+    jobLocation: {
+      '@type': 'Place',
+      address: {
+        '@type': 'PostalAddress',
+        addressLocality: job.location || '台灣',
+        addressCountry: 'TW',
+      },
+    },
+    ...(job.job_type === 'global_remote' && { jobLocationType: 'TELECOMMUTE' }),
+  }
+  if (job.salary_min || job.salary_max) {
+    jsonLd.baseSalary = {
+      '@type': 'MonetaryAmount',
+      currency: 'TWD',
+      value: {
+        '@type': 'QuantitativeValue',
+        ...(job.salary_min && { minValue: job.salary_min }),
+        ...(job.salary_max && { maxValue: job.salary_max }),
+        unitText: 'MONTH',
+      },
+    }
+  }
+  return jsonLd
+}
+
 function JobsPage() {
   const { jobs, companyMap } = Route.useLoaderData()
   const [search, setSearch] = useState('')
@@ -151,8 +189,19 @@ function JobsPage() {
     )
   }
 
+  const jobPostingsJsonLd = useMemo(() => {
+    const allJobs = groups.flatMap((g) => g.jobs.slice(0, 5)).slice(0, 50)
+    return allJobs.map((job) => buildJobPostingJsonLd(job, companyMap[job.stock_id]))
+  }, [groups, companyMap])
+
   return (
     <main className="page-wrap px-4 pb-12 pt-8">
+      {jobPostingsJsonLd.length > 0 && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jobPostingsJsonLd) }}
+        />
+      )}
       <h1 className="mb-1 font-display text-2xl font-bold text-[var(--text-heading)]">職缺搜尋</h1>
       <p className="mb-6 text-sm text-[var(--text-muted)]">
         跨平台聚合 LinkedIn + Indeed，按公司分組，一眼看懂薪資和擴編狀況
@@ -319,7 +368,7 @@ function CompanyJobGroup({ group }: { group: CompanyGroup }) {
         return (
           <a
             key={`${job.title}-${i}`}
-            href={job.job_url}
+            href={`/go/${job.id}`}
             target="_blank"
             rel="noopener noreferrer"
             className={`flex items-center gap-3 px-4 py-2.5 no-underline transition hover:bg-[var(--bg-elevated)] ${

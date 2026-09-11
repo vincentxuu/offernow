@@ -35,6 +35,20 @@ function formatRevenueYoY(pct: number | null): string {
   return `${pct > 0 ? '+' : ''}${pct.toFixed(1)}%`
 }
 
+function buildOrganizationJsonLd(c: NonNullable<ReturnType<typeof Route.useLoaderData>>) {
+  const jsonLd: Record<string, unknown> = {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: c.name,
+    ...(c.address && { address: { '@type': 'PostalAddress', streetAddress: c.address } }),
+    ...(c.phone && { telephone: c.phone }),
+    ...(c.tax_id && { taxID: c.tax_id }),
+    ...(c.employee_count && { numberOfEmployees: { '@type': 'QuantitativeValue', value: c.employee_count } }),
+    ...(c.industry && { industry: c.industry }),
+  }
+  return jsonLd
+}
+
 function CompanyDetailPage() {
   const company = Route.useLoaderData()
 
@@ -66,8 +80,14 @@ function CompanyDetailPage() {
   const vsIndustry = c.salary_vs_industry_pct
   const industryAvgWan = c.industry_salary_avg_k ? (c.industry_salary_avg_k / 10).toFixed(1) : null
 
+  const organizationJsonLd = buildOrganizationJsonLd(c)
+
   return (
     <main className="page-wrap px-4 pb-12 pt-6">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+      />
       <div className="mb-6 flex items-center gap-4">
         <Link to="/" className="inline-flex items-center gap-1 text-sm font-medium text-[var(--text-body)] no-underline hover:text-[var(--accent)]">
           ← 返回公司列表

@@ -15,6 +15,7 @@ import { Route as JobsRouteImport } from './routes/jobs'
 import { Route as SalaryRouteImport } from './routes/salary'
 import { Route as CompanyStockIdRouteImport } from './routes/company/$stockId'
 import { Route as DemoTanstackQueryRouteImport } from './routes/demo/tanstack-query'
+import { Route as GoJobIdRouteImport } from './routes/go/$jobId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -46,6 +47,11 @@ const DemoTanstackQueryRoute = DemoTanstackQueryRouteImport.update({
   path: '/demo/tanstack-query',
   getParentRoute: () => rootRouteImport,
 } as any)
+const GoJobIdRoute = GoJobIdRouteImport.update({
+  id: '/go/$jobId',
+  path: '/go/$jobId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -54,6 +60,7 @@ export interface FileRoutesByFullPath {
   '/salary': typeof SalaryRoute
   '/company/$stockId': typeof CompanyStockIdRoute
   '/demo/tanstack-query': typeof DemoTanstackQueryRoute
+  '/go/$jobId': typeof GoJobIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -62,6 +69,7 @@ export interface FileRoutesByTo {
   '/salary': typeof SalaryRoute
   '/company/$stockId': typeof CompanyStockIdRoute
   '/demo/tanstack-query': typeof DemoTanstackQueryRoute
+  '/go/$jobId': typeof GoJobIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -71,6 +79,7 @@ export interface FileRoutesById {
   '/salary': typeof SalaryRoute
   '/company/$stockId': typeof CompanyStockIdRoute
   '/demo/tanstack-query': typeof DemoTanstackQueryRoute
+  '/go/$jobId': typeof GoJobIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -81,6 +90,7 @@ export interface FileRouteTypes {
     | '/salary'
     | '/company/$stockId'
     | '/demo/tanstack-query'
+    | '/go/$jobId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -89,6 +99,7 @@ export interface FileRouteTypes {
     | '/salary'
     | '/company/$stockId'
     | '/demo/tanstack-query'
+    | '/go/$jobId'
   id:
     | '__root__'
     | '/'
@@ -97,6 +108,7 @@ export interface FileRouteTypes {
     | '/salary'
     | '/company/$stockId'
     | '/demo/tanstack-query'
+    | '/go/$jobId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -106,6 +118,7 @@ export interface RootRouteChildren {
   SalaryRoute: typeof SalaryRoute
   CompanyStockIdRoute: typeof CompanyStockIdRoute
   DemoTanstackQueryRoute: typeof DemoTanstackQueryRoute
+  GoJobIdRoute: typeof GoJobIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -152,6 +165,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DemoTanstackQueryRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/go/$jobId': {
+      id: '/go/$jobId'
+      path: '/go/$jobId'
+      fullPath: '/go/$jobId'
+      preLoaderRoute: typeof GoJobIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -162,6 +182,7 @@ const rootRouteChildren: RootRouteChildren = {
   SalaryRoute: SalaryRoute,
   CompanyStockIdRoute: CompanyStockIdRoute,
   DemoTanstackQueryRoute: DemoTanstackQueryRoute,
+  GoJobIdRoute: GoJobIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

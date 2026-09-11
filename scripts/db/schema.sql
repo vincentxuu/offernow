@@ -102,7 +102,8 @@ CREATE TABLE jobs (
   description TEXT,
   salary_min INTEGER,
   salary_max INTEGER,
-  job_type TEXT DEFAULT ''
+  job_type TEXT DEFAULT '',
+  click_count INTEGER DEFAULT 0
 );
 
 CREATE INDEX idx_jobs_stock_id ON jobs(stock_id);
