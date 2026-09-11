@@ -16,16 +16,21 @@ export const Route = createFileRoute('/jobs')({
 })
 
 const SOURCES = ['全部', '104', 'linkedin', 'indeed'] as const
-const CITIES = ['全部', '台北', '新北', '新竹', '桃園', '台中', '台南', '高雄'] as const
+const JOB_TYPES = ['全部', '遠端/混合', 'AI 相關'] as const
+
+const REMOTE_KEYWORDS = ['remote', '遠端', '遠距', 'work from home', 'wfh', '在家工作', 'hybrid', '混合', '居家']
+const AI_KEYWORDS = ['ai', '人工智慧', 'machine learning', 'deep learning', 'nlp', 'llm', 'data scientist', '機器學習', '深度學習', 'ml engineer', 'ai engineer']
+const CITIES = ['全部', '台北', '新北', '新竹', '桃園', '苗栗', '台中', '台南', '高雄'] as const
 
 const CITY_ALIASES: Record<string, string[]> = {
   '台北': ['台北', 'Taipei', 'TPE'],
-  '新北': ['新北', 'New Taipei', 'TPQ', '三重', '板橋', '中和', '永和', '土城', '汐止', '林口'],
-  '新竹': ['新竹', 'Hsinchu', 'Zhubei', '竹北'],
-  '桃園': ['桃園', 'Taoyuan'],
+  '新北': ['新北', 'New Taipei', 'TPQ', '三重', '板橋', '中和', '永和', '土城', '汐止', '林口', '淡水', '蘆洲', '樹林'],
+  '新竹': ['新竹', 'Hsinchu', 'Zhubei', '竹北', '竹東'],
+  '桃園': ['桃園', 'Taoyuan', '中壢', '龜山', '楊梅'],
+  '苗栗': ['苗栗', 'Miaoli', '竹南', '頭份'],
   '台中': ['台中', 'Taichung'],
-  '台南': ['台南', 'Tainan'],
-  '高雄': ['高雄', 'Kaohsiung'],
+  '台南': ['台南', 'Tainan', '善化', '新營'],
+  '高雄': ['高雄', 'Kaohsiung', '楠梓', '前鎮'],
 }
 
 type CompanyGroup = {
@@ -40,6 +45,7 @@ function JobsPage() {
   const [source, setSource] = useState<string>('全部')
   const [industry, setIndustry] = useState<string>('全部')
   const [city, setCity] = useState<string>('全部')
+  const [jobType, setJobType] = useState<string>('全部')
 
   const fuse = useMemo(
     () => new Fuse(jobs, {
@@ -80,6 +86,17 @@ function JobsPage() {
     }
 
     if (source !== '全部') list = list.filter((j) => j.source === source)
+    if (jobType === '遠端/混合') {
+      list = list.filter((j) => {
+        const text = ((j.title || '') + ' ' + (j.location || '') + ' ' + (j.description || '') + ' ' + (j.job_type || '')).toLowerCase()
+        return REMOTE_KEYWORDS.some((kw) => text.includes(kw))
+      })
+    } else if (jobType === 'AI 相關') {
+      list = list.filter((j) => {
+        const text = ((j.title || '') + ' ' + (j.description || '')).toLowerCase()
+        return AI_KEYWORDS.some((kw) => text.includes(kw))
+      })
+    }
     if (city !== '全部') {
       const aliases = CITY_ALIASES[city] || [city]
       list = list.filter((j) => {
@@ -116,7 +133,7 @@ function JobsPage() {
     })
 
     return result
-  }, [jobs, search, source, industry, city, fuse, companyMap])
+  }, [jobs, search, source, industry, city, jobType, fuse, companyMap])
 
   const totalJobs = groups.reduce((s, g) => s + g.jobs.length, 0)
 
@@ -147,6 +164,22 @@ function JobsPage() {
       </div>
 
       {/* Filters */}
+      <div className="mb-3 flex flex-wrap items-center gap-2">
+        <span className="text-xs font-medium text-[var(--text-muted)]">類型</span>
+        {JOB_TYPES.map((t) => (
+          <button
+            key={t}
+            onClick={() => setJobType(t)}
+            className={`rounded-full px-3 py-1 text-xs font-medium transition ${
+              jobType === t
+                ? 'bg-[var(--accent-soft)] border border-[var(--accent)] text-[var(--text-heading)]'
+                : 'bg-[var(--bg-surface)] border border-[var(--border)] text-[var(--text-muted)] hover:border-[var(--accent)]'
+            }`}
+          >
+            {t}
+          </button>
+        ))}
+      </div>
       <div className="mb-3 flex flex-wrap items-center gap-2">
         <span className="text-xs font-medium text-[var(--text-muted)]">來源</span>
         {SOURCES.map((s) => (
