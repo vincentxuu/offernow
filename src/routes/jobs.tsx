@@ -16,7 +16,7 @@ export const Route = createFileRoute('/jobs')({
 })
 
 const SOURCES = ['全部', '104', 'linkedin', 'indeed'] as const
-const JOB_TYPES = ['全部', '遠端/混合', 'AI 相關'] as const
+const JOB_TYPES = ['全部', '遠端/混合', '全球遠端', 'AI 相關'] as const
 
 const REMOTE_KEYWORDS = ['remote work', 'remote position', 'remote job', 'remote role', 'fully remote', 'work remotely', 'remote-first', '遠端工作', '遠端辦公', '遠距工作', '遠距辦公', 'work from home', 'wfh', '在家工作', 'hybrid work', '混合辦公', '混合工作', '居家辦公', '居家工作', '彈性工作地點', '遠端/現場', '現場/遠端']
 const AI_KEYWORDS = ['ai', '人工智慧', 'machine learning', 'deep learning', 'nlp', 'llm', 'data scientist', '機器學習', '深度學習', 'ml engineer', 'ai engineer']
@@ -88,10 +88,12 @@ function JobsPage() {
     if (source !== '全部') list = list.filter((j) => j.source === source)
     if (jobType === '遠端/混合') {
       list = list.filter((j) => {
-        if (j.job_type === 'remote') return true
+        if (j.job_type === 'remote' || j.job_type === 'global_remote') return true
         const text = ((j.title || '') + ' ' + (j.location || '') + ' ' + (j.description || '')).toLowerCase()
         return REMOTE_KEYWORDS.some((kw) => text.includes(kw))
       })
+    } else if (jobType === '全球遠端') {
+      list = list.filter((j) => j.job_type === 'global_remote')
     } else if (jobType === 'AI 相關') {
       list = list.filter((j) => {
         const text = ((j.title || '') + ' ' + (j.description || '')).toLowerCase()

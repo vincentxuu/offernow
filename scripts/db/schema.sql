@@ -86,3 +86,25 @@ CREATE INDEX idx_job_count ON company_profiles(job_count_total DESC);
 CREATE INDEX idx_employee_count ON company_profiles(employee_count DESC);
 CREATE INDEX idx_market_cap ON company_profiles(market_cap DESC);
 CREATE INDEX idx_revenue_yoy ON company_profiles(revenue_yoy_pct DESC);
+
+-- Jobs table (runtime query, not bundled)
+DROP TABLE IF EXISTS jobs;
+
+CREATE TABLE jobs (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  stock_id TEXT,
+  company_name TEXT NOT NULL,
+  title TEXT NOT NULL,
+  location TEXT,
+  date_posted TEXT,
+  job_url TEXT,
+  source TEXT,
+  description TEXT,
+  salary_min INTEGER,
+  salary_max INTEGER,
+  job_type TEXT DEFAULT ''
+);
+
+CREATE INDEX idx_jobs_stock_id ON jobs(stock_id);
+CREATE INDEX idx_jobs_source ON jobs(source);
+CREATE INDEX idx_jobs_job_type ON jobs(job_type);

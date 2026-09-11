@@ -1,15 +1,38 @@
 import { createServerFn } from '@tanstack/react-start'
 import type { Job } from './types'
 
-async function loadJobsFromJSON(): Promise<Job[]> {
-  try {
-    const { default: data } = await import('../../scripts/data/jobs.json')
-    return data as Job[]
-  } catch {
-    return []
+type D1Database = {
+  prepare: (sql: string) => {
+    bind: (...values: unknown[]) => {
+      all: <T>() => Promise<{ results: T[] }>
+    }
+    all: <T>() => Promise<{ results: T[] }>
   }
 }
 
+async function getD1(): Promise<D1Database | null> {
+  try {
+    const mod: Record<string, unknown> = await import('cloudflare:workers')
+    const env = mod.env as Record<string, unknown> | undefined
+    if (env?.DB) return env.DB as D1Database
+  } catch {
+    // Not in Cloudflare Workers environment
+  }
+  return null
+}
+
 export const getJobs = createServerFn().handler(async (): Promise<Job[]> => {
-  return loadJobsFromJSON()
+  const db = await getD1()
+  if (db) {
+    try {
+      const { results } = await db.prepare(
+        'SELECT stock_id, company_name, title, location, date_posted, job_url, source, description, salary_min, salary_max, job_type FROM jobs ORDER BY date_posted DESC'
+      ).all<Job>()
+      return results
+    } catch {
+      // D1 table may not exist; fall through
+    }
+  }
+  // Dev mode fallback: no JSON import needed, D1 handles production
+  return []
 })
