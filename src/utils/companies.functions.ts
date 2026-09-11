@@ -23,11 +23,6 @@ async function getD1(): Promise<D1Database | null> {
   return null
 }
 
-async function loadFromJSON(): Promise<Company[]> {
-  const { default: data } = await import('../../scripts/data/companies_with_salary.json')
-  return data as Company[]
-}
-
 export const getCompanies = createServerFn().handler(async (): Promise<Company[]> => {
   const db = await getD1()
   if (db) {
@@ -37,10 +32,11 @@ export const getCompanies = createServerFn().handler(async (): Promise<Company[]
       ).all<Company>()
       return results
     } catch {
-      // D1 table may not exist locally; fall through to JSON
+      // D1 table may not exist; fall through
     }
   }
-  return loadFromJSON()
+  // Dev mode fallback: no JSON import, D1 handles production
+  return []
 })
 
 export const getCompanyByStockId = createServerFn()
@@ -53,11 +49,10 @@ export const getCompanyByStockId = createServerFn()
           'SELECT * FROM company_profiles WHERE stock_id = ?'
         ).bind(stockId).first<Company>()
       } catch {
-        // Fall through to JSON
+        // Fall through
       }
     }
-    const all = await loadFromJSON()
-    return all.find((c) => c.stock_id === stockId) ?? null
+    return null
   })
 
 export const INDUSTRIES = [
