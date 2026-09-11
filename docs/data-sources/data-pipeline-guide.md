@@ -223,3 +223,84 @@ page.wait_for_timeout(15000)  # 等 Cloudflare challenge
 - `wait_until="networkidle"` — 會卡死
 - `timeout=30000` — 太短，Cloudflare 可能需要 15 秒
 - `sleep(5)` — 太短，Cloudflare challenge 可能還沒完成
+
+### 104 Headless 被偵測 — Cookie 轉移方案
+
+**症狀**：Python headless Playwright 通過了 Cloudflare（Title 顯示 104），但 API fetch 回 403 或搜尋結果 0 筆。
+
+**根本原因**：104 不只用 Cloudflare challenge，還額外偵測 headless Chrome。`playwright-stealth` 能騙過頁面載入，但 API 請求仍被攔截（403 + Cloudflare HTML）。
+
+**解法：MCP Playwright 拿 cookie → Python requests 打 API**
+
+```
+步驟：
+1. MCP Playwright（Claude Code 的瀏覽器，非 headless）訪問 104 → 自動通過 Cloudflare
+2. 用 browser_evaluate 拿 cookie：document.cookie
+3. 用該 cookie 在 Python requests 裡打 104 API
+4. API 以為是同一個瀏覽器 session，正常回 JSON
+```
+
+範例程式碼：
+```python
+import requests
+
+# 從 MCP Playwright 拿到的 cookie（每次都要重新拿，會過期）
+COOKIE = "luauid=xxx; _ga=xxx; ..."
+
+headers = {
+    "Cookie": COOKIE,
+    "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) ...",
+    "Referer": "https://www.104.com.tw/jobs/search/",
+}
+
+for page_num in range(1, 36):
+    url = f"https://www.104.com.tw/jobs/search/api/jobs?keyword=remote&order=15&pagesize=20&page={page_num}"
+    resp = requests.get(url, headers=headers, timeout=15)
+    data = resp.json()
+    # ... 處理職缺
+    time.sleep(1)
+```
+
+**注意事項**：
+- Cookie 會過期（通常幾小時），每次跑腳本前要重新拿
+- 拿 cookie 的步驟：
+  1. 在 Claude Code 裡用 MCP Playwright 訪問 104
+  2. `browser_evaluate(() => document.cookie)` 拿到 cookie 字串
+  3. 貼到腳本裡
+- 或者寫一個 wrapper 腳本自動化這個流程
+- `pagesize=20` 最穩定，`pagesize=100` 可能被擋
+
+### 104 搜尋的實際結果（2026-09-11 驗證）
+
+| 關鍵字 | zone=16 (上市櫃) | 全站 |
+|--------|-----------------|------|
+| engineer | 1,467 筆 | 更多 |
+| AI | 208 筆 | 更多 |
+| remote | N/A | 682 筆 |
+| 遠端 | 0 筆 | 0 筆（104 使用者不搜這個詞）|
+| 遠距 | 0 筆 | 1000+（但很多雜訊，如「遠距醫療」）|
+
+**教訓**：
+- 「遠端」在 104 上不是使用者會搜的詞，要用「remote」
+- 遠端職缺不要限制 zone=16，因為很多外商和非上市櫃公司也提供遠端
+- 搜「遠距」雜訊太多（遠距醫療、遠距教學等），不建議
+
+### 遠端職缺篩選的關鍵字設計
+
+**精確匹配（避免誤匹配）**：
+
+| 好的關鍵字 | 壞的關鍵字 | 原因 |
+|-----------|----------|------|
+| `remote work` | `remote` | 「remote diagnostics」「remote access」不是遠端工作 |
+| `混合辦公` | `混合` | 「混合訊號電路」不是混合辦公 |
+| `遠端工作` | `遠端` | 太短，可能匹配到其他用法 |
+| `居家辦公` | `居家` | 「居家清潔」不是遠端工作 |
+| `job_type === 'remote'` | — | JobSpy 標記的，最精確 |
+
+前端篩選邏輯：
+```typescript
+if (j.job_type === 'remote') return true  // JobSpy 標記，直接通過
+// 否則檢查精確詞組
+const text = (title + location + description).toLowerCase()
+return REMOTE_KEYWORDS.some(kw => text.includes(kw))
+```
