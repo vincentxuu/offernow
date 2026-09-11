@@ -18,7 +18,7 @@ export const Route = createFileRoute('/jobs')({
 const SOURCES = ['全部', '104', 'linkedin', 'indeed'] as const
 const JOB_TYPES = ['全部', '遠端/混合', 'AI 相關'] as const
 
-const REMOTE_KEYWORDS = ['remote', '遠端工作', '遠端辦公', '遠距工作', '遠距辦公', 'work from home', 'wfh', '在家工作', 'hybrid work', '混合辦公', '混合工作', '居家辦公', '居家工作', '彈性工作地點']
+const REMOTE_KEYWORDS = ['remote work', 'remote position', 'remote job', 'remote role', 'fully remote', 'work remotely', 'remote-first', '遠端工作', '遠端辦公', '遠距工作', '遠距辦公', 'work from home', 'wfh', '在家工作', 'hybrid work', '混合辦公', '混合工作', '居家辦公', '居家工作', '彈性工作地點', '遠端/現場', '現場/遠端']
 const AI_KEYWORDS = ['ai', '人工智慧', 'machine learning', 'deep learning', 'nlp', 'llm', 'data scientist', '機器學習', '深度學習', 'ml engineer', 'ai engineer']
 const CITIES = ['全部', '台北', '新北', '新竹', '桃園', '苗栗', '台中', '台南', '高雄'] as const
 
