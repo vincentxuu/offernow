@@ -38,7 +38,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "5h0zoz4",
+    "job_count_104": 159
   },
   {
     "stock_id": "1102",
@@ -122,7 +124,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": true,
     "salary_explanation": "114年度EPS較前一年度高，主要係114年度營業外收入- 採用權益法認列之關聯企業損益份額較前一年增加所致；而薪資平 均數較前一年微幅減少，主要是人員異動（例如資深員工退休）產 生之薪資差異。",
-    "improvement_measures": "公司每年持續參與兩家專業第三方薪資調查，並參考物價水準進行 滾動式薪資調整，以確保薪酬具市場競爭力，同時將營運績效適度 反映於員工薪酬，與員工共享公司經營成果。"
+    "improvement_measures": "公司每年持續參與兩家專業第三方薪資調查，並參考物價水準進行 滾動式薪資調整，以確保薪酬具市場競爭力，同時將營運績效適度 反映於員工薪酬，與員工共享公司經營成果。",
+    "encoded_cust_no_104": "5gonzzc",
+    "job_count_104": 14
   },
   {
     "stock_id": "1104",
@@ -290,7 +294,9 @@
     "flag_eps_high_salary_low": true,
     "flag_eps_up_salary_down": false,
     "salary_explanation": "本公司114年度EPS0.36元除比台泥EPS-1.60元 高外，其他同業EPS均高於本公司甚多，另114年度本公司非 擔任主管之全時員工薪資平均數較113年增加10.97%，同 業114年平均數較113年僅增加0.66%，顯示本公司優於 同業。",
-    "improvement_measures": "遵循公司章程規定，員工酬勞中分配予基層員工比例不低於50% ，並持續檢視薪酬政策，以確保薪資水準與市場趨勢保持合理性。"
+    "improvement_measures": "遵循公司章程規定，員工酬勞中分配予基層員工比例不低於50% ，並持續檢視薪酬政策，以確保薪資水準與市場趨勢保持合理性。",
+    "encoded_cust_no_104": "125yuq0w",
+    "job_count_104": 7
   },
   {
     "stock_id": "1201",
@@ -630,7 +636,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "rep1b48",
+    "job_count_104": 33
   },
   {
     "stock_id": "1219",
@@ -843,7 +851,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "5ienadc",
+    "job_count_104": 16
   },
   {
     "stock_id": "1231",
@@ -927,7 +937,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "9m3ejcg",
+    "job_count_104": 4
   },
   {
     "stock_id": "1233",
@@ -1011,7 +1023,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "9hjlwso",
+    "job_count_104": 25
   },
   {
     "stock_id": "1235",
@@ -1169,7 +1183,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "ys2lc2g",
+    "job_count_104": 148
   },
   {
     "stock_id": "1303",
@@ -2219,7 +2235,9 @@
     "flag_eps_high_salary_low": true,
     "flag_eps_up_salary_down": true,
     "salary_explanation": "主要獲利為子公司及業外收入，本業狀況則較為低迷，員工的獎金 主是以本業營運狀況連動，因此影響該年度薪資水平",
-    "improvement_measures": "主要獲利為子公司及業外收入，本業狀況則較為低迷，員工的獎金 主是以本業營運狀況連動，因此影響該年度薪資水平"
+    "improvement_measures": "主要獲利為子公司及業外收入，本業狀況則較為低迷，員工的獎金 主是以本業營運狀況連動，因此影響該年度薪資水平",
+    "encoded_cust_no_104": "3eyww3c",
+    "job_count_104": 58
   },
   {
     "stock_id": "1410",
@@ -2344,7 +2362,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "xlmbpt4",
+    "job_count_104": 1
   },
   {
     "stock_id": "1416",
@@ -2854,7 +2874,9 @@
     "flag_eps_high_salary_low": true,
     "flag_eps_up_salary_down": false,
     "salary_explanation": "公司屬新創事業逐步成長，也因為產業特性目前經營獲利營收主要 來自合建投資案，整體員工人數較中大型建商仍屬偏少，且人力結 構中非擔任主管職務之全時員工以新進同仁較多且年資尚淺基數較 低。",
-    "improvement_measures": "公司於115年4月完成非擔任主管職務員工調薪、5月董事會已 通過調整基層員工薪資之「一定範圍」，另公司建案將陸續交屋， 經營績效亦會實質回饋同仁，且透過多元福利政策，補強非現金報 酬，以幸福企業為目標。"
+    "improvement_measures": "公司於115年4月完成非擔任主管職務員工調薪、5月董事會已 通過調整基層員工薪資之「一定範圍」，另公司建案將陸續交屋， 經營績效亦會實質回饋同仁，且透過多元福利政策，補強非現金報 酬，以幸福企業為目標。",
+    "encoded_cust_no_104": "53smsmw",
+    "job_count_104": 1
   },
   {
     "stock_id": "1440",
@@ -2981,7 +3003,9 @@
     "flag_eps_high_salary_low": true,
     "flag_eps_up_salary_down": false,
     "salary_explanation": "本公司114年度EPS優於同業，係個案完工持續入帳之成果， 並已反映於相應員工之獎酬；另員工人數較去年增加，又有人員異 動之緣故，離職與新進人員的薪資差，故影響整體平均薪資。",
-    "improvement_measures": "公司每年進行年度調薪，亦持續針對同業市場薪資水準進行內部調薪"
+    "improvement_measures": "公司每年進行年度調薪，亦持續針對同業市場薪資水準進行內部調薪",
+    "encoded_cust_no_104": "24boors",
+    "job_count_104": 10
   },
   {
     "stock_id": "1443",
@@ -3065,7 +3089,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "3iqiweo",
+    "job_count_104": 37
   },
   {
     "stock_id": "1445",
@@ -4728,7 +4754,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "a8aoe54",
+    "job_count_104": 34
   },
   {
     "stock_id": "1524",
@@ -4855,7 +4883,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "53khne8",
+    "job_count_104": 16
   },
   {
     "stock_id": "1527",
@@ -5111,7 +5141,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": "本公司依章程規定，年度獲利提撥 2.5%以上為員工酬勞，其 中不少於30%作為基層員工分酬勞。 114年公司EPS為 0.98，並調整 1%~4% 薪資確 保營運績效合理回饋員工。",
-    "improvement_measures": "NA"
+    "improvement_measures": "NA",
+    "encoded_cust_no_104": "1lgijiw",
+    "job_count_104": 27
   },
   {
     "stock_id": "1533",
@@ -5195,7 +5227,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "12pdpco8",
+    "job_count_104": 6
   },
   {
     "stock_id": "1536",
@@ -5494,7 +5528,8 @@
     "flag_eps_high_salary_low": true,
     "flag_eps_up_salary_down": false,
     "salary_explanation": "113年度新進人員佔比約為21%，114年度所發放變動獎金 歸屬年度為113年度，113年度新進人員的變動獎金主要依到 職年資比例發放，以致於公司獲利高非主管職薪資水準較低之原因。",
-    "improvement_measures": "113年到職人員，114獎酬發放已依全額發放，無比例發放， 114年新進比率約為4%，變動獎金影響比例降低。"
+    "improvement_measures": "113年到職人員，114獎酬發放已依全額發放，無比例發放， 114年新進比率約為4%，變動獎金影響比例降低。",
+    "encoded_cust_no_104": "pm2loh4"
   },
   {
     "stock_id": "1560",
@@ -5662,7 +5697,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "gitkkfc",
+    "job_count_104": 5
   },
   {
     "stock_id": "1583",
@@ -5931,7 +5968,9 @@
     "flag_eps_high_salary_low": true,
     "flag_eps_up_salary_down": false,
     "salary_explanation": "員工酬金組合主要包含基本固定薪資、獎金及福利，依據個人能力 、對公司貢獻度、績效表現、所任職位之市場價值及考量公司未來 營運風險後決定，與經營績效正相關，隨效率提高，經營績效提升 ，員工薪酬亦將會隨之增加。",
-    "improvement_measures": "本公司已於115年度，調整全體員工薪資2.33%。"
+    "improvement_measures": "本公司已於115年度，調整全體員工薪資2.33%。",
+    "encoded_cust_no_104": "ghfixmo",
+    "job_count_104": 25
   },
   {
     "stock_id": "1604",
@@ -6101,7 +6140,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": "員工薪酬組合主要包含基本固定薪資、獎金及福利，其中獎金連結 績效考核，依個人績效表現、目標達成率、貢獻之價值與營運績效 給予合理報酬。",
-    "improvement_measures": "不適用"
+    "improvement_measures": "不適用",
+    "encoded_cust_no_104": "v96tltk",
+    "job_count_104": 11
   },
   {
     "stock_id": "1611",
@@ -7062,7 +7103,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "1qri6o8",
+    "job_count_104": 8
   },
   {
     "stock_id": "1723",
@@ -7189,7 +7232,9 @@
     "flag_eps_high_salary_low": true,
     "flag_eps_up_salary_down": false,
     "salary_explanation": "本公司股本較小，且營運多為勞力密集的生產型態而雇有外籍勞工 ，是以影響每股盈餘及平均薪資的計算。",
-    "improvement_measures": "未來依公司政策及營運狀況調整薪資並透過多項員工福利措施回饋 予員工，期許員工薪酬與經營績效相對應。"
+    "improvement_measures": "未來依公司政策及營運狀況調整薪資並透過多項員工福利措施回饋 予員工，期許員工薪酬與經營績效相對應。",
+    "encoded_cust_no_104": "yimzn2g",
+    "job_count_104": 19
   },
   {
     "stock_id": "1727",
@@ -7908,7 +7953,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "7erhbvs",
+    "job_count_104": 17
   },
   {
     "stock_id": "1795",
@@ -7949,7 +7996,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "59go71s",
+    "job_count_104": 49
   },
   {
     "stock_id": "1802",
@@ -7990,7 +8039,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "5h1aes0",
+    "job_count_104": 104
   },
   {
     "stock_id": "1805",
@@ -8715,7 +8766,8 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "11o5lby8"
   },
   {
     "stock_id": "2010",
@@ -9100,7 +9152,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "yw1fugw",
+    "job_count_104": 41
   },
   {
     "stock_id": "2024",
@@ -9821,7 +9875,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "5aj92a0",
+    "job_count_104": 37
   },
   {
     "stock_id": "2102",
@@ -9862,7 +9918,8 @@
     "flag_eps_high_salary_low": true,
     "flag_eps_up_salary_down": true,
     "salary_explanation": "本公司114年度每股盈餘較前一年度增加係因處分本公司觀音廠 ，與公司經營績效與員工薪酬無關聯。",
-    "improvement_measures": "公司114年度每股盈餘較前一年度增加係因處分本公司觀音廠， 故公司EPS獲利表現較同業為佳並無明確比較基礎，待本公司經 營績效提升，將重新檢視薪資水準以確保員工薪資競爭力。"
+    "improvement_measures": "公司114年度每股盈餘較前一年度增加係因處分本公司觀音廠， 故公司EPS獲利表現較同業為佳並無明確比較基礎，待本公司經 營績效提升，將重新檢視薪資水準以確保員工薪資競爭力。",
+    "encoded_cust_no_104": "kjlyz9c"
   },
   {
     "stock_id": "2103",
@@ -10032,7 +10089,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "re05d9c",
+    "job_count_104": 20
   },
   {
     "stock_id": "2107",
@@ -10274,7 +10333,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "1lpdny9",
+    "job_count_104": 34
   },
   {
     "stock_id": "2204",
@@ -10524,7 +10585,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "10rlavdc",
+    "job_count_104": 1
   },
   {
     "stock_id": "2228",
@@ -11132,7 +11195,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "low6oqw",
+    "job_count_104": 114
   },
   {
     "stock_id": "2305",
@@ -11216,7 +11281,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": "本公司產線基層作業人員佔總人數15%，且主要由外籍移工組成 ，整體薪資統計受影響而下偏。排除產線基層作業人員後，薪資平 均數為2226仟元，薪資中位數為1850仟元。",
-    "improvement_measures": "無。"
+    "improvement_measures": "無。",
+    "encoded_cust_no_104": "fn5mtmo",
+    "job_count_104": 995
   },
   {
     "stock_id": "2312",
@@ -11343,7 +11410,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "lpiuzbk",
+    "job_count_104": 28
   },
   {
     "stock_id": "2316",
@@ -11728,7 +11797,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "a5h92m0",
+    "job_count_104": 201
   },
   {
     "stock_id": "2331",
@@ -12195,7 +12266,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "anzx12g",
+    "job_count_104": 8
   },
   {
     "stock_id": "2351",
@@ -12236,7 +12309,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "qvlg45c",
+    "job_count_104": 64
   },
   {
     "stock_id": "2352",
@@ -12449,7 +12524,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "1zh8g1c",
+    "job_count_104": 389
   },
   {
     "stock_id": "2357",
@@ -12662,7 +12739,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": true,
     "salary_explanation": "公司114 EPS雖較前一年度成長，惟因公司合併後人力結構 有所調整，且部分資深員工離職，影響平均薪資水準，致非經理人 全時員工平均薪資較前一年度減少。",
-    "improvement_measures": "矽統將持續優化人才結構，強化關鍵人才留任機制，並定期檢視薪 酬制度，以提升員工整體獎酬福利。"
+    "improvement_measures": "矽統將持續優化人才結構，強化關鍵人才留任機制，並定期檢視薪 酬制度，以提升員工整體獎酬福利。",
+    "encoded_cust_no_104": "a5hale8",
+    "job_count_104": 13
   },
   {
     "stock_id": "2364",
@@ -12873,7 +12952,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "pjy3aao",
+    "job_count_104": 54
   },
   {
     "stock_id": "2371",
@@ -12957,7 +13038,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "1n0j728",
+    "job_count_104": 14
   },
   {
     "stock_id": "2374",
@@ -13600,7 +13683,9 @@
     "flag_eps_high_salary_low": true,
     "flag_eps_up_salary_down": false,
     "salary_explanation": "1.研華長期結合經營績效與員工個人薪酬，除發放績效獎金與現 金分紅外，另發行員工認股權ESOP/PSOP，但此認股權證 價值不被列入平均薪資計算。2.研華有45%員工從事營運製造 ，與同業大多將製造移往海外之組織結構不同。",
-    "improvement_measures": "定期參與市場薪酬調研，審視整體薪酬於市場水準，並主動進行調 整，保持整體薪酬競爭力。"
+    "improvement_measures": "定期參與市場薪酬調研，審視整體薪酬於市場水準，並主動進行調 整，保持整體薪酬競爭力。",
+    "encoded_cust_no_104": "2d9ntmw",
+    "job_count_104": 223
   },
   {
     "stock_id": "2397",
@@ -13856,7 +13941,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "9mzh2m8",
+    "job_count_104": 10
   },
   {
     "stock_id": "2406",
@@ -14366,7 +14453,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "26b3kgw",
+    "job_count_104": 23
   },
   {
     "stock_id": "2424",
@@ -14792,7 +14881,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "5qzuhd4",
+    "job_count_104": 60
   },
   {
     "stock_id": "2434",
@@ -15216,7 +15307,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "5m8im5k",
+    "job_count_104": 249
   },
   {
     "stock_id": "2451",
@@ -15300,7 +15393,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "2a5ju40",
+    "job_count_104": 165
   },
   {
     "stock_id": "2454",
@@ -16115,7 +16210,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "at7pqvc",
+    "job_count_104": 51
   },
   {
     "stock_id": "2480",
@@ -16199,7 +16296,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "a68kjpc",
+    "job_count_104": 60
   },
   {
     "stock_id": "2482",
@@ -16240,7 +16339,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "hnksdjk",
+    "job_count_104": 13
   },
   {
     "stock_id": "2483",
@@ -16281,7 +16382,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "o8fu6n4",
+    "job_count_104": 44
   },
   {
     "stock_id": "2484",
@@ -16750,7 +16853,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "r9abrr4",
+    "job_count_104": 25
   },
   {
     "stock_id": "2498",
@@ -16791,7 +16896,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "7co2xio",
+    "job_count_104": 41
   },
   {
     "stock_id": "2501",
@@ -17688,7 +17795,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "a6zrewg",
+    "job_count_104": 65
   },
   {
     "stock_id": "2542",
@@ -18153,7 +18262,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "lmeq4xk",
+    "job_count_104": 3
   },
   {
     "stock_id": "2607",
@@ -18364,7 +18475,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "fjvc8zk",
+    "job_count_104": 2
   },
   {
     "stock_id": "2612",
@@ -18448,7 +18561,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "hx88hzc",
+    "job_count_104": 28
   },
   {
     "stock_id": "2614",
@@ -18532,7 +18647,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "58gae9s",
+    "job_count_104": 19
   },
   {
     "stock_id": "2616",
@@ -18616,7 +18733,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "1myc65k",
+    "job_count_104": 5
   },
   {
     "stock_id": "2618",
@@ -19145,7 +19264,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "539i5qo",
+    "job_count_104": 172
   },
   {
     "stock_id": "2706",
@@ -19229,7 +19350,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "1ylhm28",
+    "job_count_104": 233
   },
   {
     "stock_id": "2712",
@@ -19270,7 +19393,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "b0onke8",
+    "job_count_104": 43
   },
   {
     "stock_id": "2722",
@@ -19662,7 +19787,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "nsyg63k",
+    "job_count_104": 163
   },
   {
     "stock_id": "2816",
@@ -19787,7 +19914,9 @@
     "flag_eps_high_salary_low": true,
     "flag_eps_up_salary_down": false,
     "salary_explanation": "金融保險業涵蓋金控、銀行、證券及產壽險等不同行業，各業者市 場規模及行業特性不盡相同，薪酬水平亦有差異。本公司每股盈餘 較去年成長，同時，員工平均薪資、獎金亦較前一年度1076 仟元增加，與經營績效成正比。",
-    "improvement_measures": "公司將持續優化薪酬福利制度及增進員工薪資福利。"
+    "improvement_measures": "公司將持續優化薪酬福利制度及增進員工薪資福利。",
+    "encoded_cust_no_104": "1mttbi0",
+    "job_count_104": 97
   },
   {
     "stock_id": "2834",
@@ -20295,7 +20424,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "wjct48g",
+    "job_count_104": 129
   },
   {
     "stock_id": "2883",
@@ -20504,7 +20635,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": true,
     "salary_explanation": "114年因金控合併，統計範圍及人員結構與前一年度不同，薪資 平均數及中位數之變動主要反映合併後整體結構差異。",
-    "improvement_measures": "114年因金控合併，統計範圍及人員結構與前一年度不同，薪資 平均數及中位數之變動主要反映合併後整體結構差異。"
+    "improvement_measures": "114年因金控合併，統計範圍及人員結構與前一年度不同，薪資 平均數及中位數之變動主要反映合併後整體結構差異。",
+    "encoded_cust_no_104": "10wh8zx4",
+    "job_count_104": 33
   },
   {
     "stock_id": "2889",
@@ -20588,7 +20721,8 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "10wkawpk"
   },
   {
     "stock_id": "2891",
@@ -20963,7 +21097,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "9jwyai8",
+    "job_count_104": 49
   },
   {
     "stock_id": "2910",
@@ -22123,7 +22259,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "knh46a0",
+    "job_count_104": 4
   },
   {
     "stock_id": "3025",
@@ -22207,7 +22345,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "9li5mb4",
+    "job_count_104": 40
   },
   {
     "stock_id": "3027",
@@ -22291,7 +22431,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "5p3nff4",
+    "job_count_104": 44
   },
   {
     "stock_id": "3029",
@@ -22332,7 +22474,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "e7ef0go",
+    "job_count_104": 59
   },
   {
     "stock_id": "3030",
@@ -22416,7 +22560,9 @@
     "flag_eps_high_salary_low": true,
     "flag_eps_up_salary_down": false,
     "salary_explanation": "本公司114年度EPS高於同業平均值，但因新增較多基層人員 ，致員工平均薪資及中位數薪資下降，而有低於同業平均水準的情 形。",
-    "improvement_measures": "本公司持續維持穩定的薪資政策，每年固定兩次檢討員工薪資，並 依年資提供加給，114年起依據新修訂之公司章程基層員工的員 工酬勞分配規定，使基層員工薪資更有保障。"
+    "improvement_measures": "本公司持續維持穩定的薪資政策，每年固定兩次檢討員工薪資，並 依年資提供加給，114年起依據新修訂之公司章程基層員工的員 工酬勞分配規定，使基層員工薪資更有保障。",
+    "encoded_cust_no_104": "ftrxfvk",
+    "job_count_104": 15
   },
   {
     "stock_id": "3032",
@@ -22629,7 +22775,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "12tgftnk",
+    "job_count_104": 49
   },
   {
     "stock_id": "3037",
@@ -23100,7 +23248,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "18luf0xc",
+    "job_count_104": 14
   },
   {
     "stock_id": "3049",
@@ -23184,7 +23334,8 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": "員工薪資除固定薪資外亦連結與營收連結之績效相關獎金平均 薪酬較去年降低乃因變動薪資滅少所致",
-    "improvement_measures": "改善人力結構、增加營收"
+    "improvement_measures": "改善人力結構、增加營收",
+    "encoded_cust_no_104": "12y71nd4"
   },
   {
     "stock_id": "3051",
@@ -23780,7 +23931,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "12v3o7uw",
+    "job_count_104": 60
   },
   {
     "stock_id": "3135",
@@ -24153,7 +24306,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "13iqsaao",
+    "job_count_104": 36
   },
   {
     "stock_id": "3229",
@@ -24364,7 +24519,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "5u30vs8",
+    "job_count_104": 24
   },
   {
     "stock_id": "3305",
@@ -24491,7 +24648,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": true,
     "salary_explanation": "本年度EPS增加主係113年下半年旭榮廠縮編節省成本，估列 非經常性縮減成本及費用所致。非主管全時員工薪資平均數減少， 係因本年度增聘產線基層員工及初階人員所致，核心留才之調薪機 制未受影響及異動，仍具合理性。",
-    "improvement_measures": "本公司將持續優化薪酬結構，未來規劃提高基層員工之績效獎金配 發比例，將本業經營成果更直接地回饋予非主管同仁。同時，將定 期檢視同業薪資水準，對關鍵技術人員實施差異化留才調薪，確保 整體員工薪酬具市場競爭力。"
+    "improvement_measures": "本公司將持續優化薪酬結構，未來規劃提高基層員工之績效獎金配 發比例，將本業經營成果更直接地回饋予非主管同仁。同時，將定 期檢視同業薪資水準，對關鍵技術人員實施差異化留才調薪，確保 整體員工薪酬具市場競爭力。",
+    "encoded_cust_no_104": "5y9pe6w",
+    "job_count_104": 26
   },
   {
     "stock_id": "3312",
@@ -24698,7 +24857,9 @@
     "flag_eps_high_salary_low": true,
     "flag_eps_up_salary_down": false,
     "salary_explanation": "本公司依員工職責考核其績效及對公司之貢獻，並考量公司營運給 予相應酬金。114年度本業之營收及利益較113年衰退，營業 外收入表現較好，以致114年EPS高於同業表現。但薪資平均 數及中位數仍較去年增加。",
-    "improvement_measures": "本公司114年薪資水準未能大幅提升乃因本業實質績效較113 年衰退。未來需更積極提升產品附加價值與技術競爭力，並加強內 部營運管控等，以提升本業經營獲利能力，才可將經營成果轉化於 員工薪酬與股東紅利。"
+    "improvement_measures": "本公司114年薪資水準未能大幅提升乃因本業實質績效較113 年衰退。未來需更積極提升產品附加價值與技術競爭力，並加強內 部營運管控等，以提升本業經營獲利能力，才可將經營成果轉化於 員工薪酬與股東紅利。",
+    "encoded_cust_no_104": "7hm4e9c",
+    "job_count_104": 4
   },
   {
     "stock_id": "3376",
@@ -24952,7 +25113,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "lpfpjzk",
+    "job_count_104": 5
   },
   {
     "stock_id": "3432",
@@ -25331,7 +25494,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "5votqa0",
+    "job_count_104": 25
   },
   {
     "stock_id": "3515",
@@ -25790,7 +25955,8 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "cqeah4w"
   },
   {
     "stock_id": "3563",
@@ -28202,7 +28368,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "dee6w3s",
+    "job_count_104": 32
   },
   {
     "stock_id": "4545",
@@ -28576,7 +28744,9 @@
     "revenue_latest": 180365,
     "revenue_yoy_pct": 5.892748109529848,
     "revenue_period": "11507",
-    "market_cap": 48.8
+    "market_cap": 48.8,
+    "encoded_cust_no_104": "1a2x6bluab",
+    "job_count_104": 2
   },
   {
     "stock_id": "4571",
@@ -28689,7 +28859,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "18r1oqbc",
+    "job_count_104": 60
   },
   {
     "stock_id": "4581",
@@ -29083,7 +29255,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "10w6mu7c",
+    "job_count_104": 31
   },
   {
     "stock_id": "4739",
@@ -29826,7 +30000,9 @@
     "revenue_latest": 372690,
     "revenue_yoy_pct": -21.599192199678143,
     "revenue_period": "11507",
-    "market_cap": 42.7
+    "market_cap": 42.7,
+    "encoded_cust_no_104": "wiqayc8",
+    "job_count_104": 25
   },
   {
     "stock_id": "4938",
@@ -30136,7 +30312,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "crlmg34",
+    "job_count_104": 16
   },
   {
     "stock_id": "4961",
@@ -30497,7 +30675,9 @@
     "flag_eps_high_salary_low": true,
     "flag_eps_up_salary_down": false,
     "salary_explanation": "本公司員工薪資比照扣件同業水準，而獎金是依年度稅前盈餘(經 營績效)以固定比例提列並依個人考績分發；另上市鋼鐵業再細分 為扣件業(如春雨、聚亨、豐達科技)來做比較，則本公司員工薪 酬應於合理範圍內。",
-    "improvement_measures": "本公司將持續檢視市場趨勢與扣件同業水準，並依據經營績效、組 織發展需求與人力資源策略，適時調整薪酬結構，以確保具備市場 競爭力，並吸引及留任優秀人才。"
+    "improvement_measures": "本公司將持續檢視市場趨勢與扣件同業水準，並依據經營績效、組 織發展需求與人力資源策略，適時調整薪酬結構，以確保具備市場 競爭力，並吸引及留任優秀人才。",
+    "encoded_cust_no_104": "v99mblc",
+    "job_count_104": 14
   },
   {
     "stock_id": "5203",
@@ -32077,7 +32257,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": true,
     "salary_explanation": "本公司114年獲利增加，主要是員工人數編制較少的自營單位( 證券自營部、債券部等)獲利大幅增加；而員工人數編制較多的經 紀部獲利卻略有衰退，分公司營業人員114年整體業績獎金較1 13年減少所致。",
-    "improvement_measures": "公司依各部門獲利多寡及其獎金制度分別計算核給獎金，屬於合理 之獎金政策。"
+    "improvement_measures": "公司依各部門獲利多寡及其獎金制度分別計算核給獎金，屬於合理 之獎金政策。",
+    "encoded_cust_no_104": "ajnfhyw",
+    "job_count_104": 197
   },
   {
     "stock_id": "6024",
@@ -32548,7 +32730,9 @@
     "flag_eps_high_salary_low": true,
     "flag_eps_up_salary_down": false,
     "salary_explanation": "公司EPS成長亦有執行薪調故員工薪資中位數亦較去年成長 ，惟因組織營運需求員工人數增加且有新舊世代交替及人員流 動率高等因素致年度新進人員較多 增補員工為年資較短之基 層同仁，致薪資平均數略為降低。",
-    "improvement_measures": "依據績效考核設定績效目標，將考核結果做為晉升調薪核發獎金及 酬勞發放之依據，透過經營績效及公司章程，依獲利提撥3%~5 %作為員工酬勞與員工考核相連結，考量年資與年度績效分配予同 仁，以激勵同仁為公司目標努力。"
+    "improvement_measures": "依據績效考核設定績效目標，將考核結果做為晉升調薪核發獎金及 酬勞發放之依據，透過經營績效及公司章程，依獲利提撥3%~5 %作為員工酬勞與員工考核相連結，考量年資與年度績效分配予同 仁，以激勵同仁為公司目標努力。",
+    "encoded_cust_no_104": "5lu3yuw",
+    "job_count_104": 133
   },
   {
     "stock_id": "6141",
@@ -33146,7 +33330,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "a6chcdk",
+    "job_count_104": 21
   },
   {
     "stock_id": "6191",
@@ -33789,7 +33975,8 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "7gsr2zk"
   },
   {
     "stock_id": "6226",
@@ -33873,7 +34060,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "fmdzd7k",
+    "job_count_104": 8
   },
   {
     "stock_id": "6235",
@@ -35799,7 +35988,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": "本公司114年本業仍處於虧損狀態，薪資平均數較113年降低 係因114年無分配員工酬勞，獎金較113年減少，及部分資深 員工退休。",
-    "improvement_measures": "本公司將持續加強公司競爭力以改善獲利表現，依公司薪資政策、 衡量同業水準及營運績效調整薪資結構，並依員工績效評核結果及 公司營運成果配發獎金，在永續經營下持續優化同仁薪資水準。"
+    "improvement_measures": "本公司將持續加強公司競爭力以改善獲利表現，依公司薪資政策、 衡量同業水準及營運績效調整薪資結構，並依員工績效評核結果及 公司營運成果配發獎金，在永續經營下持續優化同仁薪資水準。",
+    "encoded_cust_no_104": "1a2x6bk9de",
+    "job_count_104": 3
   },
   {
     "stock_id": "6585",
@@ -36263,7 +36454,9 @@
     "flag_eps_high_salary_low": true,
     "flag_eps_up_salary_down": false,
     "salary_explanation": "「其他」產業涵蓋多元，數據僅供參考。本公司114年度非主管 職員工平均月薪約6.6萬元，較113年度成長5.8%，並高 於主計總處公布之全體受僱員工平均薪資約6.3萬元，顯示本公 司持續重視人才留任與員工福利。",
-    "improvement_measures": "本公司定期檢視薪酬水準，強化人才留任與市場競爭力，並秉持獲 利共享理念，與員工共享經營成果，創造企業與同仁雙贏。"
+    "improvement_measures": "本公司定期檢視薪酬水準，強化人才留任與市場競爭力，並秉持獲 利共享理念，與員工共享經營成果，創造企業與同仁雙贏。",
+    "encoded_cust_no_104": "10ulnizc",
+    "job_count_104": 71
   },
   {
     "stock_id": "6657",
@@ -36462,7 +36655,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "onw9tj4",
+    "job_count_104": 129
   },
   {
     "stock_id": "6670",
@@ -37100,7 +37295,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "1a2x6bj12k",
+    "job_count_104": 5
   },
   {
     "stock_id": "6756",
@@ -37141,7 +37338,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": "本公司依公司章程規定，年度如有獲利，應提撥不低於5%為員工 酬勞，故公司經營績效對員工獎勵有正向影響，以期達到企業留才 並激勵員工與企業共同成長。",
-    "improvement_measures": "無"
+    "improvement_measures": "無",
+    "encoded_cust_no_104": "1a2x6bi080",
+    "job_count_104": 9
   },
   {
     "stock_id": "6757",
@@ -38812,7 +39011,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "1a2x6bl4ru",
+    "job_count_104": 173
   },
   {
     "stock_id": "6933",
@@ -39463,7 +39664,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "1a2x6bn6j5",
+    "job_count_104": 5
   },
   {
     "stock_id": "7610",
@@ -40839,7 +41042,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "o4xnq3c",
+    "job_count_104": 20
   },
   {
     "stock_id": "8039",
@@ -40964,7 +41169,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "7e7mdgg",
+    "job_count_104": 39
   },
   {
     "stock_id": "8070",
@@ -41089,7 +41296,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "12nokltk",
+    "job_count_104": 23
   },
   {
     "stock_id": "8101",
@@ -41300,7 +41509,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "a5ifm8w",
+    "job_count_104": 23
   },
   {
     "stock_id": "8112",
@@ -41341,7 +41552,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "a9xwf88",
+    "job_count_104": 16
   },
   {
     "stock_id": "8114",
@@ -41425,7 +41638,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "ay1tn5s",
+    "job_count_104": 9
   },
   {
     "stock_id": "8150",
@@ -42346,7 +42561,9 @@
     "flag_eps_high_salary_low": true,
     "flag_eps_up_salary_down": false,
     "salary_explanation": "本公司屬休閒運動服務業，薪資結構與同業多屬製造業不同，產生 薪資平均數差異。114年薪資平均數及中位數均較前一年提升， 與經營績效成長相關，且高於主計處公布「藝術娛樂及休閒服務業 」平均數及中位數，尚屬合理。",
-    "improvement_measures": "本公司每年均依據經營績效合理調整員工薪酬，確實保障員工福祉 ，共創公司永續發展。"
+    "improvement_measures": "本公司每年均依據經營績效合理調整員工薪酬，確實保障員工福祉 ，共創公司永續發展。",
+    "encoded_cust_no_104": "cpzu774",
+    "job_count_104": 281
   },
   {
     "stock_id": "8463",
@@ -42839,7 +43056,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "13tm3fn4",
+    "job_count_104": 6
   },
   {
     "stock_id": "8940",
@@ -42880,7 +43099,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": true,
     "salary_explanation": "114年度營收、毛利及營業利益下降，EPS成長係前一年度認 列一次性所得稅費用致比較基期較低所致。",
-    "improvement_measures": "非經理人全時員工薪資平均數下降，主要係受營收及營業利益下滑 、績效獎金發放減少影響。公司將持續檢視薪酬結構，強化薪酬與 績效連結。"
+    "improvement_measures": "非經理人全時員工薪資平均數下降，主要係受營收及營業利益下滑 、績效獎金發放減少影響。公司將持續檢視薪酬結構，強化薪酬與 績效連結。",
+    "encoded_cust_no_104": "12sergy8",
+    "job_count_104": 126
   },
   {
     "stock_id": "8996",
@@ -42921,7 +43142,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "g844pk8",
+    "job_count_104": 60
   },
   {
     "stock_id": "9103",
@@ -43303,7 +43526,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "1mwwmg0",
+    "job_count_104": 2
   },
   {
     "stock_id": "9904",
@@ -43856,7 +44081,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "pr194vs",
+    "job_count_104": 53
   },
   {
     "stock_id": "9924",
@@ -43940,7 +44167,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "5msc8qo",
+    "job_count_104": 215
   },
   {
     "stock_id": "9926",
@@ -44067,7 +44296,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "8iw82gg",
+    "job_count_104": 22
   },
   {
     "stock_id": "9929",
@@ -44235,7 +44466,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "9ka2llc",
+    "job_count_104": 117
   },
   {
     "stock_id": "9934",
@@ -44661,7 +44894,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "fbz5k7c",
+    "job_count_104": 37
   },
   {
     "stock_id": "9945",
@@ -44915,7 +45150,9 @@
     "flag_eps_high_salary_low": true,
     "flag_eps_up_salary_down": true,
     "salary_explanation": "本公司因應餐飲速食業特性，門市營運仰賴大量兼職人力，致兼職 員工佔比高，與同業結構差異致平均數略低。",
-    "improvement_measures": "每年除依基本工資調整薪資，並強化獎酬與績效連結，以優於法定 調幅。藉由定期檢討薪酬政策，提升公平性、競爭力與員工向心力 ，進而提升留任率與整體薪資水準。"
+    "improvement_measures": "每年除依基本工資調整薪資，並強化獎酬與績效連結，以優於法定 調幅。藉由定期檢討薪酬政策，提升公平性、競爭力與員工向心力 ，進而提升留任率與整體薪資水準。",
+    "encoded_cust_no_104": "azqoc4o",
+    "job_count_104": 476
   },
   {
     "stock_id": "1264",
@@ -45206,7 +45443,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "z3likt4",
+    "job_count_104": 3
   },
   {
     "stock_id": "1570",
@@ -45692,7 +45931,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "18p8bbbk",
+    "job_count_104": 11
   },
   {
     "stock_id": "1784",
@@ -45776,7 +46017,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "k46629s",
+    "job_count_104": 68
   },
   {
     "stock_id": "1788",
@@ -47047,7 +47290,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "aijifeg",
+    "job_count_104": 79
   },
   {
     "stock_id": "2745",
@@ -47293,7 +47538,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": true,
     "salary_explanation": "係因新品牌業務拓展，前線基層員工人數增加，致使薪資平均數下 降。",
-    "improvement_measures": "全面提升前線基層員工起薪，並依公司營運成果及獲利情形，適時 提供績效獎金或其他獎勵措施，使員工能共享公司經營成果。"
+    "improvement_measures": "全面提升前線基層員工起薪，並依公司營運成果及獲利情形，適時 提供績效獎金或其他獎勵措施，使員工能共享公司經營成果。",
+    "encoded_cust_no_104": "1128rki8",
+    "job_count_104": 45
   },
   {
     "stock_id": "2916",
@@ -47334,7 +47581,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "5qpib7s",
+    "job_count_104": 25
   },
   {
     "stock_id": "2924",
@@ -47447,7 +47696,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "150artlc",
+    "job_count_104": 36
   },
   {
     "stock_id": "2941",
@@ -47742,7 +47993,8 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": true,
     "salary_explanation": "(1) 114年度部分非屬經理人之資深員工離職，而後續新進 員工之平均薪資不若資深員工。 (2) 114年度受113年度公司虧損所致，無法分配員工酬 勞；而113年度尚有分配112年度公司獲利所提撥之員工酬勞。",
-    "improvement_measures": "本公司將致力本業，穩健拓展新業務版塊，以改善公司獲利狀況及 增益員工各項薪酬福利。"
+    "improvement_measures": "本公司將致力本業，穩健拓展新業務版塊，以改善公司獲利狀況及 增益員工各項薪酬福利。",
+    "encoded_cust_no_104": "29lrwhc"
   },
   {
     "stock_id": "3071",
@@ -47953,7 +48205,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "wempj5s",
+    "job_count_104": 10
   },
   {
     "stock_id": "3085",
@@ -48037,7 +48291,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "12spd4x4",
+    "job_count_104": 17
   },
   {
     "stock_id": "3088",
@@ -48121,7 +48377,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "24zng6o",
+    "job_count_104": 9
   },
   {
     "stock_id": "3095",
@@ -49258,7 +49516,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "130j7vbs",
+    "job_count_104": 120
   },
   {
     "stock_id": "3219",
@@ -49557,7 +49817,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "aby4oso",
+    "job_count_104": 17
   },
   {
     "stock_id": "3232",
@@ -49598,7 +49860,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "afxisg0",
+    "job_count_104": 3
   },
   {
     "stock_id": "3234",
@@ -49893,7 +50157,9 @@
     "flag_eps_high_salary_low": true,
     "flag_eps_up_salary_down": false,
     "salary_explanation": "半導體業包含IC設計、晶圓製造及封裝測試，企業類型與員工組 織結構不同;台星科為測試公司，直接人力逾四成，因此造成平均 薪資的差異性。",
-    "improvement_measures": "公司將持續落實獲利與員工共享，每年定期調薪，持續優化薪酬與 福利制度。"
+    "improvement_measures": "公司將持續落實獲利與員工共享，每年定期調薪，持續優化薪酬與 福利制度。",
+    "encoded_cust_no_104": "wet8hhs",
+    "job_count_104": 64
   },
   {
     "stock_id": "3268",
@@ -50489,7 +50755,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "7js7e8w",
+    "job_count_104": 5
   },
   {
     "stock_id": "3310",
@@ -50573,7 +50841,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": "非經理人之全時員工薪資平均數未達50萬元，主係114年下半 年新增一位基層員工，以致薪資平均數未達50萬元。",
-    "improvement_measures": "本公司薪酬政策維持穩定，並持續透過年終獎金及其他激勵機制反 映公司經營成果與員工貢獻。"
+    "improvement_measures": "本公司薪酬政策維持穩定，並持續透過年終獎金及其他激勵機制反 映公司經營成果與員工貢獻。",
+    "encoded_cust_no_104": "12qv1n2o",
+    "job_count_104": 1
   },
   {
     "stock_id": "3317",
@@ -50741,7 +51011,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "7muwb1c",
+    "job_count_104": 54
   },
   {
     "stock_id": "3325",
@@ -51415,7 +51687,9 @@
     "flag_eps_high_salary_low": true,
     "flag_eps_up_salary_down": false,
     "salary_explanation": "公司營運穩定成長，本年度非擔任主管職全時員工平均薪資較上年 度成長，人力持續擴增中，惟增補員工年資較短，致薪資低於同業 水準。",
-    "improvement_measures": "本公司已於115年5月全面調薪，後續亦將持續優化薪酬福利制 度。"
+    "improvement_measures": "本公司已於115年5月全面調薪，後續亦將持續優化薪酬福利制 度。",
+    "encoded_cust_no_104": "ay3xxaw",
+    "job_count_104": 90
   },
   {
     "stock_id": "3430",
@@ -51665,7 +51939,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "13u156q8",
+    "job_count_104": 42
   },
   {
     "stock_id": "3465",
@@ -52411,7 +52687,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "a50tp9c",
+    "job_count_104": 6
   },
   {
     "stock_id": "3521",
@@ -52622,7 +52900,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "7saq3h4",
+    "job_count_104": 7
   },
   {
     "stock_id": "3529",
@@ -53874,7 +54154,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "wi1p34w",
+    "job_count_104": 14
   },
   {
     "stock_id": "3631",
@@ -53958,7 +54240,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "5x8s6c8",
+    "job_count_104": 7
   },
   {
     "stock_id": "3646",
@@ -54278,7 +54562,9 @@
     "flag_eps_high_salary_low": true,
     "flag_eps_up_salary_down": false,
     "salary_explanation": "因本公司秉持根留台灣並持續投資高階產品產線，故製造部人員佔 比達35%，且異動頻繁平均薪資水準偏低，因而使公司非經理人 之薪資水準平均數低於同業水準。",
-    "improvement_measures": "本公司平均薪資水準114年較113年成長達15.40%，公 司將秉持獲利與員工及股東共享， 在有獲利水準下持續改善員工待遇及福利。"
+    "improvement_measures": "本公司平均薪資水準114年較113年成長達15.40%，公 司將秉持獲利與員工及股東共享， 在有獲利水準下持續改善員工待遇及福利。",
+    "encoded_cust_no_104": "154z9slc",
+    "job_count_104": 8
   },
   {
     "stock_id": "3685",
@@ -54721,7 +55007,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "q0ef2xk",
+    "job_count_104": 24
   },
   {
     "stock_id": "4105",
@@ -55401,7 +55689,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "10zs6f3c",
+    "job_count_104": 4
   },
   {
     "stock_id": "4139",
@@ -57035,7 +57325,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": true,
     "salary_explanation": "公司人數:114年度員工總數較113年度增加63人成長率 5.1%。其中外籍員工增加人數為30人。 薪資平均數：113年度為956000元，114年度為95 0000元，呈現0.6%小幅衰退，主要因外籍員工增加且以 基本工資進用所致。",
-    "improvement_measures": "持續強化薪資結構分析，調整外籍員工薪資策略，推動績效與薪資 連動制度，以平衡平均薪資與中位數薪資成長趨勢，提升整體薪酬 競爭力。"
+    "improvement_measures": "持續強化薪資結構分析，調整外籍員工薪資策略，推動績效與薪資 連動制度，以平衡平均薪資與中位數薪資成長趨勢，提升整體薪酬 競爭力。",
+    "encoded_cust_no_104": "211pd80",
+    "job_count_104": 22
   },
   {
     "stock_id": "4510",
@@ -57246,7 +57538,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "o5z7qxk",
+    "job_count_104": 15
   },
   {
     "stock_id": "4529",
@@ -58125,7 +58419,8 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "fnwm3og"
   },
   {
     "stock_id": "4702",
@@ -60487,7 +60782,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "ae3d2xk",
+    "job_count_104": 6
   },
   {
     "stock_id": "5210",
@@ -60846,7 +61143,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "dat50k8",
+    "job_count_104": 11
   },
   {
     "stock_id": "5245",
@@ -61295,7 +61594,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "dajf10w",
+    "job_count_104": 9
   },
   {
     "stock_id": "5301",
@@ -61637,7 +61938,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "k8e565c",
+    "job_count_104": 17
   },
   {
     "stock_id": "5324",
@@ -61934,7 +62237,8 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "a5hkotk"
   },
   {
     "stock_id": "5351",
@@ -62147,7 +62451,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "auk1tm8",
+    "job_count_104": 14
   },
   {
     "stock_id": "5381",
@@ -62231,7 +62537,8 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "9r0q0wg"
   },
   {
     "stock_id": "5392",
@@ -62487,7 +62794,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "g851488",
+    "job_count_104": 7
   },
   {
     "stock_id": "5432",
@@ -62698,7 +63007,8 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "armp1hs"
   },
   {
     "stock_id": "5452",
@@ -62823,7 +63133,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "ayprjpk",
+    "job_count_104": 47
   },
   {
     "stock_id": "5460",
@@ -63079,7 +63391,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "18n5bntk",
+    "job_count_104": 20
   },
   {
     "stock_id": "5478",
@@ -63120,7 +63434,9 @@
     "flag_eps_high_salary_low": true,
     "flag_eps_up_salary_down": false,
     "salary_explanation": "114年每股盈餘較113年增加，於114年初全面調薪，並增 加獎金發放。 114年員工薪資平均數為近五年最高，並持續優化薪酬福利。 公司主要據點分北、高兩區，兩區合併與同區同產業文化創意業公 司相比，不一定具關聯性。",
-    "improvement_measures": "本公司在114年初全面調薪，並增加獎金項目發放。 114年度員工酬勞，較113年度總額增加，全員工共享獲利成 長成果。"
+    "improvement_measures": "本公司在114年初全面調薪，並增加獎金項目發放。 114年度員工酬勞，較113年度總額增加，全員工共享獲利成 長成果。",
+    "encoded_cust_no_104": "11bf6s4o",
+    "job_count_104": 37
   },
   {
     "stock_id": "5481",
@@ -63763,7 +64079,8 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "ulxe6q0"
   },
   {
     "stock_id": "5529",
@@ -63847,7 +64164,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "aaplveo",
+    "job_count_104": 104
   },
   {
     "stock_id": "5536",
@@ -64255,7 +64574,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": true,
     "salary_explanation": "114年度本公司營運績效顯著提升（稅後淨利較 前一年度大幅成長），為因應營運成長 需求而擴大招募人力，致使員工人數(含實習生及兼職員工)增加。",
-    "improvement_measures": "本公司未來仍將持續檢視市場趨勢及公司營運狀況，適時調整薪酬 制度及績效評估機制，以確保薪酬發放之合理性並強化員工激勵效 果。對於試用期員工轉正評估機制依績效表現適度調整薪酬，以提 升留任與激勵效果。"
+    "improvement_measures": "本公司未來仍將持續檢視市場趨勢及公司營運狀況，適時調整薪酬 制度及績效評估機制，以確保薪酬發放之合理性並強化員工激勵效 果。對於試用期員工轉正評估機制依績效表現適度調整薪酬，以提 升留任與激勵效果。",
+    "encoded_cust_no_104": "5kuisy0",
+    "job_count_104": 56
   },
   {
     "stock_id": "5704",
@@ -65095,7 +65416,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "a4eexa0",
+    "job_count_104": 5
   },
   {
     "stock_id": "6114",
@@ -65566,7 +65889,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "12w3sxh4",
+    "job_count_104": 5
   },
   {
     "stock_id": "6134",
@@ -66846,7 +67171,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "7qfuky8",
+    "job_count_104": 47
   },
   {
     "stock_id": "6190",
@@ -66887,7 +67214,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "25avbjc",
+    "job_count_104": 14
   },
   {
     "stock_id": "6194",
@@ -66928,7 +67257,8 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "kpl2lbk"
   },
   {
     "stock_id": "6195",
@@ -67440,7 +67770,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "18rlt9nc",
+    "job_count_104": 18
   },
   {
     "stock_id": "6220",
@@ -67567,7 +67899,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "a6v540o",
+    "job_count_104": 17
   },
   {
     "stock_id": "6223",
@@ -67866,7 +68200,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "aw5oe14",
+    "job_count_104": 20
   },
   {
     "stock_id": "6236",
@@ -68249,7 +68585,9 @@
     "flag_eps_high_salary_low": true,
     "flag_eps_up_salary_down": false,
     "salary_explanation": "本公司EPS較113年減少，但薪資中位數及平均數較113年 成長。 另本公司員工之結構，外籍員工占總員工人數約28%，致平均薪 資略低於同業。",
-    "improvement_measures": "公司會持續改善員工相關獎酬及福利措施，以利穩定人才。"
+    "improvement_measures": "公司會持續改善員工相關獎酬及福利措施，以利穩定人才。",
+    "encoded_cust_no_104": "hnlvkt4",
+    "job_count_104": 21
   },
   {
     "stock_id": "6259",
@@ -68333,7 +68671,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "13mbw0yw",
+    "job_count_104": 46
   },
   {
     "stock_id": "6263",
@@ -68931,7 +69271,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": true,
     "salary_explanation": "本公司主要從事補教業務，近期因大環境影響致業務縮減使114 年度員工獎金發放數減少。 公司EPS較前一年度成長主因成本控管展現成效。",
-    "improvement_measures": "本公司每半年會依市場薪資水準及員工績效調整薪資；本年度7月 起薪資將逐步調整增加。"
+    "improvement_measures": "本公司每半年會依市場薪資水準及員工績效調整薪資；本年度7月 起薪資將逐步調整增加。",
+    "encoded_cust_no_104": "18p9z7yg",
+    "job_count_104": 46
   },
   {
     "stock_id": "6411",
@@ -69390,7 +69732,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "d8vx7bc",
+    "job_count_104": 5
   },
   {
     "stock_id": "6465",
@@ -70218,7 +70562,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "pch6ys8",
+    "job_count_104": 9
   },
   {
     "stock_id": "6523",
@@ -71204,7 +71550,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "9hxuu2o",
+    "job_count_104": 11
   },
   {
     "stock_id": "6596",
@@ -71639,7 +71987,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "7qw380o",
+    "job_count_104": 6
   },
   {
     "stock_id": "6629",
@@ -72000,7 +72350,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "24vuvio",
+    "job_count_104": 27
   },
   {
     "stock_id": "6662",
@@ -72457,7 +72809,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "azqqrbk",
+    "job_count_104": 34
   },
   {
     "stock_id": "6703",
@@ -77099,7 +77453,8 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": true,
     "salary_explanation": "公司EPS較前一年度成長，惟非經理人之全時員工薪資平均數較 前一年度減少，主係因公司在員工結構上做調整，新增較多基礎薪 資之員工所致。",
-    "improvement_measures": "公司預計每年度重新評估市場行情、工作表現及相關指標敘薪。"
+    "improvement_measures": "公司預計每年度重新評估市場行情、工作表現及相關指標敘薪。",
+    "encoded_cust_no_104": "7g1o82w"
   },
   {
     "stock_id": "8040",
@@ -77482,7 +77837,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "wd7ilhc",
+    "job_count_104": 11
   },
   {
     "stock_id": "8059",
@@ -77607,7 +77964,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "12nompfs",
+    "job_count_104": 3
   },
   {
     "stock_id": "8067",
@@ -77906,7 +78265,9 @@
     "flag_eps_high_salary_low": true,
     "flag_eps_up_salary_down": false,
     "salary_explanation": "公司今年營業額進步，員工平均薪資亦從113年度55萬8提升 至59萬4，增加了6.45% 薪資中位數也從53萬8提升至55萬9，增加了3.9%，公司 有獲利時與員工共享。",
-    "improvement_measures": "住房率及房價如能再提升，薪資部分亦能同步提升。"
+    "improvement_measures": "住房率及房價如能再提升，薪資部分亦能同步提升。",
+    "encoded_cust_no_104": "14ze5re0",
+    "job_count_104": 17
   },
   {
     "stock_id": "8080",
@@ -78584,7 +78945,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "7ijw8bk",
+    "job_count_104": 18
   },
   {
     "stock_id": "8109",
@@ -79045,7 +79408,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "13x18iow",
+    "job_count_104": 161
   },
   {
     "stock_id": "8240",
@@ -79422,7 +79787,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "5t7gcns",
+    "job_count_104": 274
   },
   {
     "stock_id": "8342",
@@ -80532,7 +80899,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "bjv2ebc",
+    "job_count_104": 14
   },
   {
     "stock_id": "8477",
@@ -80999,7 +81368,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "anzg9o8",
+    "job_count_104": 159
   },
   {
     "stock_id": "8928",
@@ -81126,7 +81497,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "w2bfbsg",
+    "job_count_104": 4
   },
   {
     "stock_id": "8931",
@@ -81296,7 +81669,9 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "o8ybz08",
+    "job_count_104": 2
   },
   {
     "stock_id": "8936",
@@ -81552,7 +81927,8 @@
     "flag_eps_high_salary_low": false,
     "flag_eps_up_salary_down": false,
     "salary_explanation": null,
-    "improvement_measures": null
+    "improvement_measures": null,
+    "encoded_cust_no_104": "12xw6qu0"
   },
   {
     "stock_id": "9950",
@@ -81679,7 +82055,9 @@
     "flag_eps_high_salary_low": true,
     "flag_eps_up_salary_down": false,
     "salary_explanation": "本公司114年稅後淨利較113年衰退14%，本公司屬零售業 ，薪資結構屬低底薪高獎金，90%的員工為門市一般人員，11 4年員工平均薪資較113年減少，主要係因114年業績及獲利 衰退而影響門市銷售獎金減少，其關聯性尚屬合理。",
-    "improvement_measures": "本公司針對非擔任主管職務之全時員工已逐年加薪，並增加獎金的 提成項目，希望能改善員工薪酬。"
+    "improvement_measures": "本公司針對非擔任主管職務之全時員工已逐年加薪，並增加獎金的 提成項目，希望能改善員工薪酬。",
+    "encoded_cust_no_104": "7q8omoo",
+    "job_count_104": 5
   },
   {
     "stock_id": "9962",

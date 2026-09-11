@@ -1,0 +1,302 @@
+{
+  "5274": {
+    "slug": "aspeed-technology",
+    "company_id": null,
+    "search_name": "Aspeed Technology",
+    "short_name": "信驊"
+  },
+  "2454": {
+    "slug": "mediatek",
+    "company_id": null,
+    "search_name": "MediaTek",
+    "short_name": "聯發科"
+  },
+  "5269": {
+    "slug": "mediatek",
+    "company_id": null,
+    "search_name": "ASMedia Technology",
+    "short_name": "祥碩"
+  },
+  "2379": {
+    "slug": "tuv-rheinland-group",
+    "company_id": null,
+    "search_name": "Realtek",
+    "short_name": "瑞昱"
+  },
+  "2330": {
+    "slug": "tsmc",
+    "company_id": null,
+    "search_name": "TSMC",
+    "short_name": "台積電"
+  },
+  "6186": {
+    "slug": "chanel",
+    "company_id": null,
+    "search_name": "新潤",
+    "short_name": "新潤"
+  },
+  "3227": {
+    "slug": "vishay-intertechnology-inc-",
+    "company_id": null,
+    "search_name": "原相",
+    "short_name": "原相"
+  },
+  "6526": {
+    "slug": "edwards",
+    "company_id": null,
+    "search_name": "達發",
+    "short_name": "達發"
+  },
+  "3529": {
+    "slug": "mediatek",
+    "company_id": null,
+    "search_name": "eMemory Technology",
+    "short_name": "力旺"
+  },
+  "7769": {
+    "slug": "cooler-master-co-ltd-",
+    "company_id": null,
+    "search_name": "鴻勁",
+    "short_name": "鴻勁"
+  },
+  "3034": {
+    "slug": "qnityelectronics",
+    "company_id": null,
+    "search_name": "Novatek",
+    "short_name": "聯詠"
+  },
+  "3293": {
+    "slug": "ups",
+    "company_id": null,
+    "search_name": "鈊象",
+    "short_name": "鈊象"
+  },
+  "3443": {
+    "slug": "google",
+    "company_id": null,
+    "search_name": "GUC",
+    "short_name": "創意"
+  },
+  "6996": {
+    "slug": "google",
+    "company_id": null,
+    "search_name": "力領科技",
+    "short_name": "力領科技"
+  },
+  "8299": {
+    "slug": "micron-technology",
+    "company_id": null,
+    "search_name": "Phison Electronics",
+    "short_name": "群聯"
+  },
+  "4961": {
+    "slug": "wnc-corporation",
+    "company_id": null,
+    "search_name": "天鈺",
+    "short_name": "天鈺"
+  },
+  "3014": {
+    "slug": "yageogroup",
+    "company_id": null,
+    "search_name": "聯陽",
+    "short_name": "聯陽"
+  },
+  "3592": {
+    "slug": "cadence",
+    "company_id": null,
+    "search_name": "瑞鼎",
+    "short_name": "瑞鼎"
+  },
+  "6669": {
+    "slug": "winbond",
+    "company_id": null,
+    "search_name": "Wiwynn",
+    "short_name": "緯穎"
+  },
+  "8016": {
+    "slug": "sifive",
+    "company_id": null,
+    "search_name": "矽創",
+    "short_name": "矽創"
+  },
+  "8081": {
+    "slug": "vishay-intertechnology-inc-",
+    "company_id": null,
+    "search_name": "致新",
+    "short_name": "致新"
+  },
+  "2207": {
+    "slug": "tesla-motors",
+    "company_id": null,
+    "search_name": "和泰車",
+    "short_name": "和泰車"
+  },
+  "6561": {
+    "slug": "formfactor",
+    "company_id": null,
+    "search_name": "是方",
+    "short_name": "是方"
+  },
+  "6104": {
+    "slug": "google",
+    "company_id": null,
+    "search_name": "創惟",
+    "short_name": "創惟"
+  },
+  "6533": {
+    "slug": "nvidia",
+    "company_id": null,
+    "search_name": "晶心科",
+    "short_name": "晶心科"
+  },
+  "5236": {
+    "slug": "universal-scientific-industrial-co.",
+    "company_id": null,
+    "search_name": "凌陽創新",
+    "short_name": "凌陽創新"
+  },
+  "2317": {
+    "slug": "corning-incorporated",
+    "company_id": null,
+    "search_name": "Foxconn",
+    "short_name": "鴻海"
+  },
+  "2404": {
+    "slug": "klacorp",
+    "company_id": null,
+    "search_name": "CTCI Advanced Systems",
+    "short_name": "漢唐"
+  },
+  "3006": {
+    "slug": "chilisin",
+    "company_id": null,
+    "search_name": "晶豪科",
+    "short_name": "晶豪科"
+  },
+  "2385": {
+    "slug": "graphcore",
+    "company_id": null,
+    "search_name": "群光",
+    "short_name": "群光"
+  },
+  "2548": {
+    "slug": "globalfoundries",
+    "company_id": null,
+    "search_name": "華固",
+    "short_name": "華固"
+  },
+  "6435": {
+    "slug": "dentsu",
+    "company_id": null,
+    "search_name": "大中",
+    "short_name": "大中"
+  },
+  "3131": {
+    "slug": "vishay-intertechnology-inc-",
+    "company_id": null,
+    "search_name": "弘塑",
+    "short_name": "弘塑"
+  },
+  "2458": {
+    "slug": "louis-vuitton",
+    "company_id": null,
+    "search_name": "義隆",
+    "short_name": "義隆"
+  },
+  "2603": {
+    "slug": "siemensgamesa",
+    "company_id": null,
+    "search_name": "Evergreen Marine",
+    "short_name": "長榮"
+  },
+  "6643": {
+    "slug": "morrison-express",
+    "company_id": null,
+    "search_name": "M31",
+    "short_name": "M31"
+  },
+  "2610": {
+    "slug": "ups",
+    "company_id": null,
+    "search_name": "華航",
+    "short_name": "華航"
+  },
+  "5520": {
+    "slug": "lam-research",
+    "company_id": null,
+    "search_name": "力泰",
+    "short_name": "力泰"
+  },
+  "3526": {
+    "slug": "chanel",
+    "company_id": null,
+    "search_name": "凡甲",
+    "short_name": "凡甲"
+  },
+  "3035": {
+    "slug": "nvidia",
+    "company_id": null,
+    "search_name": "智原",
+    "short_name": "智原"
+  },
+  "6756": {
+    "slug": "nvidia",
+    "company_id": null,
+    "search_name": "威鋒電子",
+    "short_name": "威鋒電子"
+  },
+  "5434": {
+    "slug": "corning-incorporated",
+    "company_id": null,
+    "search_name": "崇越",
+    "short_name": "崇越"
+  },
+  "5522": {
+    "slug": "morrison-express",
+    "company_id": null,
+    "search_name": "遠雄",
+    "short_name": "遠雄"
+  },
+  "2382": {
+    "slug": "qnityelectronics",
+    "company_id": null,
+    "search_name": "Quanta Computer",
+    "short_name": "廣達"
+  },
+  "3041": {
+    "slug": "google",
+    "company_id": null,
+    "search_name": "揚智",
+    "short_name": "揚智"
+  },
+  "6531": {
+    "slug": "appier",
+    "company_id": null,
+    "search_name": "愛普*",
+    "short_name": "愛普*"
+  },
+  "3515": {
+    "slug": "amd",
+    "company_id": null,
+    "search_name": "華擎",
+    "short_name": "華擎"
+  },
+  "7750": {
+    "slug": "nike",
+    "company_id": null,
+    "search_name": "新代",
+    "short_name": "新代"
+  },
+  "2013": {
+    "slug": "cooler-master-co-ltd-",
+    "company_id": null,
+    "search_name": "中鋼構",
+    "short_name": "中鋼構"
+  },
+  "4162": {
+    "slug": "icon-strategic-solutions",
+    "company_id": null,
+    "search_name": "智擎",
+    "short_name": "智擎"
+  }
+}
