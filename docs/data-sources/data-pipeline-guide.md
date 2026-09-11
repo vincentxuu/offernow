@@ -304,3 +304,27 @@ if (j.job_type === 'remote') return true  // JobSpy 標記，直接通過
 const text = (title + location + description).toLowerCase()
 return REMOTE_KEYWORDS.some(kw => text.includes(kw))
 ```
+
+### 上櫃公司市值計算
+
+**問題**：TPEx 基本資料 API (`mopsfin_t187ap03_O`) 沒有 `已發行普通股數` 欄位（或欄位為空），導致 845 家上櫃公司缺市值。
+
+**解法**：用 TPEx 每日收盤行情 API 的 `Capitals`（實收資本額，元）推算：
+
+```
+發行股數 = Capitals / 10（每股面額 10 元）
+市值（億）= 收盤價(Close) × 發行股數 / 100,000,000
+```
+
+**API**：`https://www.tpex.org.tw/openapi/v1/tpex_mainboard_daily_close_quotes`
+
+**欄位**：
+- `Capitals`: 實收資本額（元），如信驊 41,582,953
+- `Close`: 收盤價，如信驊 18,700
+- 計算：18,700 × (41,582,953 / 10) / 1億 = 777.6 億
+
+**注意**：
+- 部分公司面額不是 10 元（少數），市值會有偏差
+- 停牌公司沒有收盤價，市值為 null
+- TPEx API 有 SSL 問題（需要 `verify_mode = ssl.CERT_NONE`）
+- TPEx API 偶爾 Connection Reset，需要 retry
