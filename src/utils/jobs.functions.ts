@@ -49,7 +49,7 @@ export const getJobs = createServerFn().handler(async (): Promise<Job[]> => {
     try {
       const { results } = await db
         .prepare(
-          'SELECT id, stock_id, company_name, title, location, date_posted, job_url, source, description, salary_min, salary_max, job_type, click_count FROM jobs ORDER BY date_posted DESC',
+          'SELECT id, stock_id, company_name, title, location, date_posted, job_url, source, salary_min, salary_max, job_type, click_count FROM jobs ORDER BY date_posted DESC LIMIT 200',
         )
         .all<Job>()
       return results

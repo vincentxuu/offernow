@@ -130,31 +130,31 @@ export function calculateAttractivenessScore(c: Company): AttractivenessScore {
     dimensions: [
       {
         name: '薪資競爭力',
-        icon: '💰',
+        icon: 'DollarSign',
         score: Math.round(salaryScore),
         detail: salaryDetail,
       },
       {
         name: '成長動能',
-        icon: '📈',
+        icon: 'TrendingUp',
         score: Math.round(growthScore),
         detail: growthDetail,
       },
       {
         name: '擴編趨勢',
-        icon: '🏢',
+        icon: 'Building',
         score: Math.round(hiringScore),
         detail: hiringDetail,
       },
       {
         name: '財務健康',
-        icon: '⚖️',
+        icon: 'Scale',
         score: Math.round(financeScore),
         detail: financeDetail,
       },
       {
         name: '風險旗標',
-        icon: '🚩',
+        icon: 'Flag',
         score: Math.round(riskScore),
         detail: riskDetail,
       },
@@ -191,7 +191,7 @@ export const getCompanies = createServerFn().handler(
       try {
         const { results } = await db
           .prepare(
-            'SELECT * FROM company_profiles ORDER BY salary_median_k DESC NULLS LAST',
+            'SELECT * FROM company_profiles ORDER BY salary_median_k DESC NULLS LAST LIMIT 200',
           )
           .all<Company>()
         return results
