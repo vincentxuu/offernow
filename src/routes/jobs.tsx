@@ -73,6 +73,60 @@ const CITIES = [
   '高雄',
 ] as const
 
+const DISTRICTS: Record<string, string[]> = {
+  台北: [
+    '中正',
+    '大同',
+    '中山',
+    '松山',
+    '大安',
+    '萬華',
+    '信義',
+    '士林',
+    '北投',
+    '內湖',
+    '南港',
+    '文山',
+  ],
+  新北: [
+    '板橋',
+    '三重',
+    '中和',
+    '永和',
+    '新店',
+    '土城',
+    '蘆洲',
+    '樹林',
+    '鶯歌',
+    '三峽',
+    '淡水',
+    '汐止',
+    '五股',
+    '泰山',
+    '林口',
+    '八里',
+    '新莊',
+  ],
+  新竹: ['東區', '北區', '香山', '竹北', '竹東'],
+  桃園: ['桃園', '中壢', '龜山', '楊梅'],
+  苗栗: ['苗栗', '竹南', '頭份', '銅鑼'],
+  台中: [
+    '中區',
+    '西區',
+    '北區',
+    '南區',
+    '東區',
+    '北屯',
+    '西屯',
+    '南屯',
+    '豐原',
+    '大里',
+    '太平',
+  ],
+  台南: ['中西區', '東區', '南區', '北區', '安平', '永康', '新營', '善化'],
+  高雄: ['苓雅', '前金', '三民', '左營', '楠梓', '鼓山', '前鎮', '鳳山'],
+}
+
 const CITY_ALIASES: Record<string, string[]> = {
   台北: ['台北', 'Taipei', 'TPE'],
   新北: [
@@ -96,6 +150,35 @@ const CITY_ALIASES: Record<string, string[]> = {
   台中: ['台中', 'Taichung'],
   台南: ['台南', 'Tainan', '善化', '新營'],
   高雄: ['高雄', 'Kaohsiung', '楠梓', '前鎮'],
+  中正: ['中正'],
+  大同: ['大同'],
+  中山: ['中山'],
+  松山: ['松山'],
+  大安: ['大安'],
+  萬華: ['萬華'],
+  信義: ['信義'],
+  士林: ['士林'],
+  北投: ['北投'],
+  內湖: ['內湖'],
+  南港: ['南港'],
+  文山: ['文山'],
+  板橋: ['板橋'],
+  三重: ['三重'],
+  中和: ['中和'],
+  永和: ['永和'],
+  新店: ['新店'],
+  土城: ['土城'],
+  蘆洲: ['蘆洲'],
+  樹林: ['樹林'],
+  鶯歌: ['鶯歌'],
+  三峽: ['三峽'],
+  淡水: ['淡水'],
+  汐止: ['汐止'],
+  五股: ['五股'],
+  泰山: ['泰山'],
+  林口: ['林口'],
+  八里: ['八里'],
+  新莊: ['新莊'],
 }
 
 type CompanyGroup = {
@@ -151,7 +234,8 @@ function JobsPage() {
   const [search, setSearch] = useState('')
   const [source, setSource] = useState<string>('全部')
   const [industry, setIndustry] = useState<string>('全部')
-  const [city, setCity] = useState<string>('全部')
+  const [cities, setCities] = useState<string[]>([])
+  const [districts, setDistricts] = useState<string[]>([])
   const [jobType, setJobType] = useState<string>('全部')
 
   const fuse = useMemo(
@@ -223,11 +307,17 @@ function JobsPage() {
         (j) => companyMap[j.stock_id]?.job_count_trend === 'expanding',
       )
     }
-    if (city !== '全部') {
-      const aliases = CITY_ALIASES[city] || [city]
+    if (cities.length > 0) {
+      const aliases = cities.flatMap((value) => CITY_ALIASES[value] || [value])
       list = list.filter((j) => {
         const loc = (j.location || '').toLowerCase()
         return aliases.some((a) => loc.includes(a.toLowerCase()))
+      })
+    }
+    if (districts.length > 0) {
+      list = list.filter((j) => {
+        const loc = (j.location || '').toLowerCase()
+        return districts.some((value) => loc.includes(value.toLowerCase()))
       })
     }
     if (industry !== '全部') {
@@ -259,7 +349,17 @@ function JobsPage() {
     })
 
     return result
-  }, [jobs, search, source, industry, city, jobType, fuse, companyMap])
+  }, [
+    jobs,
+    search,
+    source,
+    industry,
+    cities,
+    districts,
+    jobType,
+    fuse,
+    companyMap,
+  ])
 
   const totalJobs = groups.reduce((s, g) => s + g.jobs.length, 0)
 
@@ -321,17 +421,26 @@ function JobsPage() {
             </option>
           ))}
         </select>
-        <select
-          value={city}
-          onChange={(e) => setCity(e.target.value)}
-          className="rounded-lg border border-[var(--border)] bg-[var(--bg-surface)] px-2 py-2 text-xs text-[var(--text-body)]"
-        >
-          {CITIES.map((c) => (
-            <option key={c} value={c}>
-              {c === '全部' ? '所有地區' : c}
-            </option>
-          ))}
-        </select>
+        <MultiSelect
+          label="縣市"
+          options={CITIES.filter((c) => c !== '全部')}
+          selected={cities}
+          onChange={(next) => {
+            setCities(next)
+            setDistricts((current) =>
+              current.filter((d) =>
+                next.some((c) => DISTRICTS[c]?.includes(d)),
+              ),
+            )
+          }}
+        />
+        <MultiSelect
+          label="區域"
+          options={[...new Set(cities.flatMap((c) => DISTRICTS[c] || []))]}
+          selected={districts}
+          onChange={setDistricts}
+          disabled={cities.length === 0}
+        />
         <select
           value={industry}
           onChange={(e) => setIndustry(e.target.value)}
@@ -364,7 +473,8 @@ function JobsPage() {
 
       {/* Active filters indicator */}
       {(jobType !== '全部' ||
-        city !== '全部' ||
+        cities.length > 0 ||
+        districts.length > 0 ||
         industry !== '全部' ||
         source !== '全部') && (
         <div className="mb-3 flex items-center gap-2">
@@ -374,9 +484,14 @@ function JobsPage() {
               {jobType}
             </span>
           )}
-          {city !== '全部' && (
+          {cities.length > 0 && (
             <span className="rounded-full bg-[var(--accent-soft)] px-2 py-0.5 text-xs text-[var(--text-heading)]">
-              {city}
+              {cities.join('、')}
+            </span>
+          )}
+          {districts.length > 0 && (
+            <span className="rounded-full bg-[var(--accent-soft)] px-2 py-0.5 text-xs text-[var(--text-heading)]">
+              {districts.join('、')}
             </span>
           )}
           {industry !== '全部' && (
@@ -393,7 +508,8 @@ function JobsPage() {
             type="button"
             onClick={() => {
               setJobType('全部')
-              setCity('全部')
+              setCities([])
+              setDistricts([])
               setIndustry('全部')
               setSource('全部')
             }}
@@ -448,6 +564,12 @@ function CompanyJobGroup({ group }: { group: CompanyGroup }) {
   ).charAt(0)
   const name =
     company?.short_name || group.jobs[0]?.company_name || group.stockId
+  const marketLabel =
+    company?.market === 'listed'
+      ? '上市'
+      : company?.market === 'otc'
+        ? '上櫃'
+        : null
 
   return (
     <div className="overflow-hidden rounded-xl border border-[var(--border)] bg-[var(--bg-surface)] shadow-[var(--shadow)]">
@@ -473,6 +595,11 @@ function CompanyJobGroup({ group }: { group: CompanyGroup }) {
             <span className="text-[11px] text-[var(--text-muted)]">
               {group.stockId}
             </span>
+            {marketLabel && (
+              <span className="rounded bg-[var(--accent-soft)] px-1.5 py-0.5 text-[10px] font-medium text-[var(--text-body)]">
+                {marketLabel}
+              </span>
+            )}
             {company?.industry && (
               <span className="hidden text-[11px] text-[var(--text-muted)] sm:inline">
                 · {company.industry}
@@ -568,6 +695,55 @@ function CompanyJobGroup({ group }: { group: CompanyGroup }) {
           )
         })}
     </div>
+  )
+}
+
+function MultiSelect({
+  label,
+  options,
+  selected,
+  onChange,
+  disabled = false,
+}: {
+  label: string
+  options: string[]
+  selected: string[]
+  onChange: (values: string[]) => void
+  disabled?: boolean
+}) {
+  return (
+    <details className="relative">
+      <summary
+        className={`cursor-pointer list-none rounded-lg border border-[var(--border)] bg-[var(--bg-surface)] px-2 py-2 text-xs text-[var(--text-body)] ${disabled ? 'cursor-not-allowed opacity-50' : ''}`}
+      >
+        {selected.length > 0
+          ? `${label}：${selected.join('、')}`
+          : `選擇${label}`}
+      </summary>
+      {!disabled && (
+        <div className="absolute left-0 top-full z-10 mt-1 max-h-64 min-w-36 overflow-y-auto rounded-lg border border-[var(--border)] bg-[var(--bg-elevated)] p-2 shadow-lg">
+          {options.map((option) => (
+            <label
+              key={option}
+              className="flex cursor-pointer items-center gap-2 px-2 py-1.5 text-xs text-[var(--text-body)] hover:bg-[var(--bg-surface)]"
+            >
+              <input
+                type="checkbox"
+                checked={selected.includes(option)}
+                onChange={(event) =>
+                  onChange(
+                    event.target.checked
+                      ? [...selected, option]
+                      : selected.filter((value) => value !== option),
+                  )
+                }
+              />
+              {option}
+            </label>
+          ))}
+        </div>
+      )}
+    </details>
   )
 }
 
