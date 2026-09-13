@@ -1,7 +1,21 @@
 import { createFileRoute, redirect } from '@tanstack/react-router'
-import { getJobRedirectUrl } from '#/utils/jobs.functions'
+import {
+  getJobRedirectUrl,
+  getJobRedirectUrlById,
+} from '#/utils/jobs.functions'
 
 export const Route = createFileRoute('/go/$jobId')({
+  server: {
+    handlers: {
+      GET: async ({ params, request }) => {
+        const url = await getJobRedirectUrlById(params.jobId)
+        if (url) {
+          return Response.redirect(url, 302)
+        }
+        return Response.redirect(new URL('/jobs', request.url), 302)
+      },
+    },
+  },
   loader: async ({ params }) => {
     const url = await getJobRedirectUrl({ data: params.jobId })
     if (url) {

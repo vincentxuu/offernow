@@ -12,7 +12,10 @@ type D1Database = {
 
 async function getD1(): Promise<D1Database | null> {
   try {
-    const mod: Record<string, unknown> = await import('cloudflare:workers')
+    const workersModule = 'cloudflare:workers'
+    const mod: Record<string, unknown> = await import(
+      /* @vite-ignore */ workersModule
+    )
     const env = mod.env as Record<string, unknown> | undefined
     if (env?.DB) return env.DB as D1Database
   } catch {
@@ -24,24 +27,30 @@ async function getD1(): Promise<D1Database | null> {
 export const getJobRedirectUrl = createServerFn()
   .validator((data: string) => data)
   .handler(async ({ data: jobId }): Promise<string | null> => {
-    const db = await getD1()
-    if (!db) return null
-    try {
-      const id = parseInt(jobId, 10)
-      if (Number.isNaN(id)) return null
-      await db
-        .prepare('UPDATE jobs SET click_count = click_count + 1 WHERE id = ?')
-        .bind(id)
-        .all()
-      const { results } = await db
-        .prepare('SELECT job_url FROM jobs WHERE id = ?')
-        .bind(id)
-        .all<{ job_url: string }>()
-      return results[0]?.job_url ?? null
-    } catch {
-      return null
-    }
+    return getJobRedirectUrlById(jobId)
   })
+
+export async function getJobRedirectUrlById(
+  jobId: string,
+): Promise<string | null> {
+  const db = await getD1()
+  if (!db) return null
+  try {
+    const id = parseInt(jobId, 10)
+    if (Number.isNaN(id)) return null
+    await db
+      .prepare('UPDATE jobs SET click_count = click_count + 1 WHERE id = ?')
+      .bind(id)
+      .all()
+    const { results } = await db
+      .prepare('SELECT job_url FROM jobs WHERE id = ?')
+      .bind(id)
+      .all<{ job_url: string }>()
+    return results[0]?.job_url ?? null
+  } catch {
+    return null
+  }
+}
 
 export const getJobs = createServerFn().handler(async (): Promise<Job[]> => {
   const db = await getD1()
