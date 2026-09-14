@@ -181,6 +181,29 @@ const CITY_ALIASES: Record<string, string[]> = {
   新莊: ['新莊'],
 }
 
+function isAsciiAlphaNumeric(char: string | undefined) {
+  return !!char && /[a-z0-9]/i.test(char)
+}
+
+function includesShortSearchTerm(text: string, term: string) {
+  const lowerText = text.toLowerCase()
+  let start = lowerText.indexOf(term)
+
+  while (start !== -1) {
+    const end = start + term.length
+    const before = text[start - 1]
+    const after = text[end]
+
+    if (!isAsciiAlphaNumeric(before) && !isAsciiAlphaNumeric(after)) {
+      return true
+    }
+
+    start = lowerText.indexOf(term, start + 1)
+  }
+
+  return false
+}
+
 type CompanyGroup = {
   stockId: string
   company: Company | undefined
@@ -256,19 +279,11 @@ function JobsPage() {
     let list: Job[]
 
     if (q) {
-      const wordBoundary = (text: string, term: string) => {
-        const i = text.toLowerCase().indexOf(term)
-        if (i === -1) return false
-        const before = i === 0 || /[\s\-_/(),.]/.test(text[i - 1])
-        const after =
-          i + term.length >= text.length ||
-          /[\s\-_/(),.]/.test(text[i + term.length])
-        return before && after
-      }
-
       if (q.length <= 3) {
         list = jobs.filter(
-          (j) => wordBoundary(j.title, q) || wordBoundary(j.company_name, q),
+          (j) =>
+            includesShortSearchTerm(j.title, q) ||
+            includesShortSearchTerm(j.company_name, q),
         )
       } else {
         list = fuse.search(q).map((r) => r.item)

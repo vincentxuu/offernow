@@ -14,6 +14,7 @@
     "lint": "biome check src/",
     "lint:fix": "biome check src/ --write",
     "format": "biome format src/ --write",
+    "audit:jobs": "python3 scripts/audit-job-data-quality.py",
     "deploy": "pnpm run build && wrangler deploy"
   },
   "dependencies": {

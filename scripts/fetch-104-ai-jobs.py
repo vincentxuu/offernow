@@ -10,6 +10,8 @@
 """
 
 import json
+import importlib.util
+import subprocess
 import time
 from pathlib import Path
 from urllib.parse import quote
@@ -19,11 +21,23 @@ from playwright_stealth import Stealth
 DATA_DIR = Path(__file__).parent / "data"
 COMPANIES_FILE = DATA_DIR / "companies_with_salary.json"
 JOBS_FILE = DATA_DIR / "jobs.json"
+SEED_JOBS_SCRIPT = Path(__file__).parent / "db" / "seed-jobs.py"
+SEED_JOBS_SQL = Path(__file__).parent / "db" / "seed-jobs.sql"
+FIX_JOB_MAPPING_SQL = Path(__file__).parent / "db" / "fix-job-company-mapping.sql"
 UA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
 
 KEYWORDS = ["AI", "人工智慧", "machine learning", "deep learning", "NLP", "LLM", "data scientist"]
 MAX_PAGES_PER_KEYWORD = 5
 PAGE_SIZE = 20
+
+
+def load_seed_jobs_helpers():
+    spec = importlib.util.spec_from_file_location("seed_jobs", SEED_JOBS_SCRIPT)
+    if spec is None or spec.loader is None:
+        raise RuntimeError(f"Unable to load {SEED_JOBS_SCRIPT}")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module.load_companies_name_map(), module.match_stock_id
 
 
 def main():
@@ -139,7 +153,9 @@ def main():
     with open(COMPANIES_FILE, encoding="utf-8") as f:
         companies = json.load(f)
 
+    alias_name_map, match_stock_id = load_seed_jobs_helpers()
     tax_map = {c["tax_id"]: c for c in companies if c.get("tax_id")}
+    stock_map = {c["stock_id"]: c for c in companies}
     name_map = {}
     for c in companies:
         full = c.get("name", "")
@@ -153,7 +169,8 @@ def main():
         company_full = j.get("company_name_full", "")
         clean = company_full.replace("股份有限公司", "").replace("有限公司", "").strip()
         matched_c = tax_map.get(cust_no) or name_map.get(company_full) or name_map.get(clean)
-        stock_id = matched_c["stock_id"] if matched_c else ""
+        stock_id = matched_c["stock_id"] if matched_c else match_stock_id(company_full, alias_name_map)
+        matched_c = matched_c or stock_map.get(stock_id)
         short = (matched_c.get("short_name") or clean) if matched_c else clean
 
         appear = j.get("appear_date", "")
@@ -202,15 +219,21 @@ def main():
 
     # Re-seed D1
     print("\n--- Re-seeding D1 ---")
-    import subprocess
-    subprocess.run(["python3", "scripts/db/seed.py"], check=True)
-    subprocess.run(["pnpm", "wrangler", "d1", "execute", "offernow-db", "--local", "--file", "scripts/db/seed.sql"],
+    subprocess.run(["python3", str(SEED_JOBS_SCRIPT)], check=True)
+    subprocess.run(["pnpm", "wrangler", "d1", "execute", "offernow-db", "--local", "--file", str(SEED_JOBS_SQL)],
                    check=True, capture_output=True)
     print("Local D1 updated")
 
-    subprocess.run(["pnpm", "wrangler", "d1", "execute", "offernow-db", "--remote", "--file", "scripts/db/seed.sql"],
+    subprocess.run(["pnpm", "wrangler", "d1", "execute", "offernow-db", "--remote", "--file", str(SEED_JOBS_SQL)],
                    check=True, capture_output=True)
-    print("Remote D1 updated")
+    print("Remote D1 jobs updated")
+
+    if FIX_JOB_MAPPING_SQL.exists():
+        subprocess.run(["pnpm", "wrangler", "d1", "execute", "offernow-db", "--local", "--file", str(FIX_JOB_MAPPING_SQL)],
+                       check=True, capture_output=True)
+        subprocess.run(["pnpm", "wrangler", "d1", "execute", "offernow-db", "--remote", "--file", str(FIX_JOB_MAPPING_SQL)],
+                   check=True, capture_output=True)
+        print("Financial company mappings fixed")
 
     # Deploy
     print("\n--- Deploying ---")
