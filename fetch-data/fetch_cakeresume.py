@@ -1,136 +1,165 @@
 """
 CakeResume (cake.me) 職缺爬蟲
 ==============================
-- 使用 Playwright 繞過 Cloudflare challenge
-- 遵守合理請求頻率
+- 使用 Google 搜尋索引取得 CakeResume 個別職缺頁面
+- Cloudflare 阻擋直接存取，改從搜尋引擎抓取已索引的職缺
 - 僅爬取公開可見資料
 """
 
 import json
+import re
 import time
 import random
-import re
+import requests
 from datetime import datetime
 from pathlib import Path
+from urllib.parse import unquote
 
 DATA_DIR = Path(__file__).parent / "data"
 
-SEARCH_URLS = [
-    "https://cake.me/jobs?q=AI&location_list%5B%5D=Taiwan",
-    "https://cake.me/jobs?q=LLM&location_list%5B%5D=Taiwan",
-    "https://cake.me/jobs?q=machine+learning&location_list%5B%5D=Taiwan",
-    "https://cake.me/jobs?q=AI+PM&location_list%5B%5D=Taiwan",
-    "https://cake.me/jobs?q=data+scientist&location_list%5B%5D=Taiwan",
-    "https://cake.me/jobs?q=backend+engineer&location_list%5B%5D=Taiwan",
-    "https://cake.me/jobs?q=fullstack&location_list%5B%5D=Taiwan",
-    "https://cake.me/jobs?q=prompt+engineer&location_list%5B%5D=Taiwan",
-    "https://cake.me/jobs?q=前端工程師&location_list%5B%5D=Taiwan",
-    "https://cake.me/jobs?q=後端工程師&location_list%5B%5D=Taiwan",
-    "https://cake.me/jobs?q=python&location_list%5B%5D=Taiwan",
-    "https://cake.me/jobs?q=nodejs&location_list%5B%5D=Taiwan",
+SEARCHES = [
+    "AI engineer",
+    "machine learning engineer",
+    "LLM engineer",
+    "data scientist",
+    "AI product manager",
+    "prompt engineer",
+    "backend engineer",
+    "fullstack engineer",
+    "frontend engineer",
+    "python engineer",
+    "MLOps",
+    "NLP engineer",
+    "deep learning",
+    "AI 工程師",
+    "後端工程師",
+    "全端工程師",
+    "前端工程師",
+    "產品經理",
 ]
 
 
+def search_google(query: str, session: requests.Session) -> list[dict]:
+    results = []
+
+    for start in [0, 10, 20]:
+        params = {
+            "q": query,
+            "start": start,
+            "num": 10,
+        }
+        headers = {
+            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
+            "Accept": "text/html,application/xhtml+xml",
+            "Accept-Language": "en-US,en;q=0.9,zh-TW;q=0.8",
+        }
+
+        try:
+            resp = session.get(
+                "https://www.google.com/search",
+                params=params,
+                headers=headers,
+                timeout=15,
+            )
+            if resp.status_code == 429:
+                print("    ⚠️  Google 限流，等 30 秒...")
+                time.sleep(30)
+                continue
+            if resp.status_code != 200:
+                print(f"    ⚠️  Google status {resp.status_code}")
+                break
+
+            html = resp.text
+
+            pattern = r'<a[^>]*href="(https://(?:www\.)?cake\.me/companies/[^/]+/jobs/[^"&]+)"[^>]*>'
+            urls_found = re.findall(pattern, html)
+
+            for raw_url in urls_found:
+                url = unquote(raw_url).split("&")[0].split("?")[0]
+                if "/jobs/" not in url:
+                    continue
+                results.append(url)
+
+        except Exception as e:
+            print(f"    ❌ Google 搜尋失敗: {e}")
+            break
+
+        time.sleep(random.uniform(3, 6))
+
+    return results
+
+
+def parse_job_from_url(url: str) -> dict | None:
+    match = re.search(r"/companies/([^/]+)/jobs/([^/?]+)", url)
+    if not match:
+        return None
+
+    company_slug = match.group(1)
+    job_slug = match.group(2)
+
+    company_name = company_slug.replace("-", " ").replace("_", " ")
+
+    title_parts = job_slug.replace("-", " ").split()
+    title = " ".join(title_parts)
+
+    hex_suffix = re.search(r"[a-f0-9]{6,}$", job_slug)
+    if hex_suffix:
+        title = title[: -len(hex_suffix.group())].strip()
+
+    title = re.sub(r"\s+", " ", title).strip()
+
+    if len(title) < 3:
+        title = job_slug.replace("-", " ")
+
+    return {
+        "job_id": f"cake_{job_slug}",
+        "title": title,
+        "company_name": company_name,
+        "location": "Taiwan",
+        "date_posted": "",
+        "job_url": url,
+        "source": "cakeresume",
+        "description": "",
+        "salary_min": None,
+        "salary_max": None,
+        "job_type": "",
+    }
+
+
 def main():
-    try:
-        from playwright.sync_api import sync_playwright
-    except ImportError:
-        print("❌ 需要 playwright: pip install playwright && playwright install chromium")
-        return
-
     print("=" * 60)
-    print("CakeResume (cake.me): 搜尋科技/AI 職缺")
+    print("CakeResume (cake.me): Google 索引搜尋")
     print("=" * 60)
 
-    all_jobs = []
+    session = requests.Session()
+    all_urls = set()
 
-    with sync_playwright() as p:
-        browser = p.chromium.launch(headless=True)
-        context = browser.new_context(
-            user_agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
-            viewport={"width": 1280, "height": 800},
-        )
-        page = context.new_page()
+    for kw in SEARCHES:
+        query = f'site:cake.me/companies inurl:jobs "{kw}" Taiwan'
+        print(f"\n🔍 搜尋: {kw}")
+        urls = search_google(query, session)
+        new_urls = set(urls) - all_urls
+        all_urls.update(urls)
+        print(f"    找到 {len(urls)} 個 URL，{len(new_urls)} 個新的")
 
-        for i, url in enumerate(SEARCH_URLS):
-            q = url.split("q=")[1].split("&")[0].replace("+", " ")
-            print(f"\n[{i+1}/{len(SEARCH_URLS)}] 🔍 搜尋: {q}")
+        time.sleep(random.uniform(5, 10))
 
-            try:
-                page.goto(url, wait_until="networkidle", timeout=30000)
-                time.sleep(3)
+    print(f"\n📊 共收集 {len(all_urls)} 個不重複的職缺 URL")
 
-                cf_challenge = page.query_selector("#challenge-running, #challenge-form")
-                if cf_challenge:
-                    print("  ⚠️  Cloudflare challenge，等待 10 秒...")
-                    time.sleep(10)
-                    page.reload(wait_until="networkidle", timeout=30000)
-                    time.sleep(3)
+    jobs = []
+    for url in all_urls:
+        job = parse_job_from_url(url)
+        if job:
+            jobs.append(job)
 
-                cards = page.query_selector_all('a[href*="/jobs/"]')
-                if not cards:
-                    cards = page.query_selector_all('[class*="JobSearchItem"], [class*="job-item"], [data-testid*="job"]')
-
-                print(f"  找到 {len(cards)} 個職缺卡片")
-
-                for card in cards:
-                    try:
-                        href = card.get_attribute("href") or ""
-                        if not href or "/jobs/" not in href:
-                            continue
-
-                        text = card.inner_text()
-                        lines = [l.strip() for l in text.split("\n") if l.strip()]
-
-                        title = lines[0] if lines else ""
-                        company = lines[1] if len(lines) > 1 else ""
-                        location = ""
-                        salary_text = ""
-
-                        for line in lines:
-                            if any(loc in line for loc in ["台北", "新北", "台中", "高雄", "新竹", "桃園", "台南", "Taiwan", "Remote"]):
-                                location = line
-                            if any(s in line for s in ["TWD", "NT$", "月薪", "年薪", "K", "萬"]):
-                                salary_text = line
-
-                        job_url = href if href.startswith("http") else f"https://cake.me{href}"
-
-                        job_id_match = re.search(r"/jobs/([^/?]+)", href)
-                        job_id = f"cake_{job_id_match.group(1)}" if job_id_match else f"cake_{hash(href)}"
-
-                        all_jobs.append({
-                            "job_id": job_id,
-                            "title": title,
-                            "company_name": company,
-                            "location": location,
-                            "date_posted": "",
-                            "job_url": job_url,
-                            "source": "cakeresume",
-                            "description": " | ".join(lines[2:5]) if len(lines) > 2 else "",
-                            "salary_text": salary_text,
-                            "salary_min": None,
-                            "salary_max": None,
-                            "job_type": "",
-                        })
-                    except Exception:
-                        continue
-
-            except Exception as e:
-                print(f"  ❌ 失敗: {e}")
-
-            jitter = random.uniform(3.0, 6.0)
-            time.sleep(jitter)
-
-        browser.close()
-
-    seen = set()
+    seen_ids = set()
     unique = []
-    for job in all_jobs:
-        if job["job_id"] not in seen:
-            seen.add(job["job_id"])
-            unique.append(job)
+    for j in jobs:
+        if j["job_id"] not in seen_ids:
+            seen_ids.add(j["job_id"])
+            unique.append(j)
 
-    print(f"\n📊 合併後共 {len(unique)} 筆（去重複，原始 {len(all_jobs)} 筆）")
+    print(f"   解析出 {len(unique)} 筆職缺")
 
     DATA_DIR.mkdir(parents=True, exist_ok=True)
     archive_dir = DATA_DIR / "archive"

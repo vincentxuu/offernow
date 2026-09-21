@@ -1,3 +1,10 @@
+import {
+  Building,
+  DollarSign,
+  Flag,
+  Scale,
+  TrendingUp,
+} from '@sketchyicons/react'
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { Badge } from '#/components/Badge'
 import { BigMetric } from '#/components/BigMetric'
@@ -82,7 +89,17 @@ function ScoreCard({ score }: { score: AttractivenessScore }) {
             <div key={d.name}>
               <div className="mb-1 flex items-center justify-between">
                 <span className="text-xs font-semibold text-[var(--text-heading)]">
-                  {d.icon} {d.name}
+                  {(() => {
+                    const icons: Record<string, React.FC<{ size?: number }>> = {
+                      DollarSign,
+                      TrendingUp,
+                      Building,
+                      Scale,
+                      Flag,
+                    }
+                    const Icon = icons[d.icon]
+                    return Icon ? <Icon size={14} /> : null
+                  })()} {d.name}
                 </span>
                 <span className="text-xs text-[var(--text-muted)]">
                   {d.score}

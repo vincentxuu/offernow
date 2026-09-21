@@ -14,7 +14,7 @@ from jobspy import scrape_jobs
 DATA_DIR = Path(__file__).parent / "data"
 COMPANIES_FILE = DATA_DIR / "companies_with_salary.json"
 JOBS_FILE = DATA_DIR / "jobs.json"
-TOP_N = 30
+TOP_N = 100
 
 # 公司名 → 英文搜尋名（LinkedIn 英文搜比較準）
 NAME_MAP = {
@@ -79,18 +79,24 @@ def main():
                 site_name=["linkedin", "indeed"],
                 search_term=search_name,
                 location="Taiwan",
-                results_wanted=5,
+                results_wanted=20,
                 hours_old=720,  # 30 days
                 country_indeed="Taiwan",
             )
 
             for _, row in results.iterrows():
+                listed_company = str(row.get("company", ""))
+                is_match = (
+                    short_name.lower() in listed_company.lower()
+                    or search_name.lower() in listed_company.lower()
+                    or listed_company.lower() in short_name.lower()
+                )
                 job = {
-                    "stock_id": stock_id,
-                    "company_name": short_name,
+                    "stock_id": stock_id if is_match else "",
+                    "company_name": listed_company or short_name,
                     "company_search": search_name,
                     "title": str(row.get("title", "")),
-                    "company_listed": str(row.get("company", "")),
+                    "company_listed": listed_company,
                     "location": str(row.get("location", "")),
                     "date_posted": str(row.get("date_posted", "")),
                     "job_url": str(row.get("job_url", "")),

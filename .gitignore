@@ -60,3 +60,8 @@ todos.json
 
 .research/
 .playwright-mcp/
+
+# 本機產生檔與測試截圖
+scripts/db/seed-all-jobs.sql
+test-*.png
+examlab-*

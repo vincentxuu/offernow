@@ -1,3 +1,4 @@
+import { TrendingDown, TrendingUp } from '@sketchyicons/react'
 import { createFileRoute } from '@tanstack/react-router'
 import Fuse from 'fuse.js'
 import { useMemo, useState } from 'react'
@@ -222,7 +223,12 @@ function IndustryTrendsBar({ trends }: { trends: IndustryTrend[] }) {
                       : 'bg-[var(--red-soft)] text-[var(--red-negative)]'
                   }`}
                 >
-                  {t.delta > 0 ? '▲' : '▼'} {Math.abs(t.delta).toLocaleString()}
+                  {t.delta > 0 ? (
+                    <TrendingUp size={10} />
+                  ) : (
+                    <TrendingDown size={10} />
+                  )}{' '}
+                  {Math.abs(t.delta).toLocaleString()}
                 </span>
               )}
             </div>

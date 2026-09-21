@@ -1,3 +1,4 @@
+import { Building, ClipboardList, DollarSign } from '@sketchyicons/react'
 import { createFileRoute, Link } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/about')({
@@ -26,19 +27,19 @@ function About() {
         </p>
         <div className="grid gap-4 sm:grid-cols-3">
           <InfoCard
-            emoji="🏢"
+            icon={<Building size={24} />}
             title="公司基本面"
             desc="去證交所 OpenAPI 查產業、資本額、營收"
             source="TWSE / TPEx"
           />
           <InfoCard
-            emoji="💰"
+            icon={<DollarSign size={24} />}
             title="薪資真相"
             desc="去公開資訊觀測站翻非主管薪資中位數"
             source="MOPS 員工薪資揭露"
           />
           <InfoCard
-            emoji="📋"
+            icon={<ClipboardList size={24} />}
             title="職缺動態"
             desc="再去 104、LinkedIn 一家一家搜招募中的職位"
             source="104 / LinkedIn"
@@ -161,19 +162,19 @@ function About() {
 }
 
 function InfoCard({
-  emoji,
+  icon,
   title,
   desc,
   source,
 }: {
-  emoji: string
+  icon: React.ReactNode
   title: string
   desc: string
   source: string
 }) {
   return (
     <div className="rounded-xl border border-[var(--border)] bg-[var(--bg-surface)] p-5 shadow-[var(--shadow)]">
-      <div className="mb-2 text-2xl">{emoji}</div>
+      <div className="mb-2 text-[var(--text-heading)]">{icon}</div>
       <h3 className="mb-1 text-sm font-bold text-[var(--text-heading)]">
         {title}
       </h3>

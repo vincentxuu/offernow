@@ -1,3 +1,4 @@
+import { Moon, Sun, SunMoon } from '@sketchyicons/react'
 import { useEffect, useState } from 'react'
 
 type ThemeMode = 'light' | 'dark' | 'auto'
@@ -48,7 +49,7 @@ export default function ThemeToggle() {
     window.localStorage.setItem('theme', next)
   }
 
-  const icon = mode === 'auto' ? '🌓' : mode === 'dark' ? '🌙' : '☀️'
+  const Icon = mode === 'auto' ? SunMoon : mode === 'dark' ? Moon : Sun
 
   return (
     <button
@@ -57,7 +58,7 @@ export default function ThemeToggle() {
       aria-label={`Theme: ${mode}`}
       className="rounded-lg border border-[var(--border)] bg-[var(--bg-elevated)] px-2.5 py-1.5 text-sm transition hover:border-[var(--accent)]"
     >
-      {icon}
+      <Icon size={16} />
     </button>
   )
 }
