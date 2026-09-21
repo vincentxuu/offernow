@@ -16,17 +16,60 @@ from jobspy import scrape_jobs
 DATA_DIR = Path(__file__).parent / "data"
 
 SEARCHES = [
+    # Engineering & AI
     {"term": "AI engineer remote", "location": ""},
     {"term": "machine learning engineer remote", "location": ""},
     {"term": "LLM engineer remote", "location": ""},
-    {"term": "AI product manager", "location": ""},
-    {"term": "generative AI", "location": ""},
+    {"term": "generative AI remote", "location": ""},
     {"term": "prompt engineer remote", "location": ""},
     {"term": "MLOps engineer remote", "location": ""},
-    {"term": "data scientist AI remote", "location": ""},
+    {"term": "data scientist remote", "location": ""},
+    {"term": "NLP engineer remote", "location": ""},
+    {"term": "deep learning engineer remote", "location": ""},
+    {"term": "computer vision engineer remote", "location": ""},
+    {"term": "backend engineer remote", "location": ""},
+    {"term": "fullstack engineer remote", "location": ""},
+    {"term": "software engineer remote", "location": ""},
+    {"term": "frontend engineer remote", "location": ""},
+    {"term": "DevOps engineer remote", "location": ""},
+    {"term": "mobile developer remote", "location": ""},
+    # Product & Design
+    {"term": "product manager remote", "location": ""},
+    {"term": "UX designer remote", "location": ""},
+    {"term": "UI designer remote", "location": ""},
+    {"term": "product designer remote", "location": ""},
+    # Marketing & Growth
+    {"term": "marketing manager remote", "location": ""},
+    {"term": "content marketing remote", "location": ""},
+    {"term": "growth marketing remote", "location": ""},
+    {"term": "SEO specialist remote", "location": ""},
+    {"term": "social media manager remote", "location": ""},
+    # Operations & Business
+    {"term": "project manager remote", "location": ""},
+    {"term": "operations manager remote", "location": ""},
+    {"term": "business analyst remote", "location": ""},
+    {"term": "customer success remote", "location": ""},
+    {"term": "account manager remote", "location": ""},
+    # Writing & Content
+    {"term": "technical writer remote", "location": ""},
+    {"term": "content writer remote", "location": ""},
+    {"term": "copywriter remote", "location": ""},
+    # HR & People
+    {"term": "recruiter remote", "location": ""},
+    {"term": "HR manager remote", "location": ""},
+    # Finance & Accounting
+    {"term": "accountant remote", "location": ""},
+    {"term": "financial analyst remote", "location": ""},
+    # Taiwan
     {"term": "AI engineer", "location": "Taiwan"},
     {"term": "machine learning", "location": "Taiwan"},
     {"term": "AI product manager", "location": "Taiwan"},
+    {"term": "software engineer", "location": "Taiwan"},
+    {"term": "backend engineer", "location": "Taiwan"},
+    {"term": "data scientist", "location": "Taiwan"},
+    {"term": "product manager", "location": "Taiwan"},
+    {"term": "UX designer", "location": "Taiwan"},
+    {"term": "marketing manager", "location": "Taiwan"},
 ]
 
 SITES = ["linkedin", "indeed", "glassdoor", "google"]
@@ -49,7 +92,7 @@ def main():
             kwargs = {
                 "site_name": SITES,
                 "search_term": term,
-                "results_wanted": 25,
+                "results_wanted": 100,
                 "hours_old": 720,
                 "linkedin_fetch_description": True,
             }

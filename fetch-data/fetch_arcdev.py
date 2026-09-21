@@ -22,6 +22,7 @@ import requests
 DATA_DIR = Path(__file__).parent / "data"
 
 CATEGORIES = [
+    "",
     "ai",
     "machine-learning",
     "python",
@@ -30,6 +31,15 @@ CATEGORIES = [
     "backend",
     "full-stack",
     "devops",
+    "frontend",
+    "design",
+    "product-manager",
+    "marketing",
+    "sales",
+    "customer-support",
+    "finance",
+    "writing",
+    "hr",
 ]
 
 

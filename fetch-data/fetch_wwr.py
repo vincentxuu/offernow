@@ -32,6 +32,15 @@ FEEDS = [
     ("DevOps", "https://weworkremotely.com/categories/remote-devops-sysadmin-jobs.rss"),
     ("Product", "https://weworkremotely.com/categories/remote-product-jobs.rss"),
     ("Data", "https://weworkremotely.com/categories/remote-data-jobs.rss"),
+    ("Design", "https://weworkremotely.com/categories/remote-design-jobs.rss"),
+    ("Marketing", "https://weworkremotely.com/categories/remote-marketing-jobs.rss"),
+    ("Sales", "https://weworkremotely.com/categories/remote-sales-jobs.rss"),
+    ("Customer Support", "https://weworkremotely.com/categories/remote-customer-support-jobs.rss"),
+    ("Finance", "https://weworkremotely.com/categories/remote-finance-jobs.rss"),
+    ("HR", "https://weworkremotely.com/categories/remote-human-resources-jobs.rss"),
+    ("Writing", "https://weworkremotely.com/categories/remote-copywriting-jobs.rss"),
+    ("Management", "https://weworkremotely.com/categories/remote-management-executive-jobs.rss"),
+    ("All Others", "https://weworkremotely.com/categories/remote-all-other-jobs.rss"),
 ]
 
 

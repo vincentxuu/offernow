@@ -56,6 +56,10 @@ def strip_html(text: str) -> str:
 
 
 def is_relevant(job: dict) -> bool:
+    return bool(job.get("position"))
+
+
+def _is_relevant_old(job: dict) -> bool:
     title = job.get("position", "").lower()
     tags = " ".join(job.get("tags", [])).lower()
 

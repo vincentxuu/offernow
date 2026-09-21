@@ -94,7 +94,7 @@ def match_stock_id(company_name, name_map):
     if sid:
         return sid
     for name, s in name_map.items():
-        if len(name) >= 2 and name in cn:
+        if len(name) >= 3 and name in cn:
             return s
     return ""
 
@@ -176,6 +176,12 @@ def main():
         (FETCH_DATA / "global_ai_jobs.json", "", ""),
         (FETCH_DATA / "cakeresume_jobs.json", "cakeresume", ""),
         (FETCH_DATA / "104_jobs_search.json", "104", ""),
+        (FETCH_DATA / "justremote_jobs.json", "justremote", "global_remote"),
+        (FETCH_DATA / "remotive_jobs.json", "remotive", "global_remote"),
+        (FETCH_DATA / "dynamitejobs_jobs.json", "dynamitejobs", "global_remote"),
+        (FETCH_DATA / "careervault_jobs.json", "careervault", "global_remote"),
+        (FETCH_DATA / "himalayas_jobs.json", "himalayas", "global_remote"),
+        (FETCH_DATA / "workingnomads_jobs.json", "workingnomads", "global_remote"),
     ]
 
     for path, source_hint, jt_hint in sources:
