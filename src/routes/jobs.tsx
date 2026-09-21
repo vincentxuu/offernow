@@ -8,8 +8,8 @@ import { useInfiniteQuery } from '@tanstack/react-query'
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { getCompanies, INDUSTRIES } from '#/utils/companies.functions'
-import { getFilterCounts, getJobsPage } from '#/utils/jobs.functions'
 import type { JobFilters } from '#/utils/jobs.functions'
+import { getFilterCounts, getJobsPage } from '#/utils/jobs.functions'
 import type { Company, Job } from '#/utils/types'
 
 export const Route = createFileRoute('/jobs')({
@@ -27,21 +27,55 @@ export const Route = createFileRoute('/jobs')({
 })
 
 const SOURCES = [
-  '全部', '104', 'linkedin', 'indeed', 'yourator', 'hackernews',
-  'arcdev', 'wwr', 'remoteok', 'cakeresume', 'justremote',
-  'remotive', 'dynamitejobs', 'careervault', 'himalayas', 'workingnomads',
+  '全部',
+  '104',
+  'linkedin',
+  'indeed',
+  'yourator',
+  'hackernews',
+  'arcdev',
+  'wwr',
+  'remoteok',
+  'cakeresume',
+  'justremote',
+  'remotive',
+  'dynamitejobs',
+  'careervault',
+  'himalayas',
+  'workingnomads',
 ] as const
 
 const SOURCE_LABELS: Record<string, string> = {
-  全部: '所有來源', '104': '104', linkedin: 'LinkedIn', indeed: 'Indeed',
-  yourator: 'Yourator', hackernews: 'HN Hiring', arcdev: 'Arc.dev',
-  wwr: 'WWR', remoteok: 'RemoteOK', cakeresume: 'CakeResume',
-  justremote: 'JustRemote', remotive: 'Remotive', dynamitejobs: 'Dynamite',
-  careervault: 'CareerVault', himalayas: 'Himalayas', workingnomads: 'WorkingNomads',
+  全部: '所有來源',
+  '104': '104',
+  linkedin: 'LinkedIn',
+  indeed: 'Indeed',
+  yourator: 'Yourator',
+  hackernews: 'HN Hiring',
+  arcdev: 'Arc.dev',
+  wwr: 'WWR',
+  remoteok: 'RemoteOK',
+  cakeresume: 'CakeResume',
+  justremote: 'JustRemote',
+  remotive: 'Remotive',
+  dynamitejobs: 'Dynamite',
+  careervault: 'CareerVault',
+  himalayas: 'Himalayas',
+  workingnomads: 'WorkingNomads',
 }
 
 const JOB_TYPES = ['全部', '遠端/混合', '全球遠端'] as const
-const CITIES = ['全部', '台北', '新北', '新竹', '桃園', '苗栗', '台中', '台南', '高雄'] as const
+const CITIES = [
+  '全部',
+  '台北',
+  '新北',
+  '新竹',
+  '桃園',
+  '苗栗',
+  '台中',
+  '台南',
+  '高雄',
+] as const
 const DISTRICTS: Record<string, string[]> = {
   台北: [
     '中正',
@@ -98,7 +132,11 @@ const DISTRICTS: Record<string, string[]> = {
 
 const DATE_RANGES = ['全部', '3天', '7天', '14天', '30天'] as const
 const MARKETS = ['全部', 'listed', 'otc'] as const
-const MARKET_LABELS: Record<string, string> = { 全部: '上市櫃', listed: '上市', otc: '上櫃' }
+const MARKET_LABELS: Record<string, string> = {
+  全部: '上市櫃',
+  listed: '上市',
+  otc: '上櫃',
+}
 const SALARY_OPTIONS = [
   { label: '不限', value: 0 },
   { label: '3 萬以上', value: 30000 },
@@ -155,30 +193,48 @@ function JobsPage() {
       dateRange: dateRange !== '全部' ? dateRange : undefined,
       expanding: expanding || undefined,
     }),
-    [source, debouncedSearch, cities, districts, jobType, industry, market, salaryMin, dateRange, expanding],
+    [
+      source,
+      debouncedSearch,
+      cities,
+      districts,
+      jobType,
+      industry,
+      market,
+      salaryMin,
+      dateRange,
+      expanding,
+    ],
   )
 
-  const isDefaultFilters = dateRange === '7天' && !filters.source && !filters.search && !filters.cities && !filters.districts && !filters.jobType && !filters.industry && !filters.market && !filters.salaryMin && !filters.expanding
+  const isDefaultFilters =
+    dateRange === '7天' &&
+    !filters.source &&
+    !filters.search &&
+    !filters.cities &&
+    !filters.districts &&
+    !filters.jobType &&
+    !filters.industry &&
+    !filters.market &&
+    !filters.salaryMin &&
+    !filters.expanding
 
-  const {
-    data,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-    isLoading,
-  } = useInfiniteQuery({
-    queryKey: ['jobs', filters],
-    queryFn: async ({ pageParam = 0 }) => {
-      return getJobsPage({ data: { ...filters, offset: pageParam, limit: PAGE_SIZE } })
-    },
-    initialPageParam: 0,
-    getNextPageParam: (lastPage) =>
-      lastPage.hasMore ? lastPage.offset + lastPage.jobs.length : undefined,
-    initialData: isDefaultFilters
-      ? { pages: [firstPage], pageParams: [0] }
-      : undefined,
-    enabled: true,
-  })
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
+    useInfiniteQuery({
+      queryKey: ['jobs', filters],
+      queryFn: async ({ pageParam = 0 }) => {
+        return getJobsPage({
+          data: { ...filters, offset: pageParam, limit: PAGE_SIZE },
+        })
+      },
+      initialPageParam: 0,
+      getNextPageParam: (lastPage) =>
+        lastPage.hasMore ? lastPage.offset + lastPage.jobs.length : undefined,
+      initialData: isDefaultFilters
+        ? { pages: [firstPage], pageParams: [0] }
+        : undefined,
+      enabled: true,
+    })
 
   const sentinelRef = useRef<HTMLDivElement>(null)
   useEffect(() => {
@@ -196,7 +252,10 @@ function JobsPage() {
     return () => observer.disconnect()
   }, [hasNextPage, isFetchingNextPage, fetchNextPage])
 
-  const allJobs = useMemo(() => data?.pages.flatMap((p) => p.jobs) ?? [], [data])
+  const allJobs = useMemo(
+    () => data?.pages.flatMap((p) => p.jobs) ?? [],
+    [data],
+  )
   const total = data?.pages[0]?.total ?? 0
 
   const groups = useMemo(() => {
@@ -210,23 +269,60 @@ function JobsPage() {
     for (const [stockId, groupJobs] of map) {
       result.push({ stockId, company: companyMap[stockId], jobs: groupJobs })
     }
-    result.sort((a, b) => (b.company?.salary_median_k ?? 0) - (a.company?.salary_median_k ?? 0))
+    result.sort(
+      (a, b) =>
+        (b.company?.salary_median_k ?? 0) - (a.company?.salary_median_k ?? 0),
+    )
     return result
   }, [allJobs, companyMap])
 
   const loadedCount = allJobs.length
 
   const activeFilterTags: { label: string; clear: () => void }[] = []
-  if (dateRange !== '全部' && dateRange !== '7天') activeFilterTags.push({ label: `近 ${dateRange}`, clear: () => setDateRange('7天') })
-  if (dateRange === '全部') activeFilterTags.push({ label: '不限時間', clear: () => setDateRange('7天') })
-  if (jobType !== '全部') activeFilterTags.push({ label: jobType, clear: () => setJobType('全部') })
-  if (cities.length > 0) activeFilterTags.push({ label: cities.join('、'), clear: () => { setCities([]); setDistricts([]) } })
-  if (districts.length > 0) activeFilterTags.push({ label: districts.join('、'), clear: () => setDistricts([]) })
-  if (industry !== '全部') activeFilterTags.push({ label: industry, clear: () => setIndustry('全部') })
-  if (source !== '全部') activeFilterTags.push({ label: SOURCE_LABELS[source] || source, clear: () => setSource('全部') })
-  if (market !== '全部') activeFilterTags.push({ label: MARKET_LABELS[market], clear: () => setMarket('全部') })
-  if (salaryMin > 0) activeFilterTags.push({ label: `≥ ${(salaryMin / 10000).toFixed(0)} 萬`, clear: () => setSalaryMin(0) })
-  if (expanding) activeFilterTags.push({ label: '擴編中', clear: () => setExpanding(false) })
+  if (dateRange !== '全部' && dateRange !== '7天')
+    activeFilterTags.push({
+      label: `近 ${dateRange}`,
+      clear: () => setDateRange('7天'),
+    })
+  if (dateRange === '全部')
+    activeFilterTags.push({
+      label: '不限時間',
+      clear: () => setDateRange('7天'),
+    })
+  if (jobType !== '全部')
+    activeFilterTags.push({ label: jobType, clear: () => setJobType('全部') })
+  if (cities.length > 0)
+    activeFilterTags.push({
+      label: cities.join('、'),
+      clear: () => {
+        setCities([])
+        setDistricts([])
+      },
+    })
+  if (districts.length > 0)
+    activeFilterTags.push({
+      label: districts.join('、'),
+      clear: () => setDistricts([]),
+    })
+  if (industry !== '全部')
+    activeFilterTags.push({ label: industry, clear: () => setIndustry('全部') })
+  if (source !== '全部')
+    activeFilterTags.push({
+      label: SOURCE_LABELS[source] || source,
+      clear: () => setSource('全部'),
+    })
+  if (market !== '全部')
+    activeFilterTags.push({
+      label: MARKET_LABELS[market],
+      clear: () => setMarket('全部'),
+    })
+  if (salaryMin > 0)
+    activeFilterTags.push({
+      label: `≥ ${(salaryMin / 10000).toFixed(0)} 萬`,
+      clear: () => setSalaryMin(0),
+    })
+  if (expanding)
+    activeFilterTags.push({ label: '擴編中', clear: () => setExpanding(false) })
 
   const clearAll = () => {
     setSearch('')
@@ -247,7 +343,8 @@ function JobsPage() {
         職缺搜尋
       </h1>
       <p className="mb-4 text-sm text-[var(--text-muted)]">
-        跨平台聚合 {filterCounts.total.toLocaleString()} 筆職缺，按公司分組，一眼看懂薪資和擴編狀況
+        跨平台聚合 {filterCounts.total.toLocaleString()}{' '}
+        筆職缺，按公司分組，一眼看懂薪資和擴編狀況
       </p>
 
       {/* Search */}
@@ -261,10 +358,15 @@ function JobsPage() {
 
       {/* Filter row 1: common quick filters */}
       <div className="mb-2 flex flex-wrap items-center gap-2">
-        <select value={dateRange} onChange={(e) => setDateRange(e.target.value)}
-          className="rounded-lg border border-[var(--border)] bg-[var(--bg-surface)] px-2 py-1.5 text-xs text-[var(--text-body)]">
+        <select
+          value={dateRange}
+          onChange={(e) => setDateRange(e.target.value)}
+          className="rounded-lg border border-[var(--border)] bg-[var(--bg-surface)] px-2 py-1.5 text-xs text-[var(--text-body)]"
+        >
           {DATE_RANGES.map((d) => (
-            <option key={d} value={d}>{d === '全部' ? '不限時間' : `近 ${d}`}</option>
+            <option key={d} value={d}>
+              {d === '全部' ? '不限時間' : `近 ${d}`}
+            </option>
           ))}
         </select>
         <MultiSelect
@@ -274,7 +376,9 @@ function JobsPage() {
           onChange={(next) => {
             setCities(next)
             setDistricts((current) =>
-              current.filter((d) => next.some((c) => DISTRICTS[c]?.includes(d))),
+              current.filter((d) =>
+                next.some((c) => DISTRICTS[c]?.includes(d)),
+              ),
             )
           }}
         />
@@ -285,24 +389,37 @@ function JobsPage() {
           onChange={setDistricts}
           disabled={cities.length === 0}
         />
-        <select value={salaryMin} onChange={(e) => setSalaryMin(Number(e.target.value))}
-          className="rounded-lg border border-[var(--border)] bg-[var(--bg-surface)] px-2 py-1.5 text-xs text-[var(--text-body)]">
+        <select
+          value={salaryMin}
+          onChange={(e) => setSalaryMin(Number(e.target.value))}
+          className="rounded-lg border border-[var(--border)] bg-[var(--bg-surface)] px-2 py-1.5 text-xs text-[var(--text-body)]"
+        >
           {SALARY_OPTIONS.map((o) => (
-            <option key={o.value} value={o.value}>{o.value === 0 ? '月薪不限' : o.label}</option>
+            <option key={o.value} value={o.value}>
+              {o.value === 0 ? '月薪不限' : o.label}
+            </option>
           ))}
         </select>
-        <select value={jobType} onChange={(e) => setJobType(e.target.value)}
-          className="rounded-lg border border-[var(--border)] bg-[var(--bg-surface)] px-2 py-1.5 text-xs text-[var(--text-body)]">
+        <select
+          value={jobType}
+          onChange={(e) => setJobType(e.target.value)}
+          className="rounded-lg border border-[var(--border)] bg-[var(--bg-surface)] px-2 py-1.5 text-xs text-[var(--text-body)]"
+        >
           {JOB_TYPES.map((t) => (
-            <option key={t} value={t}>{t === '全部' ? '工作型態' : t}</option>
+            <option key={t} value={t}>
+              {t === '全部' ? '工作型態' : t}
+            </option>
           ))}
         </select>
       </div>
 
       {/* Filter row 2: advanced */}
       <div className="mb-3 flex flex-wrap items-center gap-2">
-        <select value={source} onChange={(e) => setSource(e.target.value)}
-          className="rounded-lg border border-[var(--border)] bg-[var(--bg-surface)] px-2 py-1.5 text-xs text-[var(--text-body)]">
+        <select
+          value={source}
+          onChange={(e) => setSource(e.target.value)}
+          className="rounded-lg border border-[var(--border)] bg-[var(--bg-surface)] px-2 py-1.5 text-xs text-[var(--text-body)]"
+        >
           {SOURCES.map((s) => (
             <option key={s} value={s}>
               {s === '全部'
@@ -311,16 +428,26 @@ function JobsPage() {
             </option>
           ))}
         </select>
-        <select value={industry} onChange={(e) => setIndustry(e.target.value)}
-          className="rounded-lg border border-[var(--border)] bg-[var(--bg-surface)] px-2 py-1.5 text-xs text-[var(--text-body)]">
+        <select
+          value={industry}
+          onChange={(e) => setIndustry(e.target.value)}
+          className="rounded-lg border border-[var(--border)] bg-[var(--bg-surface)] px-2 py-1.5 text-xs text-[var(--text-body)]"
+        >
           {INDUSTRIES.map((ind) => (
-            <option key={ind} value={ind}>{ind === '全部' ? '所有產業' : ind}</option>
+            <option key={ind} value={ind}>
+              {ind === '全部' ? '所有產業' : ind}
+            </option>
           ))}
         </select>
-        <select value={market} onChange={(e) => setMarket(e.target.value)}
-          className="rounded-lg border border-[var(--border)] bg-[var(--bg-surface)] px-2 py-1.5 text-xs text-[var(--text-body)]">
+        <select
+          value={market}
+          onChange={(e) => setMarket(e.target.value)}
+          className="rounded-lg border border-[var(--border)] bg-[var(--bg-surface)] px-2 py-1.5 text-xs text-[var(--text-body)]"
+        >
           {MARKETS.map((m) => (
-            <option key={m} value={m}>{MARKET_LABELS[m]}</option>
+            <option key={m} value={m}>
+              {MARKET_LABELS[m]}
+            </option>
           ))}
         </select>
         <button
@@ -348,12 +475,17 @@ function JobsPage() {
               className="group flex items-center gap-1 rounded-full bg-[var(--accent-soft)] px-2 py-0.5 text-xs text-[var(--text-heading)] transition hover:bg-[var(--accent)]"
             >
               {tag.label}
-              <span className="text-[10px] opacity-50 group-hover:opacity-100">✕</span>
+              <span className="text-[10px] opacity-50 group-hover:opacity-100">
+                ✕
+              </span>
             </button>
           ))}
           {activeFilterTags.length > 1 && (
-            <button type="button" onClick={clearAll}
-              className="text-xs text-[var(--text-muted)] hover:text-[var(--text-heading)]">
+            <button
+              type="button"
+              onClick={clearAll}
+              className="text-xs text-[var(--text-muted)] hover:text-[var(--text-heading)]"
+            >
               清除全部
             </button>
           )}
@@ -370,11 +502,14 @@ function JobsPage() {
       {/* Job groups */}
       <div className="space-y-4">
         {groups.map((g) => (
-          <CompanyJobGroup key={g.stockId} group={g} companyMap={companyMap} />
+          <CompanyJobGroup key={g.stockId} group={g} />
         ))}
       </div>
 
-      <div ref={sentinelRef} className="py-8 text-center text-sm text-[var(--text-muted)]">
+      <div
+        ref={sentinelRef}
+        className="py-8 text-center text-sm text-[var(--text-muted)]"
+      >
         {isFetchingNextPage
           ? '載入更多職缺中...'
           : hasNextPage
@@ -395,14 +530,26 @@ type CompanyGroup = {
   jobs: Job[]
 }
 
-function CompanyJobGroup({ group, companyMap }: { group: CompanyGroup; companyMap: Record<string, Company> }) {
+function CompanyJobGroup({ group }: { group: CompanyGroup }) {
   const [open, setOpen] = useState(false)
   const { company, jobs } = group
-  const salaryWan = company?.salary_median_k ? (company.salary_median_k / 10).toFixed(0) : null
+  const salaryWan = company?.salary_median_k
+    ? (company.salary_median_k / 10).toFixed(0)
+    : null
   const changePct = company?.salary_median_change_pct
-  const initial = (company?.short_name || group.jobs[0]?.company_name || '?').charAt(0)
-  const name = company?.short_name || group.jobs[0]?.company_name || group.stockId
-  const marketLabel = company?.market === 'listed' ? '上市' : company?.market === 'otc' ? '上櫃' : null
+  const initial = (
+    company?.short_name ||
+    group.jobs[0]?.company_name ||
+    '?'
+  ).charAt(0)
+  const name =
+    company?.short_name || group.jobs[0]?.company_name || group.stockId
+  const marketLabel =
+    company?.market === 'listed'
+      ? '上市'
+      : company?.market === 'otc'
+        ? '上櫃'
+        : null
 
   return (
     <div className="overflow-hidden rounded-xl border border-[var(--border)] bg-[var(--bg-surface)] shadow-[var(--shadow)]">
@@ -476,7 +623,9 @@ function CompanyJobGroup({ group, companyMap }: { group: CompanyGroup; companyMa
               縮編中
             </span>
           )}
-          <span className="text-xs text-[var(--text-muted)]">{jobs.length} 缺</span>
+          <span className="text-xs text-[var(--text-muted)]">
+            {jobs.length} 缺
+          </span>
           <span className="text-xs text-[var(--text-muted)]">
             {open ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
           </span>
@@ -487,16 +636,28 @@ function CompanyJobGroup({ group, companyMap }: { group: CompanyGroup; companyMa
         jobs.map((job, i) => {
           const clean = (s: string | null | undefined) => {
             if (!s || s === 'None' || s === 'nan' || s === 'NaN') return null
-            return s.replace(/, Taiwan/gi, '').replace(/, TW/gi, '').replace(/, TPE/gi, '').replace(/, TPQ/gi, '').trim() || null
+            return (
+              s
+                .replace(/, Taiwan/gi, '')
+                .replace(/, TW/gi, '')
+                .replace(/, TPE/gi, '')
+                .replace(/, TPQ/gi, '')
+                .trim() || null
+            )
           }
           const loc = clean(job.location)
-          const dateShort = job.date_posted && job.date_posted !== 'None' && job.date_posted !== 'nan'
-            ? job.date_posted.slice(5) : null
-          const salaryText = job.salary_min && job.salary_min > 0
-            ? job.salary_max && job.salary_max > job.salary_min
-              ? `${(job.salary_min / 1000).toFixed(0)}K–${(job.salary_max / 1000).toFixed(0)}K`
-              : `${(job.salary_min / 1000).toFixed(0)}K+`
-            : null
+          const dateShort =
+            job.date_posted &&
+            job.date_posted !== 'None' &&
+            job.date_posted !== 'nan'
+              ? job.date_posted.slice(5)
+              : null
+          const salaryText =
+            job.salary_min && job.salary_min > 0
+              ? job.salary_max && job.salary_max > job.salary_min
+                ? `${(job.salary_min / 1000).toFixed(0)}K–${(job.salary_max / 1000).toFixed(0)}K`
+                : `${(job.salary_min / 1000).toFixed(0)}K+`
+              : null
 
           return (
             <a
@@ -509,11 +670,15 @@ function CompanyJobGroup({ group, companyMap }: { group: CompanyGroup; companyMa
               }`}
             >
               <div className="min-w-0 flex-1">
-                <div className="text-sm font-medium text-[var(--text-heading)]">{job.title}</div>
+                <div className="text-sm font-medium text-[var(--text-heading)]">
+                  {job.title}
+                </div>
                 <div className="mt-0.5 flex items-center gap-2 text-xs text-[var(--text-muted)]">
                   <span>{loc || '台灣'}</span>
                   {dateShort && <span>{dateShort}</span>}
-                  {salaryText && <span className="text-[var(--accent)]">{salaryText}</span>}
+                  {salaryText && (
+                    <span className="text-[var(--accent)]">{salaryText}</span>
+                  )}
                 </div>
               </div>
               <SourceBadge source={job.source} />
@@ -524,7 +689,10 @@ function CompanyJobGroup({ group, companyMap }: { group: CompanyGroup; companyMa
   )
 }
 
-const SOURCE_STYLES: Record<string, { bg: string; text: string; label: string }> = {
+const SOURCE_STYLES: Record<
+  string,
+  { bg: string; text: string; label: string }
+> = {
   '104': { bg: 'bg-[#e535351a]', text: 'text-[#e53535]', label: '104' },
   linkedin: { bg: 'bg-[#0a66c21a]', text: 'text-[#0a66c2]', label: 'LinkedIn' },
   indeed: { bg: 'bg-[#6c3baa1a]', text: 'text-[#6c3baa]', label: 'Indeed' },
@@ -534,19 +702,41 @@ const SOURCE_STYLES: Record<string, { bg: string; text: string; label: string }>
   wwr: { bg: 'bg-[#2d6cdf1a]', text: 'text-[#2d6cdf]', label: 'WWR' },
   remoteok: { bg: 'bg-[#0d9b6e1a]', text: 'text-[#0d9b6e]', label: 'RemoteOK' },
   cakeresume: { bg: 'bg-[#00bcd41a]', text: 'text-[#00bcd4]', label: 'Cake' },
-  justremote: { bg: 'bg-[#4a90d91a]', text: 'text-[#4a90d9]', label: 'JustRemote' },
+  justremote: {
+    bg: 'bg-[#4a90d91a]',
+    text: 'text-[#4a90d9]',
+    label: 'JustRemote',
+  },
   remotive: { bg: 'bg-[#e535351a]', text: 'text-[#e53535]', label: 'Remotive' },
-  dynamitejobs: { bg: 'bg-[#f5a6231a]', text: 'text-[#f5a623]', label: 'Dynamite' },
-  careervault: { bg: 'bg-[#34495e1a]', text: 'text-[#34495e]', label: 'CareerVault' },
-  himalayas: { bg: 'bg-[#1a73e81a]', text: 'text-[#1a73e8]', label: 'Himalayas' },
-  workingnomads: { bg: 'bg-[#e67e221a]', text: 'text-[#e67e22]', label: 'WNomads' },
+  dynamitejobs: {
+    bg: 'bg-[#f5a6231a]',
+    text: 'text-[#f5a623]',
+    label: 'Dynamite',
+  },
+  careervault: {
+    bg: 'bg-[#34495e1a]',
+    text: 'text-[#34495e]',
+    label: 'CareerVault',
+  },
+  himalayas: {
+    bg: 'bg-[#1a73e81a]',
+    text: 'text-[#1a73e8]',
+    label: 'Himalayas',
+  },
+  workingnomads: {
+    bg: 'bg-[#e67e221a]',
+    text: 'text-[#e67e22]',
+    label: 'WNomads',
+  },
 }
 
 function SourceBadge({ source }: { source: string }) {
   const style = SOURCE_STYLES[source]
   if (style) {
     return (
-      <span className={`rounded px-1.5 py-0.5 text-[10px] font-semibold ${style.bg} ${style.text}`}>
+      <span
+        className={`rounded px-1.5 py-0.5 text-[10px] font-semibold ${style.bg} ${style.text}`}
+      >
         {style.label}
       </span>
     )

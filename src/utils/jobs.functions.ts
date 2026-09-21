@@ -80,7 +80,21 @@ export type FilterCounts = {
 
 const CITY_ALIASES: Record<string, string[]> = {
   台北: ['台北', 'Taipei', 'TPE'],
-  新北: ['新北', 'New Taipei', 'TPQ', '三重', '板橋', '中和', '永和', '土城', '汐止', '林口', '淡水', '蘆洲', '樹林'],
+  新北: [
+    '新北',
+    'New Taipei',
+    'TPQ',
+    '三重',
+    '板橋',
+    '中和',
+    '永和',
+    '土城',
+    '汐止',
+    '林口',
+    '淡水',
+    '蘆洲',
+    '樹林',
+  ],
   新竹: ['新竹', 'Hsinchu', 'Zhubei', '竹北', '竹東'],
   桃園: ['桃園', 'Taoyuan', '中壢', '龜山', '楊梅'],
   苗栗: ['苗栗', 'Miaoli', '竹南', '頭份'],
@@ -99,9 +113,31 @@ function buildWhere(filters: JobFilters): { where: string; params: unknown[] } {
   }
 
   if (filters.search) {
-    const q = `%${filters.search}%`
-    conditions.push('(j.title LIKE ? OR j.company_name LIKE ? OR j.location LIKE ?)')
-    params.push(q, q, q)
+    const term = filters.search.trim().toLowerCase()
+    if (term.length > 0 && term.length <= 3 && /^[a-z0-9]+$/.test(term)) {
+      // 短英數詞需在 ASCII 英數邊界上（搜 ai 不中 maintain；中文相鄰視為邊界）
+      const notAlnum = '[^a-z0-9]'
+      const patterns = [
+        term,
+        `${term}${notAlnum}*`,
+        `*${notAlnum}${term}`,
+        `*${notAlnum}${term}${notAlnum}*`,
+      ]
+      const clauses: string[] = []
+      for (const col of ['j.title', 'j.company_name']) {
+        for (const pattern of patterns) {
+          clauses.push(`lower(${col}) GLOB ?`)
+          params.push(pattern)
+        }
+      }
+      conditions.push(`(${clauses.join(' OR ')})`)
+    } else if (term.length > 0) {
+      const q = `%${term}%`
+      conditions.push(
+        '(j.title LIKE ? OR j.company_name LIKE ? OR j.location LIKE ?)',
+      )
+      params.push(q, q, q)
+    }
   }
 
   const locationGroups = [filters.cities, filters.districts]
@@ -116,16 +152,22 @@ function buildWhere(filters: JobFilters): { where: string; params: unknown[] } {
   if (filters.jobType === '全球遠端') {
     conditions.push("j.job_type = 'global_remote'")
   } else if (filters.jobType === '遠端/混合') {
-    conditions.push("(j.job_type IN ('remote', 'global_remote') OR j.location LIKE '%remote%' OR j.location LIKE '%遠端%')")
+    conditions.push(
+      "(j.job_type IN ('remote', 'global_remote') OR j.location LIKE '%remote%' OR j.location LIKE '%遠端%')",
+    )
   }
 
   if (filters.industry && filters.industry !== '全部') {
-    conditions.push('j.stock_id IN (SELECT stock_id FROM company_profiles WHERE industry LIKE ?)')
+    conditions.push(
+      'j.stock_id IN (SELECT stock_id FROM company_profiles WHERE industry LIKE ?)',
+    )
     params.push(`%${filters.industry.replace('業', '')}%`)
   }
 
   if (filters.market && filters.market !== '全部') {
-    conditions.push('j.stock_id IN (SELECT stock_id FROM company_profiles WHERE market = ?)')
+    conditions.push(
+      'j.stock_id IN (SELECT stock_id FROM company_profiles WHERE market = ?)',
+    )
     params.push(filters.market)
   }
 
@@ -135,7 +177,12 @@ function buildWhere(filters: JobFilters): { where: string; params: unknown[] } {
   }
 
   if (filters.dateRange && filters.dateRange !== '全部') {
-    const daysMap: Record<string, number> = { '3天': 3, '7天': 7, '14天': 14, '30天': 30 }
+    const daysMap: Record<string, number> = {
+      '3天': 3,
+      '7天': 7,
+      '14天': 14,
+      '30天': 30,
+    }
     const days = daysMap[filters.dateRange]
     if (days) {
       conditions.push("j.date_posted >= date('now', ?)")
@@ -144,7 +191,9 @@ function buildWhere(filters: JobFilters): { where: string; params: unknown[] } {
   }
 
   if (filters.expanding) {
-    conditions.push("j.stock_id IN (SELECT stock_id FROM company_profiles WHERE job_count_trend = 'expanding')")
+    conditions.push(
+      "j.stock_id IN (SELECT stock_id FROM company_profiles WHERE job_count_trend = 'expanding')",
+    )
   }
 
   const where = conditions.length > 0 ? `WHERE ${conditions.join(' AND ')}` : ''
@@ -157,7 +206,9 @@ export const getFilterCounts = createServerFn().handler(
     if (!db) return { sources: [], total: 0 }
     try {
       const { results } = await db
-        .prepare('SELECT source as name, COUNT(*) as count FROM jobs GROUP BY source ORDER BY count DESC')
+        .prepare(
+          'SELECT source as name, COUNT(*) as count FROM jobs GROUP BY source ORDER BY count DESC',
+        )
         .all<{ name: string; count: number }>()
       const total = results.reduce((s, r) => s + r.count, 0)
       return { sources: results, total }
@@ -197,7 +248,12 @@ export const getJobsPage = createServerFn()
         .bind(...params, limit, offset)
         .all<Job>()
 
-      return { jobs: results, total, offset, hasMore: offset + results.length < total }
+      return {
+        jobs: results,
+        total,
+        offset,
+        hasMore: offset + results.length < total,
+      }
     } catch {
       return { jobs: [], total: 0, offset: 0, hasMore: false }
     }
