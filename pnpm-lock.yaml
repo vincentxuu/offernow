@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@sketchyicons/react':
+        specifier: ^0.5.0
+        version: 0.5.0(react@19.3.0)
       '@tailwindcss/vite':
         specifier: ^4.1.18
         version: 4.3.3(vite@8.2.2(@types/node@22.20.2)(esbuild@0.28.1)(jiti@2.7.0))
@@ -44,9 +47,6 @@ importers:
       fuse.js:
         specifier: ^7.5.0
         version: 7.5.0
-      lucide-react:
-        specifier: ^0.577.0
-        version: 0.577.0(react@19.3.0)
       openai:
         specifier: ^7.13.0
         version: 7.13.0(undici@7.29.0)(ws@8.21.3)(zod@4.6.1)
@@ -906,6 +906,12 @@ packages:
     resolution: {integrity: sha512-P1Cz1dWaFfR4IR+U13mqqiGsLFf1KbayybWwdd2vfctdV6hDpUkgCY0nKOLLTMSoRd/jJNjtbqzf13K8DCCXQw==}
     engines: {node: '>=18'}
 
+  '@sketchyicons/react@0.5.0':
+    resolution: {integrity: sha512-0/FYHIitwt5qePNrMrK3Yf/8MnHe7l17KCspligAT6nprdCtbaX5sAhqLtUgzrhnr0zCU1rtZHtLp1juoHK5pw==}
+    engines: {node: '>=18'}
+    peerDependencies:
+      react: ^18.0.0 || ^19.0.0
+
   '@solid-primitives/event-listener@2.4.6':
     resolution: {integrity: sha512-5I0YJcTVYIWoMmgBSROBZGcz+ymhew/pGTg2dHW74BUjFKsV8Li4bOZYl0YAGP4mHw5o4UBd9/BEesqBci3wxw==}
     peerDependencies:
@@ -1683,11 +1689,6 @@ packages:
 
   lru-cache@5.1.1:
     resolution: {integrity: sha512-KpNARQA3Iwv+jTA0utUVVbrh+Jlrr1Fv0e56GGzAFOXN7dk/FviaDW8LHmK52DlcH4WP2n6gI8vN1aesBFgo9w==}
-
-  lucide-react@0.577.0:
-    resolution: {integrity: sha512-4LjoFv2eEPwYDPg/CUdBJQSDfPyzXCRrVW1X7jrx/trgxnxkHFjnVZINbzvzxjN70dxychOfg+FTYwBiS3pQ5A==}
-    peerDependencies:
-      react: ^16.5.1 || ^17.0.0 || ^18.0.0 || ^19.0.0
 
   magic-string@0.30.21:
     resolution: {integrity: sha512-vd2F4YUyEXKGcLHoq+TEyCjxueSeHnFxyyjNp80yg0XV4vUhnDer/lvvlqM/arB5bXQN5K2/3oinyCRyx8T2CQ==}
@@ -2627,6 +2628,10 @@ snapshots:
 
   '@sindresorhus/is@7.2.0': {}
 
+  '@sketchyicons/react@0.5.0(react@19.3.0)':
+    dependencies:
+      react: 19.3.0
+
   '@solid-primitives/event-listener@2.4.6(solid-js@1.9.15)':
     dependencies:
       '@solid-primitives/utils': 6.4.1(solid-js@1.9.15)
@@ -3405,10 +3410,6 @@ snapshots:
   lru-cache@5.1.1:
     dependencies:
       yallist: 3.1.1
-
-  lucide-react@0.577.0(react@19.3.0):
-    dependencies:
-      react: 19.3.0
 
   magic-string@0.30.21:
     dependencies:
