@@ -1,3 +1,5 @@
+import { TrendingDown, TrendingUp } from '@sketchyicons/react'
+
 export function Badge({
   value,
   suffix = '',
@@ -17,7 +19,12 @@ export function Badge({
             : 'text-[var(--text-muted)]'
       }`}
     >
-      {isPositive ? '▲' : isNegative ? '▼' : ''} {Math.abs(value).toFixed(1)}
+      {isPositive ? (
+        <TrendingUp size={10} />
+      ) : isNegative ? (
+        <TrendingDown size={10} />
+      ) : null}{' '}
+      {Math.abs(value).toFixed(1)}
       {suffix}
     </span>
   )
