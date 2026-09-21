@@ -279,7 +279,7 @@ class Job104Scraper:
             "hr_reply_rate": f"{hr_reply_rate * 100:.0f}%" if hr_reply_rate else "N/A",
             "appeared_date": item.get("appearDate", ""),
             "apply_count": item.get("applyCnt", 0),
-            "link": f"https://www.104.com.tw/job/{job_id}" if job_id else "",
+            "link": item.get("link", {}).get("job", "") or (f"https://www.104.com.tw/job/{job_id}" if job_id else ""),
         }
 
     # ──────────────────────────────────────

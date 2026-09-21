@@ -1,8 +1,6 @@
 import { createFileRoute, redirect } from '@tanstack/react-router'
-import {
-  getJobRedirectUrl,
-  getJobRedirectUrlById,
-} from '#/utils/jobs.functions'
+import { getJobRedirectUrlById } from '#/utils/d1.server'
+import { getJobRedirectUrl } from '#/utils/jobs.functions'
 
 export const Route = createFileRoute('/go/$jobId')({
   server: {
