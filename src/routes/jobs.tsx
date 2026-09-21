@@ -42,6 +42,60 @@ const SOURCE_LABELS: Record<string, string> = {
 
 const JOB_TYPES = ['全部', '遠端/混合', '全球遠端'] as const
 const CITIES = ['全部', '台北', '新北', '新竹', '桃園', '苗栗', '台中', '台南', '高雄'] as const
+const DISTRICTS: Record<string, string[]> = {
+  台北: [
+    '中正',
+    '大同',
+    '中山',
+    '松山',
+    '大安',
+    '萬華',
+    '信義',
+    '士林',
+    '北投',
+    '內湖',
+    '南港',
+    '文山',
+  ],
+  新北: [
+    '板橋',
+    '三重',
+    '中和',
+    '永和',
+    '新店',
+    '土城',
+    '蘆洲',
+    '樹林',
+    '鶯歌',
+    '三峽',
+    '淡水',
+    '汐止',
+    '五股',
+    '泰山',
+    '林口',
+    '八里',
+    '新莊',
+  ],
+  新竹: ['東區', '北區', '香山', '竹北', '竹東'],
+  桃園: ['桃園', '中壢', '龜山', '楊梅'],
+  苗栗: ['苗栗', '竹南', '頭份', '銅鑼'],
+  台中: [
+    '中區',
+    '西區',
+    '北區',
+    '南區',
+    '東區',
+    '北屯',
+    '西屯',
+    '南屯',
+    '豐原',
+    '大里',
+    '太平',
+  ],
+  台南: ['中西區', '東區', '南區', '北區', '安平', '永康', '新營', '善化'],
+  高雄: ['苓雅', '前金', '三民', '左營', '楠梓', '鼓山', '前鎮', '鳳山'],
+}
+
 const DATE_RANGES = ['全部', '3天', '7天', '14天', '30天'] as const
 const MARKETS = ['全部', 'listed', 'otc'] as const
 const MARKET_LABELS: Record<string, string> = { 全部: '上市櫃', listed: '上市', otc: '上櫃' }
@@ -72,7 +126,8 @@ function JobsPage() {
   const [search, setSearch] = useState('')
   const [source, setSource] = useState<string>('全部')
   const [industry, setIndustry] = useState<string>('全部')
-  const [city, setCity] = useState<string>('全部')
+  const [cities, setCities] = useState<string[]>([])
+  const [districts, setDistricts] = useState<string[]>([])
   const [jobType, setJobType] = useState<string>('全部')
   const [dateRange, setDateRange] = useState<string>('7天')
   const [market, setMarket] = useState<string>('全部')
@@ -91,7 +146,8 @@ function JobsPage() {
     () => ({
       source: source !== '全部' ? source : undefined,
       search: debouncedSearch || undefined,
-      city: city !== '全部' ? city : undefined,
+      cities: cities.length > 0 ? cities : undefined,
+      districts: districts.length > 0 ? districts : undefined,
       jobType: jobType !== '全部' ? jobType : undefined,
       industry: industry !== '全部' ? industry : undefined,
       market: market !== '全部' ? market : undefined,
@@ -99,10 +155,10 @@ function JobsPage() {
       dateRange: dateRange !== '全部' ? dateRange : undefined,
       expanding: expanding || undefined,
     }),
-    [source, debouncedSearch, city, jobType, industry, market, salaryMin, dateRange, expanding],
+    [source, debouncedSearch, cities, districts, jobType, industry, market, salaryMin, dateRange, expanding],
   )
 
-  const isDefaultFilters = dateRange === '7天' && !filters.source && !filters.search && !filters.city && !filters.jobType && !filters.industry && !filters.market && !filters.salaryMin && !filters.expanding
+  const isDefaultFilters = dateRange === '7天' && !filters.source && !filters.search && !filters.cities && !filters.districts && !filters.jobType && !filters.industry && !filters.market && !filters.salaryMin && !filters.expanding
 
   const {
     data,
@@ -164,7 +220,8 @@ function JobsPage() {
   if (dateRange !== '全部' && dateRange !== '7天') activeFilterTags.push({ label: `近 ${dateRange}`, clear: () => setDateRange('7天') })
   if (dateRange === '全部') activeFilterTags.push({ label: '不限時間', clear: () => setDateRange('7天') })
   if (jobType !== '全部') activeFilterTags.push({ label: jobType, clear: () => setJobType('全部') })
-  if (city !== '全部') activeFilterTags.push({ label: city, clear: () => setCity('全部') })
+  if (cities.length > 0) activeFilterTags.push({ label: cities.join('、'), clear: () => { setCities([]); setDistricts([]) } })
+  if (districts.length > 0) activeFilterTags.push({ label: districts.join('、'), clear: () => setDistricts([]) })
   if (industry !== '全部') activeFilterTags.push({ label: industry, clear: () => setIndustry('全部') })
   if (source !== '全部') activeFilterTags.push({ label: SOURCE_LABELS[source] || source, clear: () => setSource('全部') })
   if (market !== '全部') activeFilterTags.push({ label: MARKET_LABELS[market], clear: () => setMarket('全部') })
@@ -175,7 +232,8 @@ function JobsPage() {
     setSearch('')
     setSource('全部')
     setIndustry('全部')
-    setCity('全部')
+    setCities([])
+    setDistricts([])
     setJobType('全部')
     setDateRange('7天')
     setMarket('全部')
@@ -209,12 +267,24 @@ function JobsPage() {
             <option key={d} value={d}>{d === '全部' ? '不限時間' : `近 ${d}`}</option>
           ))}
         </select>
-        <select value={city} onChange={(e) => setCity(e.target.value)}
-          className="rounded-lg border border-[var(--border)] bg-[var(--bg-surface)] px-2 py-1.5 text-xs text-[var(--text-body)]">
-          {CITIES.map((c) => (
-            <option key={c} value={c}>{c === '全部' ? '所有地區' : c}</option>
-          ))}
-        </select>
+        <MultiSelect
+          label="縣市"
+          options={CITIES.filter((c) => c !== '全部')}
+          selected={cities}
+          onChange={(next) => {
+            setCities(next)
+            setDistricts((current) =>
+              current.filter((d) => next.some((c) => DISTRICTS[c]?.includes(d))),
+            )
+          }}
+        />
+        <MultiSelect
+          label="區域"
+          options={[...new Set(cities.flatMap((c) => DISTRICTS[c] || []))]}
+          selected={districts}
+          onChange={setDistricts}
+          disabled={cities.length === 0}
+        />
         <select value={salaryMin} onChange={(e) => setSalaryMin(Number(e.target.value))}
           className="rounded-lg border border-[var(--border)] bg-[var(--bg-surface)] px-2 py-1.5 text-xs text-[var(--text-body)]">
           {SALARY_OPTIONS.map((o) => (
@@ -485,5 +555,54 @@ function SourceBadge({ source }: { source: string }) {
     <span className="rounded px-1.5 py-0.5 text-[10px] font-semibold bg-[var(--bg-elevated)] text-[var(--text-muted)]">
       {source}
     </span>
+  )
+}
+
+function MultiSelect({
+  label,
+  options,
+  selected,
+  onChange,
+  disabled = false,
+}: {
+  label: string
+  options: string[]
+  selected: string[]
+  onChange: (values: string[]) => void
+  disabled?: boolean
+}) {
+  return (
+    <details className="relative">
+      <summary
+        className={`cursor-pointer list-none rounded-lg border border-[var(--border)] bg-[var(--bg-surface)] px-2 py-2 text-xs text-[var(--text-body)] ${disabled ? 'cursor-not-allowed opacity-50' : ''}`}
+      >
+        {selected.length > 0
+          ? `${label}：${selected.join('、')}`
+          : `選擇${label}`}
+      </summary>
+      {!disabled && (
+        <div className="absolute left-0 top-full z-10 mt-1 max-h-64 min-w-36 overflow-y-auto rounded-lg border border-[var(--border)] bg-[var(--bg-elevated)] p-2 shadow-lg">
+          {options.map((option) => (
+            <label
+              key={option}
+              className="flex cursor-pointer items-center gap-2 px-2 py-1.5 text-xs text-[var(--text-body)] hover:bg-[var(--bg-surface)]"
+            >
+              <input
+                type="checkbox"
+                checked={selected.includes(option)}
+                onChange={(event) =>
+                  onChange(
+                    event.target.checked
+                      ? [...selected, option]
+                      : selected.filter((value) => value !== option),
+                  )
+                }
+              />
+              {option}
+            </label>
+          ))}
+        </div>
+      )}
+    </details>
   )
 }

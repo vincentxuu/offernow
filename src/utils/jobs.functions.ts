@@ -26,29 +26,36 @@ async function getD1(): Promise<D1Database | null> {
 export const getJobRedirectUrl = createServerFn()
   .validator((data: string) => data)
   .handler(async ({ data: jobId }): Promise<string | null> => {
-    const db = await getD1()
-    if (!db) return null
-    try {
-      const id = parseInt(jobId, 10)
-      if (Number.isNaN(id)) return null
-      await db
-        .prepare('UPDATE jobs SET click_count = click_count + 1 WHERE id = ?')
-        .bind(id)
-        .all()
-      const { results } = await db
-        .prepare('SELECT job_url FROM jobs WHERE id = ?')
-        .bind(id)
-        .all<{ job_url: string }>()
-      return results[0]?.job_url ?? null
-    } catch {
-      return null
-    }
+    return getJobRedirectUrlById(jobId)
   })
+
+export async function getJobRedirectUrlById(
+  jobId: string,
+): Promise<string | null> {
+  const db = await getD1()
+  if (!db) return null
+  try {
+    const id = parseInt(jobId, 10)
+    if (Number.isNaN(id)) return null
+    await db
+      .prepare('UPDATE jobs SET click_count = click_count + 1 WHERE id = ?')
+      .bind(id)
+      .all()
+    const { results } = await db
+      .prepare('SELECT job_url FROM jobs WHERE id = ?')
+      .bind(id)
+      .all<{ job_url: string }>()
+    return results[0]?.job_url ?? null
+  } catch {
+    return null
+  }
+}
 
 export type JobFilters = {
   source?: string
   search?: string
-  city?: string
+  cities?: string[]
+  districts?: string[]
   jobType?: string
   industry?: string
   market?: string
@@ -97,8 +104,10 @@ function buildWhere(filters: JobFilters): { where: string; params: unknown[] } {
     params.push(q, q, q)
   }
 
-  if (filters.city && filters.city !== '全部') {
-    const aliases = CITY_ALIASES[filters.city] || [filters.city]
+  const locationGroups = [filters.cities, filters.districts]
+  for (const values of locationGroups) {
+    if (!values || values.length === 0) continue
+    const aliases = values.flatMap((v) => CITY_ALIASES[v] || [v])
     const likeClauses = aliases.map(() => 'j.location LIKE ?')
     conditions.push(`(${likeClauses.join(' OR ')})`)
     for (const a of aliases) params.push(`%${a}%`)

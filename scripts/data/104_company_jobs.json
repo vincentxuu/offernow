@@ -1,0 +1,894 @@
+[
+  {
+    "stock_id": "",
+    "encoded_cust_no_104": "13qvhzjs",
+    "short_name": "13qvhzjs",
+    "item": {
+      "appearDate": "20260907",
+      "applyCnt": 0,
+      "coIndustry": 1004001001,
+      "coIndustryDesc": "銀行業",
+      "custName": "台新新光金控_台新國際商業銀行股份有限公司",
+      "custNo": "86519539000",
+      "description": "工作說明： \n1.建立及優化集團創新科技與人工智慧治理制度，制定管理架構、政策規範與標準，規劃權責分工及風險控管機制。\n2.統籌集團 AI 治理相關議題，辦理治理委員會或跨部門會議運作，追蹤決議事項與執行情形，協調法遵、風控、資安、資訊及業務單位共同推動治理落地。\n3.跟進主管機關的政策指引，並研究國內外 AI監理與金融科技治理趨勢，提供趨勢分析、導入規劃與管理優化執行建議。\n\n資格條件： \n1. 具專案管理或制度規劃經驗，能獨立推動專案與追蹤執行進度。\n2.熟悉金融監理、法遵、風控、資安或科技治理概念，具跨部門溝通、議題整合及簡報能力。\n3.曾參與系統導入、流程改善、資料治理、模型管理、委外管理或 AI 相關專案者佳，具金融科技或 AI 治理實務經驗尤佳。\n4.了解資料庫、資料模型、AI 應用、模型生命週期或風險管理基本概念者佳，對 AI 治理與金融科技發展具高度敏感度與學習意願。\n",
+      "descSnippet": "工作說明： \n1.建立及優化集團創新科技與人工智慧治理制度，制定管理架構、政策規範與標準，規劃權責分工及風險控管機制。\n2.統籌集團 AI 治理相關議題，辦理治理委員會或跨部門會議運作，追蹤決議事項與執行情形，協調法遵、風控、資安、資訊及業務單位共同推動治理落地。\n3.跟進主管機關的政策指引，並研究國內外 AI監理與金融科技治理趨勢，提供趨勢分析、導入規劃與管理優化執行建議。\n\n資格條件： \n1. 具專案管理或制度規劃經驗，能獨立推動專案與追蹤執行進度。\n2.熟悉金融監理、法遵、風控、資安或科技治理概念，具跨部門溝通、議題整合及簡報能力。\n3.曾參與系統導入、流程改善、資料治理、模型管理、委外管理或 AI 相關專案者佳，具金融科技或 AI 治理實務經驗尤佳。\n4.了解資料庫、資料模型、AI 應用、模型生命週期或風險管理基本概念者佳，對 AI 治理與金融科技發展具高度敏感度與學習意願。\n",
+      "mrtDist": 0.38,
+      "jobAddress": "仁愛路四段1號",
+      "jobAddrNo": 6001001005,
+      "jobAddrNoDesc": "台北市大安區",
+      "jobName": "〔金控〕AI治理師",
+      "jobNameSnippet": "〔金控〕AI治理師",
+      "jobNo": "15357554",
+      "jobRo": 1,
+      "jobType": 2,
+      "lat": 25.0382529,
+      "lon": 121.5442196,
+      "link": {
+        "job": "https://www.104.com.tw/job/955yq",
+        "cust": "https://www.104.com.tw/company/13qvhzjs",
+        "applyAnalyze": "https://www.104.com.tw/jobs/apply/analysis/955yq?channel=104rpt"
+      },
+      "major": [],
+      "mrt": "99001001010",
+      "mrtDesc": "捷運忠孝復興站",
+      "optionEdu": [
+        4,
+        5
+      ],
+      "period": 4,
+      "remoteWorkType": 0,
+      "s10": 10,
+      "salaryHigh": 0,
+      "salaryLow": 0,
+      "tags": {
+        "wf2": {
+          "desc": "",
+          "param": "wf2"
+        },
+        "wf1": {
+          "desc": "",
+          "param": "wf1"
+        },
+        "wf23": {
+          "desc": "",
+          "param": "wf23"
+        },
+        "wf10": {
+          "desc": "",
+          "param": "wf10"
+        },
+        "wf30": {
+          "desc": "",
+          "param": "wf30"
+        },
+        "wf28": {
+          "desc": "",
+          "param": "wf28"
+        },
+        "wf3": {
+          "desc": "",
+          "param": "wf3"
+        },
+        "wf7": {
+          "desc": "",
+          "param": "wf7"
+        },
+        "wf9": {
+          "desc": "",
+          "param": "wf9"
+        },
+        "landmark": {
+          "desc": "距捷運忠孝復興站約380公尺"
+        }
+      },
+      "s9": [
+        1
+      ],
+      "s5": 0,
+      "d3": "",
+      "hrBehaviorPR": 0,
+      "jobCat": [
+        2002002011,
+        2003002020,
+        2007001021
+      ],
+      "labels": [
+        "association@j00025",
+        "foreigners@pt_fc_em_jbs",
+        "c@wf2",
+        "c@wf1",
+        "indexjob@ij017",
+        "c@wf23",
+        "association@j00021",
+        "c@wf10",
+        "c@wf30",
+        "deboost@kwdeboost_link_0.6",
+        "c@wf28",
+        "c@wf3",
+        "c@wf7",
+        "association@j00013",
+        "c@wf9"
+      ],
+      "languageRequirements": [],
+      "acceptRole": [],
+      "employeeCount": 10000,
+      "pcSkills": [],
+      "pddScore": 13.153168,
+      "custLogo": "https://static.104.com.tw/b_profile/cust_picture/9000/86519539000/logo.jpg?v=20260820164840",
+      "jobSwitch": "on",
+      "isSave": null,
+      "interactionRecord": {
+        "lastProcessedResumeAtTime": 0,
+        "lastCustReplyTimestamp": 0,
+        "nowTimestamp": 0,
+        "lastProcessedResumeDesc": "2 天內處理過履歷",
+        "lastCustReplyDesc": ""
+      },
+      "isApplied": null,
+      "applyDate": null,
+      "userApplyCount": null,
+      "analysisType": 2,
+      "hasHrBehavior": true
+    }
+  },
+  {
+    "stock_id": "",
+    "encoded_cust_no_104": "13qvhzjs",
+    "short_name": "13qvhzjs",
+    "item": {
+      "appearDate": "20260907",
+      "applyCnt": 0,
+      "coIndustry": 1004001001,
+      "coIndustryDesc": "銀行業",
+      "custName": "台新新光金控_台新國際商業銀行股份有限公司",
+      "custNo": "86519539000",
+      "description": "【工作內容】\n1、協助蒐集與釐清業務需求背景、使用流程與實務限制，形成具體需求描述\n2、作為業務與模型/工程團隊之間的溝通橋樑，協助需求對齊與實作方式\n3、協助推動策試與導入準備，支援應用規劃文件產出\n\n我們期待您具備\n1、孰悉AI工具導入業務工作\n2、具銀行業務需求分析尤佳\n3、具專案管理與跨部門溝通能力\n",
+      "descSnippet": "【工作內容】\n1、協助蒐集與釐清業務需求背景、使用流程與實務限制，形成具體需求描述\n2、作為業務與模型/工程團隊之間的溝通橋樑，協助需求對齊與實作方式\n3、協助推動策試與導入準備，支援應用規劃文件產出\n\n我們期待您具備\n1、孰悉AI工具導入業務工作\n2、具銀行業務需求分析尤佳\n3、具專案管理與跨部門溝通能力\n",
+      "mrtDist": 0.38,
+      "jobAddress": "仁愛路四段1號(106)",
+      "jobAddrNo": 6001001005,
+      "jobAddrNoDesc": "台北市大安區",
+      "jobName": "〔AI〕AI應用規劃師(台北)",
+      "jobNameSnippet": "〔AI〕AI應用規劃師(台北)",
+      "jobNo": "14999477",
+      "jobRo": 1,
+      "jobType": 2,
+      "lat": 25.0382607,
+      "lon": 121.5440756,
+      "link": {
+        "job": "https://www.104.com.tw/job/8xho5",
+        "cust": "https://www.104.com.tw/company/13qvhzjs",
+        "applyAnalyze": "https://www.104.com.tw/jobs/apply/analysis/8xho5?channel=104rpt"
+      },
+      "major": [],
+      "mrt": "99001001010",
+      "mrtDesc": "捷運忠孝復興站",
+      "optionEdu": [
+        4,
+        5
+      ],
+      "period": 4,
+      "remoteWorkType": 0,
+      "s10": 10,
+      "salaryHigh": 0,
+      "salaryLow": 0,
+      "tags": {
+        "wf9": {
+          "desc": "",
+          "param": "wf9"
+        },
+        "wf3": {
+          "desc": "",
+          "param": "wf3"
+        },
+        "wf7": {
+          "desc": "",
+          "param": "wf7"
+        },
+        "wf1": {
+          "desc": "",
+          "param": "wf1"
+        },
+        "wf30": {
+          "desc": "",
+          "param": "wf30"
+        },
+        "wf10": {
+          "desc": "",
+          "param": "wf10"
+        },
+        "wf28": {
+          "desc": "",
+          "param": "wf28"
+        },
+        "wf23": {
+          "desc": "",
+          "param": "wf23"
+        },
+        "wf2": {
+          "desc": "",
+          "param": "wf2"
+        },
+        "landmark": {
+          "desc": "距捷運忠孝復興站約380公尺"
+        }
+      },
+      "s9": [
+        1
+      ],
+      "s5": 0,
+      "d3": "",
+      "hrBehaviorPR": 0,
+      "jobCat": [
+        2007001020,
+        2007001021,
+        2004003006
+      ],
+      "labels": [
+        "c@wf9",
+        "c@wf3",
+        "association@j00021",
+        "indexjob@ij017",
+        "c@graduates_welcome",
+        "c@wf7",
+        "indexjob@ij070",
+        "association@j00013",
+        "c@wf1",
+        "deboost@kwdeboost_link_0.8",
+        "foreigners@pt_fc_em_jbs",
+        "c@wf30",
+        "c@wf10",
+        "c@wf28",
+        "association@j00025",
+        "c@wf23",
+        "c@wf2"
+      ],
+      "languageRequirements": [
+        {
+          "language": 1,
+          "ability": {
+            "listening": 2,
+            "speaking": 2,
+            "reading": 2,
+            "writing": 2
+          }
+        }
+      ],
+      "acceptRole": [
+        2
+      ],
+      "employeeCount": 10000,
+      "pcSkills": [],
+      "pddScore": 9.378383,
+      "custLogo": "https://static.104.com.tw/b_profile/cust_picture/9000/86519539000/logo.jpg?v=20260820164840",
+      "jobSwitch": "on",
+      "isSave": null,
+      "interactionRecord": {
+        "lastProcessedResumeAtTime": 0,
+        "lastCustReplyTimestamp": 0,
+        "nowTimestamp": 0,
+        "lastProcessedResumeDesc": "3 天內處理過履歷",
+        "lastCustReplyDesc": ""
+      },
+      "isApplied": null,
+      "applyDate": null,
+      "userApplyCount": null,
+      "analysisType": 3,
+      "hasHrBehavior": false
+    }
+  },
+  {
+    "stock_id": "",
+    "encoded_cust_no_104": "13qvhzjs",
+    "short_name": "13qvhzjs",
+    "item": {
+      "appearDate": "20260907",
+      "applyCnt": 0,
+      "coIndustry": 1004001001,
+      "coIndustryDesc": "銀行業",
+      "custName": "台新新光金控_台新國際商業銀行股份有限公司",
+      "custNo": "86519539000",
+      "description": "【工作內容】\n1. 模型開發與應用落地(包括模型訓練/評估/部署與監控。\n2. 設計與實作Multi-turn LLM agent，整合內部知識庫與業務流程\n3. 整合語音與文字模型，提供跨團隊技術支援與關鍵專案協作\n【資格條件】\n1.具MLE/NLP、LLM 應用開發相關經驗2年以上佳，熟悉MLOps基礎作業\n2.LLM/NLP技術具高度熱情與自主學習能力，善於跨部門溝通協作\n",
+      "descSnippet": "【工作內容】\n1. 模型開發與應用落地(包括模型訓練/評估/部署與監控。\n2. 設計與實作Multi-turn LLM agent，整合內部知識庫與業務流程\n3. 整合語音與文字模型，提供跨團隊技術支援與關鍵專案協作\n【資格條件】\n1.具MLE/NLP、LLM 應用開發相關經驗2年以上佳，熟悉MLOps基礎作業\n2.LLM/NLP技術具高度熱情與自主學習能力，善於跨部門溝通協作\n",
+      "mrtDist": 0.45,
+      "jobAddress": "仁愛路四段118號(106)",
+      "jobAddrNo": 6001001005,
+      "jobAddrNoDesc": "台北市大安區",
+      "jobName": "〔銀行〕AI工程師(台北)",
+      "jobNameSnippet": "〔銀行〕AI工程師(台北)",
+      "jobNo": "13624327",
+      "jobRo": 1,
+      "jobType": 2,
+      "lat": 25.0373754,
+      "lon": 121.5498126,
+      "link": {
+        "job": "https://www.104.com.tw/job/840lj",
+        "cust": "https://www.104.com.tw/company/13qvhzjs",
+        "applyAnalyze": "https://www.104.com.tw/jobs/apply/analysis/840lj?channel=104rpt"
+      },
+      "major": [],
+      "mrt": "99001005016",
+      "mrtDesc": "捷運忠孝敦化站",
+      "optionEdu": [
+        4,
+        5
+      ],
+      "period": 0,
+      "remoteWorkType": 0,
+      "s10": 10,
+      "salaryHigh": 0,
+      "salaryLow": 0,
+      "tags": {
+        "wf30": {
+          "desc": "",
+          "param": "wf30"
+        },
+        "wf10": {
+          "desc": "",
+          "param": "wf10"
+        },
+        "wf7": {
+          "desc": "",
+          "param": "wf7"
+        },
+        "wf23": {
+          "desc": "",
+          "param": "wf23"
+        },
+        "wf3": {
+          "desc": "",
+          "param": "wf3"
+        },
+        "wf28": {
+          "desc": "",
+          "param": "wf28"
+        },
+        "wf9": {
+          "desc": "",
+          "param": "wf9"
+        },
+        "wf2": {
+          "desc": "",
+          "param": "wf2"
+        },
+        "wf1": {
+          "desc": "",
+          "param": "wf1"
+        },
+        "landmark": {
+          "desc": "距捷運忠孝敦化站約450公尺"
+        }
+      },
+      "s9": [
+        1
+      ],
+      "s5": 0,
+      "d3": "",
+      "hrBehaviorPR": 0,
+      "jobCat": [
+        2007001020,
+        2007001016,
+        2007001015
+      ],
+      "labels": [
+        "association@j00025",
+        "c@wf30",
+        "c@wf10",
+        "association@j00021",
+        "c@wf7",
+        "c@wf23",
+        "c@wf3",
+        "c@wf28",
+        "c@wf9",
+        "indexjob@ij070",
+        "association@j00013",
+        "c@wf2",
+        "c@wf1",
+        "foreigners@pt_fc_em_jbs",
+        "c@graduates_welcome"
+      ],
+      "languageRequirements": [
+        {
+          "language": 1,
+          "ability": {
+            "listening": 2,
+            "speaking": 2,
+            "reading": 2,
+            "writing": 2
+          }
+        }
+      ],
+      "acceptRole": [
+        2
+      ],
+      "employeeCount": 10000,
+      "pcSkills": [
+        {
+          "code": "12001003092",
+          "description": "MLOPs"
+        },
+        {
+          "code": "12001003088",
+          "description": "NLP"
+        },
+        {
+          "code": "12001003097",
+          "description": "LLM"
+        }
+      ],
+      "pddScore": 6.6469984,
+      "custLogo": "https://static.104.com.tw/b_profile/cust_picture/9000/86519539000/logo.jpg?v=20260820164840",
+      "jobSwitch": "on",
+      "isSave": null,
+      "interactionRecord": {
+        "lastProcessedResumeAtTime": 0,
+        "lastCustReplyTimestamp": 0,
+        "nowTimestamp": 0,
+        "lastProcessedResumeDesc": "2 天內處理過履歷",
+        "lastCustReplyDesc": ""
+      },
+      "isApplied": null,
+      "applyDate": null,
+      "userApplyCount": null,
+      "analysisType": 3,
+      "hasHrBehavior": true
+    }
+  },
+  {
+    "stock_id": "",
+    "encoded_cust_no_104": "13qvhzjs",
+    "short_name": "13qvhzjs",
+    "item": {
+      "appearDate": "20260907",
+      "applyCnt": 0,
+      "coIndustry": 1004001001,
+      "coIndustryDesc": "銀行業",
+      "custName": "台新新光金控_台新國際商業銀行股份有限公司",
+      "custNo": "86519539000",
+      "description": "【工作內容】\n負責集團金融領域大型語言模型（LLM）之訓練與優化，並推動核心系統 Agent 化，打造智慧化金融應用服務。\n\n【資格條件】\n1.\t具備 ML／LLM 應用開發相關經驗 2 年以上。\n2.\t具備軟體、資料或系統相關工作經驗 3 年以上。\n3.\t精通 Python，並具備機器學習、深度學習及 LLM 應用實戰經驗（如 Hugging Face、LangChain、OpenAI API 等）。\n4.\t對金融業務與監理法遵要求具基本認知。\n5.\t具備良好的溝通表達與跨部門團隊協作能力。\n6.\t對技術具高度熱忱，並擁有主動學習與研究的精神。\n7.\t具備銀行核心系統導入（SI）經驗，並熟悉金融業務流程者尤佳。\n\n",
+      "descSnippet": "【工作內容】\n負責集團金融領域大型語言模型（LLM）之訓練與優化，並推動核心系統 Agent 化，打造智慧化金融應用服務。\n\n【資格條件】\n1.\t具備 ML／LLM 應用開發相關經驗 2 年以上。\n2.\t具備軟體、資料或系統相關工作經驗 3 年以上。\n3.\t精通 Python，並具備機器學習、深度學習及 LLM 應用實戰經驗（如 Hugging Face、LangChain、OpenAI API 等）。\n4.\t對金融業務與監理法遵要求具基本認知。\n5.\t具備良好的溝通表達與跨部門團隊協作能力。\n6.\t對技術具高度熱忱，並擁有主動學習與研究的精神。\n7.\t具備銀行核心系統導入（SI）經驗，並熟悉金融業務流程者尤佳。\n\n",
+      "mrtDist": 0,
+      "jobAddress": "舊宗路二段207號",
+      "jobAddrNo": 6001001010,
+      "jobAddrNoDesc": "台北市內湖區",
+      "jobName": "〔金控〕AI模型師(資訊)",
+      "jobNameSnippet": "〔金控〕AI模型師(資訊)",
+      "jobNo": "15231917",
+      "jobRo": 1,
+      "jobType": 2,
+      "lat": 25.0728257,
+      "lon": 121.5739875,
+      "link": {
+        "job": "https://www.104.com.tw/job/92h0t",
+        "cust": "https://www.104.com.tw/company/13qvhzjs",
+        "applyAnalyze": "https://www.104.com.tw/jobs/apply/analysis/92h0t?channel=104rpt"
+      },
+      "major": [],
+      "mrt": "",
+      "mrtDesc": "",
+      "optionEdu": [
+        4,
+        5
+      ],
+      "period": 0,
+      "remoteWorkType": 0,
+      "s10": 10,
+      "salaryHigh": 0,
+      "salaryLow": 0,
+      "tags": {
+        "wf23": {
+          "desc": "",
+          "param": "wf23"
+        },
+        "wf1": {
+          "desc": "",
+          "param": "wf1"
+        },
+        "wf9": {
+          "desc": "",
+          "param": "wf9"
+        },
+        "wf30": {
+          "desc": "",
+          "param": "wf30"
+        },
+        "wf3": {
+          "desc": "",
+          "param": "wf3"
+        },
+        "wf2": {
+          "desc": "",
+          "param": "wf2"
+        },
+        "wf10": {
+          "desc": "",
+          "param": "wf10"
+        },
+        "wf7": {
+          "desc": "",
+          "param": "wf7"
+        },
+        "wf28": {
+          "desc": "",
+          "param": "wf28"
+        }
+      },
+      "s9": [
+        1
+      ],
+      "s5": 0,
+      "d3": "",
+      "hrBehaviorPR": 0,
+      "jobCat": [
+        2007001020,
+        2007001016,
+        2007001015
+      ],
+      "labels": [
+        "association@j00021",
+        "association@j00020",
+        "c@wf23",
+        "c@wf1",
+        "c@wf9",
+        "c@wf30",
+        "association@j00025",
+        "c@wf3",
+        "c@wf2",
+        "foreigners@pt_fc_em_jbs",
+        "association@j00013",
+        "c@wf10",
+        "c@wf7",
+        "c@wf28"
+      ],
+      "languageRequirements": [],
+      "acceptRole": [],
+      "employeeCount": 10000,
+      "pcSkills": [
+        {
+          "code": "12001003097",
+          "description": "LLM"
+        },
+        {
+          "code": "12001003045",
+          "description": "Python"
+        }
+      ],
+      "pddScore": 4.895465,
+      "custLogo": "https://static.104.com.tw/b_profile/cust_picture/9000/86519539000/logo.jpg?v=20260820164840",
+      "jobSwitch": "on",
+      "isSave": null,
+      "interactionRecord": {
+        "lastProcessedResumeAtTime": 0,
+        "lastCustReplyTimestamp": 0,
+        "nowTimestamp": 0,
+        "lastProcessedResumeDesc": "2 天內處理過履歷",
+        "lastCustReplyDesc": "11 天內聯絡過求職者"
+      },
+      "isApplied": null,
+      "applyDate": null,
+      "userApplyCount": null,
+      "analysisType": 3,
+      "hasHrBehavior": false
+    }
+  },
+  {
+    "stock_id": "",
+    "encoded_cust_no_104": "13qvhzjs",
+    "short_name": "13qvhzjs",
+    "item": {
+      "appearDate": "20260909",
+      "applyCnt": 0,
+      "coIndustry": 1004001001,
+      "coIndustryDesc": "銀行業",
+      "custName": "台新新光金控_台新國際商業銀行股份有限公司",
+      "custNo": "86519539000",
+      "description": "【工作內容】\n1.協助專案經理確認商業應用需求\n2.負責開發、程式設計及訓練組成 AI 的複雜演算法網路，讓它們能夠像人類大腦一樣運作\n3.建立、開發和測試大型語言模型，然後使用應用程式程式介面 (API) 呼叫或內嵌程式碼來建置及實作 AI 應用程式\n4.研究、佈建各種開源模型，以尋找適合商業應用的解決方案\n5.配合各種AI實驗案，完成商業化應用\n\n【資格條件】\n1.具備英文〈聽、說、讀、寫〉能力以上佳\n2.具備兩年以上大型語言模型工作或專案經驗以上佳\n\n",
+      "descSnippet": "【工作內容】\n1.協助專案經理確認商業應用需求\n2.負責開發、程式設計及訓練組成 AI 的複雜演算法網路，讓它們能夠像人類大腦一樣運作\n3.建立、開發和測試大型語言模型，然後使用應用程式程式介面 (API) 呼叫或內嵌程式碼來建置及實作 AI 應用程式\n4.研究、佈建各種開源模型，以尋找適合商業應用的解決方案\n5.配合各種AI實驗案，完成商業化應用\n\n【資格條件】\n1.具備英文〈聽、說、讀、寫〉能力以上佳\n2.具備兩年以上大型語言模型工作或專案經驗以上佳\n\n",
+      "mrtDist": 0.38,
+      "jobAddress": "仁愛路四段1號",
+      "jobAddrNo": 6001001005,
+      "jobAddrNoDesc": "台北市大安區",
+      "jobName": "〔金控〕AI工程師(數位)",
+      "jobNameSnippet": "〔金控〕AI工程師(數位)",
+      "jobNo": "15349309",
+      "jobRo": 1,
+      "jobType": 2,
+      "lat": 25.0382529,
+      "lon": 121.5442196,
+      "link": {
+        "job": "https://www.104.com.tw/job/94zlp",
+        "cust": "https://www.104.com.tw/company/13qvhzjs",
+        "applyAnalyze": "https://www.104.com.tw/jobs/apply/analysis/94zlp?channel=104rpt"
+      },
+      "major": [],
+      "mrt": "99001001010",
+      "mrtDesc": "捷運忠孝復興站",
+      "optionEdu": [
+        4,
+        5
+      ],
+      "period": 0,
+      "remoteWorkType": 0,
+      "s10": 10,
+      "salaryHigh": 0,
+      "salaryLow": 0,
+      "tags": {
+        "wf30": {
+          "desc": "",
+          "param": "wf30"
+        },
+        "wf28": {
+          "desc": "",
+          "param": "wf28"
+        },
+        "wf7": {
+          "desc": "",
+          "param": "wf7"
+        },
+        "wf3": {
+          "desc": "",
+          "param": "wf3"
+        },
+        "wf2": {
+          "desc": "",
+          "param": "wf2"
+        },
+        "wf1": {
+          "desc": "",
+          "param": "wf1"
+        },
+        "wf23": {
+          "desc": "",
+          "param": "wf23"
+        },
+        "wf9": {
+          "desc": "",
+          "param": "wf9"
+        },
+        "wf10": {
+          "desc": "",
+          "param": "wf10"
+        },
+        "landmark": {
+          "desc": "距捷運忠孝復興站約380公尺"
+        }
+      },
+      "s9": [
+        1
+      ],
+      "s5": 0,
+      "d3": "",
+      "hrBehaviorPR": 0,
+      "jobCat": [
+        2007001020
+      ],
+      "labels": [
+        "indexjob@ij017",
+        "c@wf30",
+        "c@wf28",
+        "c@wf7",
+        "indexjob@ij020",
+        "association@j00025",
+        "association@j00021",
+        "c@wf3",
+        "c@wf2",
+        "c@wf1",
+        "c@wf23",
+        "c@wf9",
+        "indexjob@ij025",
+        "foreigners@pt_fc_em_jbs",
+        "association@j00013",
+        "c@wf10"
+      ],
+      "languageRequirements": [],
+      "acceptRole": [],
+      "employeeCount": 10000,
+      "pcSkills": [
+        {
+          "code": "12001003097",
+          "description": "LLM"
+        },
+        {
+          "code": "12001003045",
+          "description": "Python"
+        }
+      ],
+      "pddScore": 2.8600368,
+      "custLogo": "https://static.104.com.tw/b_profile/cust_picture/9000/86519539000/logo.jpg?v=20260820164840",
+      "jobSwitch": "on",
+      "isSave": null,
+      "interactionRecord": {
+        "lastProcessedResumeAtTime": 0,
+        "lastCustReplyTimestamp": 0,
+        "nowTimestamp": 0,
+        "lastProcessedResumeDesc": "2 天內處理過履歷",
+        "lastCustReplyDesc": ""
+      },
+      "isApplied": null,
+      "applyDate": null,
+      "userApplyCount": null,
+      "analysisType": 3,
+      "hasHrBehavior": true
+    }
+  },
+  {
+    "stock_id": "",
+    "encoded_cust_no_104": "13qvhzjs",
+    "short_name": "13qvhzjs",
+    "item": {
+      "appearDate": "20260911",
+      "applyCnt": 0,
+      "coIndustry": 1004001001,
+      "coIndustryDesc": "銀行業",
+      "custName": "台新新光金控_台新國際商業銀行股份有限公司",
+      "custNo": "86519539000",
+      "description": "【工作內容】\n(1).\t AI API 與系統整合開發\n•\t負責企業 AI 服務 API 設計、開發及維護。\n•\t執行內外部系統整合、資料介接及微服務架構開發。\n•\t推動既有系統 API 化及服務化改造。\n(2).\tAI 輔助開發與 Agent 應用\n•\t推動 GitHub Copilot 等 AI 輔助開發工具導入。\n•\t建立 AI 程式碼生成及品質管理機制。\n•\t規劃與建置 AI Agent 應用，整合至開發及維運流程。\n(3).\tMLOps 平台規劃與建置\n•\t建立 AI 模型部署、監控及版本管理機制。\n•\t規劃 Kubernetes 與 Container 平台架構。\n•\t建置 CI/CD 自動化發布流程及模型生命週期管理平台。\n•\t建立模型效能監控與維運管理機制。\n\n【資格條件】\n(1).\t具全端開發經驗，熟悉 Java、.NET 或 Python 任一後端開發技術；前端熟悉 React、Vue 等主流框架至少一種。\n(2).\t具 RESTful API、微服務（Microservices）架構及系統整合開發經驗。\n(3).\t具既有系統 API 化改造或系統現代化轉型經驗。\n(4).\t具 GitHub Copilot 或其他 AI 輔助開發工具實務使用經驗。\n(5).\t具 Kubernetes(K8s)、Docker Container 部署及維運經驗。\n(6).\t具備 CI/CD 自動化建置與部署實務經驗\n\n加分條件\n(1).\t具 Azure OpenAI、OpenAI、Claude、LangChain、Semantic Kernel 等生成式 AI 開發經驗。\n(2).\t具 MLOps 平台建置、模型部署或 MLflow 相關經驗。\n(3).\t具雲端平台(Azure、AWS、GCP)實務經驗。\n(4).\t具金融業系統開發或大型企業系統整合經驗。",
+      "descSnippet": "【工作內容】\n(1).\t AI API 與系統整合開發\n•\t負責企業 AI 服務 API 設計、開發及維護。\n•\t執行內外部系統整合、資料介接及微服務架構開發。\n•\t推動既有系統 API 化及服務化改造。\n(2).\tAI 輔助開發與 Agent 應用\n•\t推動 GitHub Copilot 等 AI 輔助開發工具導入。\n•\t建立 AI 程式碼生成及品質管理機制。\n•\t規劃與建置 AI Agent 應用，整合至開發及維運流程。\n(3).\tMLOps 平台規劃與建置\n•\t建立 AI 模型部署、監控及版本管理機制。\n•\t規劃 Kubernetes 與 Container 平台架構。\n•\t建置 CI/CD 自動化發布流程及模型生命週期管理平台。\n•\t建立模型效能監控與維運管理機制。\n\n【資格條件】\n(1).\t具全端開發經驗，熟悉 Java、.NET 或 Python 任一後端開發技術；前端熟悉 React、Vue 等主流框架至少一種。\n(2).\t具 RESTful API、微服務（Microservices）架構及系統整合開發經驗。\n(3).\t具既有系統 API 化改造或系統現代化轉型經驗。\n(4).\t具 GitHub Copilot 或其他 AI 輔助開發工具實務使用經驗。\n(5).\t具 Kubernetes(K8s)、Docker Container 部署及維運經驗。\n(6).\t具備 CI/CD 自動化建置與部署實務經驗\n\n加分條件\n(1).\t具 Azure OpenAI、OpenAI、Claude、LangChain、Semantic Kernel 等生成式 AI 開發經驗。\n(2).\t具 MLOps 平台建置、模型部署或 MLflow 相關經驗。\n(3).\t具雲端平台(Azure、AWS、GCP)實務經驗。\n(4).\t具金融業系統開發或大型企業系統整合經驗。",
+      "mrtDist": 0,
+      "jobAddress": "仁愛路四段118號(106)",
+      "jobAddrNo": 6001001010,
+      "jobAddrNoDesc": "台北市內湖區",
+      "jobName": "〔資訊〕AI 應用開發暨 MLOps平台工程師(台北)",
+      "jobNameSnippet": "〔資訊〕AI 應用開發暨 MLOps平台工程師(台北)",
+      "jobNo": "15328277",
+      "jobRo": 1,
+      "jobType": 2,
+      "lat": 25.0372373,
+      "lon": 121.5498199,
+      "link": {
+        "job": "https://www.104.com.tw/job/94jdh",
+        "cust": "https://www.104.com.tw/company/13qvhzjs",
+        "applyAnalyze": "https://www.104.com.tw/jobs/apply/analysis/94jdh?channel=104rpt"
+      },
+      "major": [],
+      "mrt": "",
+      "mrtDesc": "",
+      "optionEdu": [
+        4,
+        5
+      ],
+      "period": 3,
+      "remoteWorkType": 0,
+      "s10": 10,
+      "salaryHigh": 0,
+      "salaryLow": 0,
+      "tags": {
+        "wf28": {
+          "desc": "",
+          "param": "wf28"
+        },
+        "wf9": {
+          "desc": "",
+          "param": "wf9"
+        },
+        "wf1": {
+          "desc": "",
+          "param": "wf1"
+        },
+        "wf23": {
+          "desc": "",
+          "param": "wf23"
+        },
+        "wf3": {
+          "desc": "",
+          "param": "wf3"
+        },
+        "wf30": {
+          "desc": "",
+          "param": "wf30"
+        },
+        "wf7": {
+          "desc": "",
+          "param": "wf7"
+        },
+        "wf2": {
+          "desc": "",
+          "param": "wf2"
+        },
+        "wf10": {
+          "desc": "",
+          "param": "wf10"
+        }
+      },
+      "s9": [
+        1
+      ],
+      "s5": 0,
+      "d3": "",
+      "hrBehaviorPR": 0,
+      "jobCat": [
+        2007001020,
+        2007001017,
+        2007001016
+      ],
+      "labels": [
+        "c@graduates_welcome",
+        "c@wf28",
+        "c@wf9",
+        "c@wf1",
+        "c@wf23",
+        "c@wf3",
+        "c@wf30",
+        "indexjob@ij023",
+        "association@j00021",
+        "c@wf7",
+        "indexjob@ij070",
+        "association@j00013",
+        "association@j00025",
+        "indexjob@ij017",
+        "c@wf2",
+        "foreigners@pt_fc_em_jbs",
+        "c@wf10"
+      ],
+      "languageRequirements": [
+        {
+          "language": 1,
+          "ability": {
+            "listening": 2,
+            "speaking": 2,
+            "reading": 2,
+            "writing": 2
+          }
+        }
+      ],
+      "acceptRole": [
+        2
+      ],
+      "employeeCount": 10000,
+      "pcSkills": [
+        {
+          "code": "12001003092",
+          "description": "MLOPs"
+        },
+        {
+          "code": "12001003088",
+          "description": "NLP"
+        },
+        {
+          "code": "12001002016",
+          "description": "Github"
+        },
+        {
+          "code": "12001003045",
+          "description": "Python"
+        },
+        {
+          "code": "12001003006",
+          "description": "ASP.NET"
+        },
+        {
+          "code": "12001003025",
+          "description": "Java"
+        },
+        {
+          "code": "12001003100",
+          "description": "Microsoft Azure"
+        },
+        {
+          "code": "12001005023",
+          "description": "AWS"
+        },
+        {
+          "code": "12001005025",
+          "description": "Kubernetes"
+        }
+      ],
+      "pddScore": 0,
+      "custLogo": "https://static.104.com.tw/b_profile/cust_picture/9000/86519539000/logo.jpg?v=20260820164840",
+      "jobSwitch": "on",
+      "isSave": null,
+      "interactionRecord": {
+        "lastProcessedResumeAtTime": 0,
+        "lastCustReplyTimestamp": 0,
+        "nowTimestamp": 0,
+        "lastProcessedResumeDesc": "4 天內處理過履歷",
+        "lastCustReplyDesc": ""
+      },
+      "isApplied": null,
+      "applyDate": null,
+      "userApplyCount": null,
+      "analysisType": 3,
+      "hasHrBehavior": false
+    }
+  }
+]

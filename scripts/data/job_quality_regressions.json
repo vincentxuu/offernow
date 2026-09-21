@@ -1,0 +1,59 @@
+[
+  {
+    "job_url": "https://www.104.com.tw/job/955yq",
+    "expected_stock_id": "2887",
+    "note": "台新銀行子公司頁 AI 職缺"
+  },
+  {
+    "job_url": "https://www.104.com.tw/job/8xho5",
+    "expected_stock_id": "2887",
+    "note": "台新銀行子公司頁 AI 職缺"
+  },
+  {
+    "job_url": "https://www.104.com.tw/job/840lj",
+    "expected_stock_id": "2887",
+    "note": "台新銀行子公司頁 AI 職缺"
+  },
+  {
+    "job_url": "https://www.104.com.tw/job/92h0t",
+    "expected_stock_id": "2887",
+    "note": "台新銀行子公司頁 AI 職缺"
+  },
+  {
+    "job_url": "https://www.104.com.tw/job/94zlp",
+    "expected_stock_id": "2887",
+    "note": "台新銀行子公司頁 AI 職缺"
+  },
+  {
+    "job_url": "https://www.104.com.tw/job/94jdh",
+    "expected_stock_id": "2887",
+    "note": "台新銀行子公司頁 AI 職缺"
+  },
+  {
+    "job_url": "https://www.104.com.tw/job/8y9wt",
+    "expected_stock_id": "8299",
+    "note": "群聯不應被聯電短名誤配"
+  },
+  {
+    "job_url": "https://www.104.com.tw/job/7z0wa",
+    "expected_stock_id": "ext_雅麗家衛浴_博麟水電材料有限公司",
+    "allow_missing": true,
+    "note": "博麟水電材料不應被材料*-KY 短名誤配"
+  },
+  {
+    "job_url": "https://www.104.com.tw/job/935bs",
+    "expected_stock_id": "ext_鑫長鴻竹南電子股份有限公司",
+    "allow_missing": true,
+    "note": "鑫長鴻竹南電子不應被南電短名誤配"
+  },
+  {
+    "job_url": "https://www.104.com.tw/job/95ms5",
+    "expected_stock_id": "ext_奇力新電子",
+    "note": "奇力新電子不應被力新短名誤配"
+  },
+  {
+    "job_url": "https://www.104.com.tw/job/8102y",
+    "expected_stock_id": "2851",
+    "note": "中再保應映射中央再保險"
+  }
+]

@@ -27,6 +27,100 @@ REMOTE_KW_STRICT = [
     "混合辦公", "混合工作", "hybrid work",
 ]
 
+COMPANY_NAME_ALIASES = {
+    "華南金融控股": "2880",
+    "華南金控": "2880",
+    "華南商業銀行": "2880",
+    "華南銀行": "2880",
+    "華南永昌證券": "2880",
+    "富邦金融控股": "2881",
+    "富邦金控": "2881",
+    "台北富邦銀行": "2881",
+    "富邦銀行": "2881",
+    "富邦人壽": "2881",
+    "富邦產險": "2881",
+    "富邦證券": "2881",
+    "富邦綜合證券": "2881",
+    "Fubon Financial": "2881",
+    "國泰金融控股": "2882",
+    "國泰金控": "2882",
+    "國泰世華": "2882",
+    "國泰人壽": "2882",
+    "國泰產險": "2882",
+    "國泰證券": "2882",
+    "Cathay Financial": "2882",
+    "凱基金融控股": "2883",
+    "凱基金控": "2883",
+    "凱基證券": "2883",
+    "凱基銀行": "2883",
+    "凱基人壽": "2883",
+    "中華開發資本": "2883",
+    "KGI Financial": "2883",
+    "KGI SECURITIES": "2883",
+    "KGI Bank": "2883",
+    "玉山金融控股": "2884",
+    "玉山金控": "2884",
+    "玉山商業銀行": "2884",
+    "玉山銀行": "2884",
+    "E.SUN": "2884",
+    "元大金控": "2885",
+    "元大金融控股": "2885",
+    "元大證券": "2885",
+    "元大銀行": "2885",
+    "元大人壽": "2885",
+    "元大投信": "2885",
+    "Yuanta Financial": "2885",
+    "兆豐金融控股": "2886",
+    "兆豐金控": "2886",
+    "兆豐國際商業銀行": "2886",
+    "兆豐銀行": "2886",
+    "兆豐證券": "2886",
+    "Mega Financial": "2886",
+    "台新新光金融控股": "2887",
+    "台新新光金控": "2887",
+    "台新銀行": "2887",
+    "台新證券": "2887",
+    "新光銀行": "2887",
+    "新光人壽": "2887",
+    "Taishin": "2887",
+    "國票金融控股": "2889",
+    "國票金控": "2889",
+    "國際票券": "2889",
+    "國票證券": "2889",
+    "永豐金融控股": "2890",
+    "永豐金控": "2890",
+    "永豐商業銀行": "2890",
+    "永豐銀行": "2890",
+    "永豐金證券": "2890",
+    "永豐證券": "2890",
+    "SinoPac": "2890",
+    "中信金控": "2891",
+    "中國信託金融控股": "2891",
+    "中國信託": "2891",
+    "中信銀行": "2891",
+    "中國信託商業銀行": "2891",
+    "中國信託產物保險": "2891",
+    "中國信託綜合證券": "2891",
+    "台灣人壽": "2891",
+    "中信證券": "2891",
+    "CTBC Financial": "2891",
+    "第一金融控股": "2892",
+    "第一金控": "2892",
+    "第一商業銀行": "2892",
+    "第一銀行": "2892",
+    "第一金證券": "2892",
+    "合庫金融控股": "5880",
+    "合作金庫金融控股": "5880",
+    "合庫金控": "5880",
+    "合作金庫商業銀行": "5880",
+    "合作金庫銀行": "5880",
+    "合庫銀行": "5880",
+    "合庫證券": "5880",
+    "群聯電子": "8299",
+    "群聯": "8299",
+    "Phison": "8299",
+}
+
 
 def clean_str(s):
     if s is None:
@@ -78,15 +172,20 @@ def load_companies_name_map():
         name_map[name] = c["stock_id"]
         if short:
             name_map[short] = c["stock_id"]
-            name_map[short.replace("*-KY", "").replace("-KY", "").strip()] = c["stock_id"]
+            normalized_short = short.replace("*-KY", "").replace("-KY", "").strip()
+            if normalized_short:
+                name_map.setdefault(normalized_short, c["stock_id"])
         clean = name.replace("股份有限公司", "").replace("有限公司", "").strip()
         if clean:
-            name_map[clean] = c["stock_id"]
+            name_map.setdefault(clean, c["stock_id"])
     return name_map
 
 
 def match_stock_id(company_name, name_map):
     cn = clean_str(company_name)
+    for alias, sid in COMPANY_NAME_ALIASES.items():
+        if alias.lower() in cn.lower():
+            return sid
     sid = name_map.get(cn)
     if sid:
         return sid
@@ -98,8 +197,8 @@ def match_stock_id(company_name, name_map):
     sid = name_map.get(first)
     if sid:
         return sid
-    for name, s in name_map.items():
-        if len(name) >= 2 and name in cn:
+    for name, s in sorted(name_map.items(), key=lambda item: len(item[0]), reverse=True):
+        if len(name) >= 4 and name in cn:
             return s
     return ""
 
@@ -125,9 +224,7 @@ def main():
             if not title or key in seen:
                 continue
             seen.add(key)
-            sid = j.get("stock_id", "")
-            if not sid or sid.startswith("ext_"):
-                sid = match_stock_id(cn, name_map) or sid
+            sid = match_stock_id(cn, name_map) or j.get("stock_id", "")
             jt = clean_str(j.get("job_type", ""))
             if jt == "None":
                 jt = ""

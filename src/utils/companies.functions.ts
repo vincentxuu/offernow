@@ -175,7 +175,10 @@ type D1Database = {
 
 async function getD1(): Promise<D1Database | null> {
   try {
-    const mod: Record<string, unknown> = await import('cloudflare:workers')
+    const workersModule = 'cloudflare:workers'
+    const mod: Record<string, unknown> = await import(
+      /* @vite-ignore */ workersModule
+    )
     const env = mod.env as Record<string, unknown> | undefined
     if (env?.DB) return env.DB as D1Database
   } catch {
