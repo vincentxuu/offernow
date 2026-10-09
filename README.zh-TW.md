@@ -80,6 +80,10 @@ pnpm dev
 ./scripts/refresh-data.sh --local       # apply 到 local D1（開發用）
 ```
 
+匯入會合併 `scripts/data/` 既有資料與 `fetch-data/data/104_jobs_search.json`、`linkedin_jobs.json`，轉換爬蟲欄位，並以職缺 URL 讓新抓取資料覆蓋舊資料、保留點擊數。同公司同職稱但 URL 不同的職缺會分別保留。
+
+完整更新要求兩份爬蟲輸出都在本次執行期間產生，且含可匯入職缺；缺檔、舊檔或空資料會在寫入 D1 前中止。`--skip-fetch` 則匯入現有檔案，不檢查本次抓取時間。此流程不會自動刪除已下架職缺；趨勢快照仍使用公司資料中的職缺統計。
+
 ## 資料管道
 
 ### 爬蟲

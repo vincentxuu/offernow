@@ -80,6 +80,10 @@ Dev server starts at `http://localhost:3000`.
 ./scripts/refresh-data.sh --local       # Apply to local D1 (development)
 ```
 
+The importer merges existing `scripts/data/` sources with `fetch-data/data/104_jobs_search.json` and `linkedin_jobs.json`, normalizes crawler fields, and lets fetched rows override existing rows by job URL while preserving click counts. Distinct URLs with the same title and company remain separate jobs.
+
+A full refresh requires both crawler outputs to be written during the current run and contain importable jobs. Missing, stale, or empty outputs stop the process before D1 writes. `--skip-fetch` imports existing files without the freshness check. This flow does not automatically remove closed jobs; trend snapshots still use job counts from company data.
+
 ## Data pipeline
 
 ### Crawlers

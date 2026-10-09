@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
 Seed D1 jobs table from all job JSON sources.
-Merges jobs.json + 104_remotework_jobs.json + global_remote_jobs.json,
-deduplicates, cleans, and generates seed-jobs.sql.
+Merges scripts/data sources with fresh 104 and LinkedIn fetch-data/data outputs,
+normalizes fields, prefers fresh rows by URL, and generates seed-jobs.sql.
 
 Usage:
     python3 scripts/db/seed-jobs.py
@@ -10,12 +10,15 @@ Usage:
     pnpm wrangler d1 execute offernow-db --remote --file scripts/db/seed-jobs.sql
 """
 
+import argparse
 import json
 import os
 import re
 from pathlib import Path
+from urllib.parse import urlsplit, urlunsplit
 
 DATA_DIR = Path(__file__).parent.parent / "data"
+FETCH_DATA_DIR = Path(__file__).resolve().parents[2] / "fetch-data" / "data"
 OUTPUT_FILE = Path(__file__).parent / "seed-jobs.sql"
 
 REMOTE_KW_STRICT = [
@@ -203,12 +206,68 @@ def match_stock_id(company_name, name_map):
     return ""
 
 
-def main():
+def canonical_job_url(value):
+    url = clean_str(value)
+    if url.startswith("//"):
+        url = "https:" + url
+    parts = urlsplit(url)
+    host = (parts.hostname or "").lower()
+    if ((host == "104.com.tw" or host.endswith(".104.com.tw")) and parts.path.startswith("/job/")) or (
+        (host == "linkedin.com" or host.endswith(".linkedin.com")) and parts.path.startswith("/jobs/view/")
+    ):
+        return urlunsplit((parts.scheme, parts.netloc, parts.path.rstrip("/"), "", ""))
+    return url
+
+
+def load_fetched_jobs(name_map, require_fetched_after=None):
+    jobs = []
+    for filename, source in [("104_jobs_search.json", "104"), ("linkedin_jobs.json", "linkedin")]:
+        path = FETCH_DATA_DIR / filename
+        if not path.exists():
+            if require_fetched_after is not None:
+                raise ValueError(f"Missing crawler output: {path}")
+            continue
+        if require_fetched_after is not None and path.stat().st_mtime < require_fetched_after:
+            raise ValueError(f"Stale crawler output: {path}")
+        with path.open(encoding="utf-8") as f:
+            raw = json.load(f)
+        if not isinstance(raw, list) or any(not isinstance(j, dict) for j in raw):
+            raise ValueError(f"Expected a list of job objects: {path}")
+        normalized = []
+        for j in raw:
+            title = clean_str(j.get("job_name") or j.get("title"))
+            company = clean_str(j.get("company") or j.get("company_name"))
+            url = canonical_job_url(j.get("link") or j.get("job_url"))
+            if not title or not company or not url.startswith(("https://", "http://")):
+                continue
+            description = clean_str(j.get("description") or j.get("job_description"))[:200]
+            date = clean_str(j.get("appeared_date") or j.get("posted_date") or j.get("date_posted"))
+            if len(date) == 8 and date.isdigit():
+                date = f"{date[:4]}-{date[4:6]}-{date[6:]}"
+            normalized.append({
+                "stock_id": match_stock_id(company, name_map) or j.get("stock_id") or f"ext_{company[:20]}",
+                "company_name": company, "title": title,
+                "location": clean_str(j.get("area") or j.get("location") or j.get("address")),
+                "date_posted": date, "job_url": url, "source": source,
+                "description": description,
+                "salary_min": j.get("salary_low", j.get("salary_min")),
+                "salary_max": j.get("salary_high", j.get("salary_max")),
+                "job_type": "remote" if is_truly_remote(title, description) else "",
+            })
+        if require_fetched_after is not None and not normalized:
+            raise ValueError(f"No importable jobs in crawler output: {path}")
+        print(f"  {path}: {len(raw)} loaded, {len(normalized)} importable")
+        jobs.extend(normalized)
+    return jobs
+
+
+def main(require_fetched_after=None):
     print("=" * 60)
     print("OfferNow — Seeding D1 Jobs Table")
     print("=" * 60)
 
     name_map = load_companies_name_map()
+    fetched_jobs = load_fetched_jobs(name_map, require_fetched_after)
     seen = set()
     all_jobs = []
 
@@ -220,7 +279,7 @@ def main():
         for j in jobs:
             title = clean_str(j.get("title", ""))
             cn = clean_str(j.get("company_name", ""))
-            key = (title, cn)
+            key = canonical_job_url(j.get("job_url")) or (title, cn)
             if not title or key in seen:
                 continue
             seen.add(key)
@@ -252,7 +311,7 @@ def main():
         for item in raw:
             cn = clean_str(item.get("custName", ""))
             title = clean_str(item.get("jobName", ""))
-            key = (title, cn)
+            key = canonical_job_url(item.get("link", {}).get("job", "")) or (title, cn)
             if not title or key in seen:
                 continue
             seen.add(key)
@@ -289,7 +348,7 @@ def main():
         for j in global_jobs:
             title = clean_str(j.get("title", ""))
             cn = clean_str(j.get("company_name", ""))
-            key = (title, cn)
+            key = canonical_job_url(j.get("job_url")) or (title, cn)
             if not title or key in seen:
                 continue
             seen.add(key)
@@ -310,6 +369,16 @@ def main():
             added += 1
         print(f"  global_remote_jobs.json: {len(global_jobs)} loaded, {added} new")
 
+    # Fresh crawler rows win by URL, even when their title/company changes.
+    by_url = {}
+    for job in [*all_jobs, *fetched_jobs]:
+        key = canonical_job_url(job["job_url"])
+        if key:
+            # Keep the existing stored URL so UPSERT also preserves its clicks.
+            if key in by_url:
+                job["job_url"] = by_url[key]["job_url"]
+            by_url[key] = job
+    all_jobs = list(by_url.values())
     print(f"\nTotal jobs to seed: {len(all_jobs)}")
 
     # Generate SQL — UPSERT mode: preserve click_count, update job data
@@ -362,7 +431,7 @@ def main():
         ])
         lines.append(
             f"INSERT INTO jobs (stock_id, company_name, title, location, date_posted, job_url, source, description, salary_min, salary_max, job_type) VALUES ({vals})"
-            f" ON CONFLICT(job_url) DO UPDATE SET stock_id=excluded.stock_id, company_name=excluded.company_name, title=excluded.title, location=excluded.location, date_posted=excluded.date_posted, description=excluded.description, salary_min=excluded.salary_min, salary_max=excluded.salary_max, job_type=excluded.job_type;"
+            f" ON CONFLICT(job_url) DO UPDATE SET stock_id=excluded.stock_id, company_name=excluded.company_name, title=excluded.title, location=excluded.location, date_posted=excluded.date_posted, source=excluded.source, description=excluded.description, salary_min=excluded.salary_min, salary_max=excluded.salary_max, job_type=excluded.job_type;"
         )
 
     with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
@@ -383,4 +452,8 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--require-fetched-after", type=float,
+                        help="Require both crawler outputs to be nonempty and written after this Unix timestamp")
+    args = parser.parse_args()
+    main(args.require_fetched_after)

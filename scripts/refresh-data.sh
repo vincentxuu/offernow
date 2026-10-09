@@ -12,11 +12,13 @@ cd "$ROOT"
 
 SKIP_FETCH=false
 D1_TARGET="--remote"
+SEED_ARGS=()
 
 for arg in "$@"; do
   case $arg in
     --skip-fetch) SKIP_FETCH=true ;;
     --local) D1_TARGET="--local" ;;
+    *) echo "Unknown argument: $arg" >&2; exit 1 ;;
   esac
 done
 
@@ -27,6 +29,8 @@ echo ""
 
 # ── Step 1: 爬取職缺 ──────────────────────────────────────────
 if [ "$SKIP_FETCH" = false ]; then
+  FETCH_STARTED_AT=$(date +%s)
+  SEED_ARGS=(--require-fetched-after "$FETCH_STARTED_AT")
   echo "📡 Step 1/5: 爬取 104 職缺…"
   uv run --with requests fetch-data/fetch.py
   echo ""
@@ -46,22 +50,22 @@ echo ""
 
 # ── Step 3: 生成 jobs seed SQL ─────────────────────────────────
 echo "🔧 Step 3/5: 生成 seed-jobs.sql…"
-uv run scripts/db/seed-jobs.py
+uv run scripts/db/seed-jobs.py "${SEED_ARGS[@]}"
 echo ""
 
 # ── Step 4: Apply 到 D1 ───────────────────────────────────────
 echo "🚀 Step 4/5: Apply seed-jobs.sql 到 D1 ($D1_TARGET)…"
-wrangler d1 execute offernow-db $D1_TARGET --file=scripts/db/seed-jobs.sql --yes
+pnpm exec wrangler d1 execute offernow-db $D1_TARGET --file=scripts/db/seed-jobs.sql --yes
 echo ""
 
 echo "🚀 Step 4/5: Apply snapshot.sql 到 D1 ($D1_TARGET)…"
-wrangler d1 execute offernow-db $D1_TARGET --file=scripts/db/snapshot.sql --yes
+pnpm exec wrangler d1 execute offernow-db $D1_TARGET --file=scripts/db/snapshot.sql --yes
 echo ""
 
 # ── Step 5: 驗證 ──────────────────────────────────────────────
 echo "✅ Step 5/5: 驗證…"
-wrangler d1 execute offernow-db $D1_TARGET --command "SELECT COUNT(*) as job_count FROM jobs" --yes
-wrangler d1 execute offernow-db $D1_TARGET --command "SELECT COUNT(*) as snapshot_count FROM job_count_snapshots" --yes 2>/dev/null || echo "   (job_count_snapshots 表尚未建立，先跑 schema.sql)"
+pnpm exec wrangler d1 execute offernow-db $D1_TARGET --command "SELECT COUNT(*) as job_count FROM jobs" --yes
+pnpm exec wrangler d1 execute offernow-db $D1_TARGET --command "SELECT COUNT(*) as snapshot_count FROM job_count_snapshots" --yes
 echo ""
 
 echo "============================================================"
